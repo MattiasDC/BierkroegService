@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  webservice:
+    build: .
+    image: webservice
+    container_name: webservice
+    ports:
+      - '5004:5000'
+    command: python manage.py
+    volumes:
+      - .:/usr/src/app/webservice
+    secrets:
+      - db_url
+      - flask_secret_key
+    # Environment vars to set: APP_SETTINGS, DB_URL, FLASK_SECRET_KEY

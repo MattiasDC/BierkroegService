@@ -1,0 +1,20 @@
+.wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.first-column {
+  flex: 0 0 auto;
+  left: 0;
+  overflow: auto;
+}
+
+.second-column {
+  flex: 1 0 auto;
+  margin-left: 10px;
+  position: sticky;
+}
+
+.list-group-item {
+  user-select: none;
+}

@@ -1,0 +1,36 @@
+Voorgestelde wijzigingen:
+
+- BestellingProtucten
+Rename: BestellingProtucten -> BestellingProducten
+Remove: Totaal (redundantie)
+
+- Bestellingen
+Rename: IsBezorcht -> isBezorgd
+Rename: IsBezorchtTs -> isBezorgdTs
+
+-BierGistingen
+Remove
+
+-BierTypes
+Opsplitsen: BierKleur, BierType
+
+-Brouwerijen
+Remove: Beschrijving
+
+-Dagen
+Opsplitsen: TS -> Begin, Eind
+
+-Opdieneren
+Rename: OpdienerShift
+Remove: BierKroeg -> add Dag
+Add: Begin, Eind
+
+-Producten
+Remove: Prijs, InVoorraad, Beschrijving
+
+-Producten_Bier
+Remove: Inhoud, BierGisting, Aantal
+Add: BierKleur
+
+-BierKroegProduct
+Add: Product, Inhoud, Prijs, Beschrijving, Aantal

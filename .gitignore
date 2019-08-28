@@ -1,0 +1,10 @@
+*.bak
+.system/
+data/
+log/
+[Ss]ecrets/
+*mdc*
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.pyc
