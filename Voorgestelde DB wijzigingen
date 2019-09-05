@@ -2,7 +2,6 @@ Voorgestelde wijzigingen:
 
 - BestellingProtucten
 Rename: BestellingProtucten -> BestellingProducten
-Remove: Totaal (redundantie)
 
 - Bestellingen
 Rename: IsBezorcht -> isBezorgd
@@ -18,12 +17,12 @@ Opsplitsen: BierKleur, BierType
 Remove: Beschrijving
 
 -Dagen
-Opsplitsen: TS -> Begin, Eind
+Add: date (begin-eing?)
 
 -Opdieneren
-Rename: OpdienerShift
+Rename: Opdiener
 Remove: BierKroeg -> add Dag
-Add: Begin, Eind
+Add: Begin, Eind?
 
 -Producten
 Remove: Prijs, InVoorraad, Beschrijving
