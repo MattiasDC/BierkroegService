@@ -6,5 +6,5 @@ main_blueprint = Blueprint('main',
 							static_folder="static")
 
 @main_blueprint.route('/', methods=['GET'])
-def index():
+def home():
     return make_response(render_template('main.html'))

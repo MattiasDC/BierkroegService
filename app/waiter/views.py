@@ -7,7 +7,7 @@ waiter_blueprint = Blueprint('waiter', __name__,
                                 static_folder="static")
 
 @waiter_blueprint.route('/', methods=['GET'])
-def index():
+def home():
 	Product = dbModel.classes.Product
 	products = db.session.query(Product).all()
 	return make_response(render_template('waiter.html', products=products))
