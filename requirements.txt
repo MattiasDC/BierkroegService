@@ -3,5 +3,6 @@ Flask-Bootstrap==3.3.7.1
 Flask-Testing==0.7.1
 Flask-WTF==0.14.2
 Flask-SQLAlchemy
-Pyodbc
+pyodbc
+click
 get-docker-secret

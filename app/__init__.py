@@ -28,7 +28,7 @@ def create_app():
     db.init_app(app)
     with app.app_context():
         dbModel = automap_base()
-        dbModel.prepare(db.engine, reflect=True)
+        dbModel.prepare(db.engine, reflect=True, schema=app.config['DB_SCHEMA'])
 
     # register blueprints
     from app.views.main.views import main_blueprint
