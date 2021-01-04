@@ -31,10 +31,10 @@ def create_app():
         dbModel.prepare(db.engine, reflect=True, schema=app.config['DB_SCHEMA'])
 
     # register blueprints
-    from app.views.main.views import main_blueprint
+    from app.main.views import main_blueprint
     app.register_blueprint(main_blueprint)
-    from app.views.opdiener.views import opdiener_blueprint
-    app.register_blueprint(opdiener_blueprint)
+    from app.waiter.views import waiter_blueprint
+    app.register_blueprint(waiter_blueprint)
 
     # shell context for flask cli
     app.shell_context_processor({'app': app})
