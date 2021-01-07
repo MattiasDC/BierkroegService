@@ -20,4 +20,4 @@ services:
     secrets:
       - db_pwd
       - flask_secret_key
-    # Environment vars to set: APP_SETTINGS, DB_URL, FLASK_SECRET_KEY, db_schema
+      - admin_pwd

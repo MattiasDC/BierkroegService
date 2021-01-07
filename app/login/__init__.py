@@ -11,7 +11,7 @@ login.login_view = 'login.login'
 def create_admin():
 	admin_email = app.config["ADMIN_EMAIL"]
 	if not User.query.filter_by(email=admin_email).count():
-		admin = User(email=admin_email, password=app.config["DB_PWD"])
+		admin = User(email=admin_email, password=app.config["ADMIN_PWD"])
 		db.session.add(admin)
 		db.session.commit()
 

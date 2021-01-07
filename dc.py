@@ -45,7 +45,7 @@ def buildCommand(build, prod, user):
 	command += " up"
 
 	if build:
-		command += " --build"
+		command += " --build --force-recreate"
 	return command
 
 @click.command()

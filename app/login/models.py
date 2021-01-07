@@ -18,15 +18,14 @@ class User(db.Model):
         self._password = get_hashed_password(password.encode('utf8')).decode('utf8')
 
     def verify_password(self, password):
-        return check_password(password.encode('utf8'), self._passwordHash.encode('utf8'))
-
+        return check_password(password.encode('utf8'), self._password.encode('utf8'))
 
 class FlaskUser(UserMixin):
     def __init__(self, user):
         self.user = user
 
     def get_id(self):
-        return self.user.id()
+        return self.user.email
 
     def verify_password(self, password):
         return self.user.verify_password(password)

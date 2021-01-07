@@ -31,7 +31,8 @@ def create_app():
         schema = app.config['DB_SCHEMA']
         dbModel.prepare(db.engine, reflect=True, schema=app.config['DB_SCHEMA'])
         from .login.models import User
-        from .login import create_admin
+        from .login import create_admin, login
+        login.init_app(app)
         db.create_all()
         create_admin()
 
