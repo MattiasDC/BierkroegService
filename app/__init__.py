@@ -3,7 +3,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import automap_base
-from app.config import BaseConfig
+from .config import BaseConfig
 
 # instantiate the extensions
 bootstrap = Bootstrap()
@@ -28,12 +28,19 @@ def create_app():
     db.init_app(app)
     with app.app_context():
         dbModel = automap_base()
+        schema = app.config['DB_SCHEMA']
         dbModel.prepare(db.engine, reflect=True, schema=app.config['DB_SCHEMA'])
+        from .login.models import User
+        from .login import create_admin
+        db.create_all()
+        create_admin()
 
     # register blueprints
-    from app.main.views import main_blueprint
+    from .main.views import main_blueprint
     app.register_blueprint(main_blueprint)
-    from app.waiter.views import waiter_blueprint
+    from .login.views import login_blueprint
+    app.register_blueprint(login_blueprint)
+    from .waiter.views import waiter_blueprint
     app.register_blueprint(waiter_blueprint)
 
     # shell context for flask cli

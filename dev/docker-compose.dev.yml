@@ -5,3 +5,4 @@ services:
     environment:
       - FLASK_DEBUG=1
       - APP_SETTINGS=app.config.DevelopmentConfig
+      - db_schema=bks-dev

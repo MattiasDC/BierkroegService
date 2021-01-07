@@ -24,7 +24,7 @@ RUN apk add --no-cache --allow-untrusted msodbcsql17_17.6.1.1-1_amd64.apk
 RUN apk add --no-cache --allow-untrusted mssql-tools_17.6.1.1-1_amd64.apk
 ##
 
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev \
+RUN apk add --no-cache --virtual .build-deps gcc musl-dev libffi-dev \
  && pip3 install -r requirements.txt \
  && apk del .build-deps
 

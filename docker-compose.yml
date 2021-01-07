@@ -13,10 +13,11 @@ services:
     environment:
       - db_driver=ODBC Driver 17 for SQL Server
       - db_server=hobbies-mdc.database.windows.net
-      - db_database=bks-dev
-      - db_username=hobbies-mdc
-      - db_schema=dbo
+      - db_port=1433
+      - db_database=bks
+      - db_username=bks
+      - admin_email=admin@admin.com
     secrets:
       - db_pwd
       - flask_secret_key
-    # Environment vars to set: APP_SETTINGS, DB_URL, FLASK_SECRET_KEY
+    # Environment vars to set: APP_SETTINGS, DB_URL, FLASK_SECRET_KEY, db_schema
