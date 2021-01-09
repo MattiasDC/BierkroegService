@@ -1,6 +1,6 @@
 from get_docker_secret import get_docker_secret
 import os
-from utils.dbutils import create_mysql_odbc_connection_string_url
+from utils.db_utils import create_mysql_odbc_connection_string_url
 
 class BaseConfig(object):
     """Base configuration."""

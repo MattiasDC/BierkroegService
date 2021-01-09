@@ -11,6 +11,13 @@ db = SQLAlchemy()
 
 dbModel = None
 
+def createDb():
+    from .login.models import User
+    from .models.beer_pub import BeerPub
+    from .models.price import Price
+    from .models.product import Product
+    db.create_all()
+
 def create_app():
     global dbModel
 
@@ -30,10 +37,9 @@ def create_app():
         dbModel = automap_base()
         schema = app.config['DB_SCHEMA']
         dbModel.prepare(db.engine, reflect=True, schema=app.config['DB_SCHEMA'])
-        from .login.models import User
         from .login import create_admin, login
         login.init_app(app)
-        db.create_all()
+        createDb()
         create_admin()
 
     # register blueprints
@@ -41,6 +47,8 @@ def create_app():
     app.register_blueprint(main_blueprint)
     from .login.views import login_blueprint
     app.register_blueprint(login_blueprint)
+    from .pubmanagement.views import pubmanagement_blueprint
+    app.register_blueprint(pubmanagement_blueprint)
     from .waiter.views import waiter_blueprint
     app.register_blueprint(waiter_blueprint)
 

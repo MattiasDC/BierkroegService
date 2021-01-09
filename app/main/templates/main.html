@@ -5,7 +5,10 @@
 <div class="starter-template">
     <h1>Bierkroeg Service</h1>
     <hr><br>
-	<a href={{url_for('waiter.home')}}>Opdiener</a>
+    <ul class="pager">
+  		<li><a href="{{url_for('waiter.home')}}">Opdiener</a></li>
+  		<li><a href="{{url_for('pubmanagement.home')}}">Bierkroeg Management</a></li>
+	</ul>
 </div>
 
 {% endblock %}

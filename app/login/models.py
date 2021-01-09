@@ -1,10 +1,11 @@
 from flask_login import UserMixin
 from app import db
-from utils.passwordutils import check_password, get_hashed_password
+from utils.password_utils import check_password, get_hashed_password
 
 class User(db.Model):
     email = db.Column(db.String(120), primary_key=True, nullable=False)
-    _password = db.Column(db.String,nullable=False)
+    _password = db.Column(db.String, nullable=False)
+    admin = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.email
@@ -29,6 +30,9 @@ class FlaskUser(UserMixin):
 
     def verify_password(self, password):
         return self.user.verify_password(password)
+
+    def is_admin(self):
+        return self.user.admin
 
 def get_user(email):
     user = User.query.filter_by(email=email).first()
