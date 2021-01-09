@@ -1,7 +1,8 @@
-from flask import render_template, Blueprint, make_response
+from flask import render_template, Blueprint, make_response, request, jsonify
 from flask_login import login_required
 from app.login.utils import admin_required
-from app.models.beer_pub import BeerPub
+from app.models.beer_pub import create_beer_pub, BeerPub
+import http
 
 pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
 									url_prefix='/pubmanagement',
@@ -13,3 +14,10 @@ pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
 @admin_required
 def home():
 	return make_response(render_template('pubmanagement.html', beerPubs=BeerPub.query.all()))
+
+@pubmanagement_blueprint.route('/create', methods=['POST'])
+@login_required
+@admin_required
+def create():
+	beerPub = create_beer_pub(request.form['startDate'], request.form['endDate'])
+	return jsonify(beerPub.id)

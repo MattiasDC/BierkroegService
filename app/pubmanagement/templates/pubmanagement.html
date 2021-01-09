@@ -1,6 +1,11 @@
 {% extends "_base.html" %}
 
 {% block css %}
+<link href="{{url_for('.static', filename='pubmanagement.css')}}" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 {% endblock %}
 
 {% block content %}
@@ -8,12 +13,51 @@
 {% include "homenavigation.html" %}
 
 <div class="container">
-    <h1>Bierkroeg Management</h1>
+    <h1></h1>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Bierkroeg Management</h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>Nieuw</button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered" data-locale="nl-NL">
+                <thead>
+                    <tr>
+                        <th>Start</th>
+                        <th>Einde</th>
+                        <th>Acties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for beerPub in beerPubs %}
+    				<tr data-id={{beerPub.id}}>
+                        <td>{{beerPub.startDate}}</td>
+                        <td>{{beerPub.endDate}}</td>
+                        <td>
+							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                        </td>
+                    </tr>
+    				{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>     
 </div>
+
+<meta id="create-beerPub-url" data-url="{{ url_for('.create') }}">
+
 {% endblock %}
 
 {% block js %}
-
+<script src="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.4/dist/locale/bootstrap-table-nl-NL.min.js"></script>
+<script src="{{url_for('.static', filename='pubmanagement.js')}}"></script>
 {% endblock %}
 
 {% include "_footer.html" %}

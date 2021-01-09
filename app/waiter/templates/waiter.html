@@ -2,6 +2,8 @@
 
 {% block css %}
 <link href="{{url_for('.static', filename='waiter.css')}}" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
 {% endblock %}
 
 {% block content %}
@@ -52,14 +54,13 @@
     	</div>
 	</div>
 </div>
+
 {% endblock %}
 
 {% block js %}
 <script src="{{url_for('.static', filename='waiter.js')}}" type="text/javascript"></script>
 
 <!-- Bootstrap-table -->
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.css">
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
 <script src="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.15.4/dist/locale/bootstrap-table-nl-NL.min.js"></script>
 
