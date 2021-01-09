@@ -1,5 +1,4 @@
 from flask import render_template, Blueprint, make_response
-from app import dbModel, db
 from flask_login import login_required
 from app.login.utils import admin_required
 from app.models.beer_pub import BeerPub
