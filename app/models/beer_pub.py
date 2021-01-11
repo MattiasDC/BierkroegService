@@ -24,3 +24,8 @@ def create_beer_pub(startDate, endDate):
     db.session.add(beerPub)
     db.session.commit()
     return beerPub
+
+def delete_beer_pub(id):
+    beerPub = get_beer_pub(id)
+    db.session.delete(beerPub)
+    db.session.commit()
