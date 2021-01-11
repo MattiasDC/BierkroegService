@@ -31,12 +31,18 @@ $(document).ready(function(){
     }
 
     function createBeerPub(startDate, endDate, row) {
-    	$.post($("#create-beerPub-url").data('url'),
-    		{ 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() },
-    		function(id) {
-    			row[0].setAttribute("data-id", id)
-	  		}
-	  	)
+    	if (!row[0].hasAttribute("data-id")) {
+    		$.post($("#create-beerPub-url").data('url'),
+    			{ 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() },
+    			function(id) {
+    				row[0].setAttribute("data-id", id)
+	  			})	
+    	}
+    	else {
+    		$.post($("#edit-beerPub-url").data('url'),
+    			{ 'id' : row[0].getAttribute("data-id"), 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() })		
+    	}
+    	
     }
 
     function deleteBeerPub(row) {
@@ -69,8 +75,11 @@ $(document).ready(function(){
 
     // Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
-        $(this).parents("tr").find("td:not(:last-child)").each(function(){
-			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">')
+        $(this).parents("tr").find("td:not(:last-child)").each(function(i){
+        	var id = "startDate"
+        	if (i == 1)
+        		id = "endDate"
+			$(this).html('<input type="Date" class="form-control" name="'+ id + '" id="' + id + '" value="' + $(this).text() + '">')
 		})		
 		$(this).parents("tr").find(".add, .edit").toggle()
 		$(".add-new").attr("disabled", "disabled")
