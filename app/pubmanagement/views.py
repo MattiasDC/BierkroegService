@@ -4,6 +4,7 @@ from app.login.utils import admin_required
 from app import db
 from app.models.beer_pub import create_beer_pub, BeerPub, delete_beer_pub, get_beer_pub
 import http
+from app.models.beer_pub_product import get_beer_pub_products
 
 pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
 									url_prefix='/pubmanagement',
@@ -14,7 +15,7 @@ pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
 @login_required
 @admin_required
 def home():
-	return make_response(render_template('pubmanagement.html', beerPubs=BeerPub.query.all()))
+	return render_template('pubmanagement.html', beerPubs=BeerPub.query.all())
 
 @pubmanagement_blueprint.route('/create', methods=['POST'])
 @login_required
@@ -45,4 +46,4 @@ def edit():
 @admin_required
 def catalogus(id):
 	beerPub = get_beer_pub(id)
-	return ("", http.HTTPStatus.NO_CONTENT)	
+	return render_template('catalogus.html', beerPub=beerPub, beerPubProducts=get_beer_pub_products(beerPub))

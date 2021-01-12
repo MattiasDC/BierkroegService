@@ -14,7 +14,7 @@ dbModel = None
 def createDb():
     from .login.models import User
     from .models.beer_pub import BeerPub
-    from .models.price import Price
+    from .models.beer_pub_product import BeerPubProduct
     from .models.product import Product
     db.create_all()
 
