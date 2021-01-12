@@ -29,6 +29,7 @@
                     <tr>
                         <th>Start</th>
                         <th>Einde</th>
+                        <th></th>
                         <th>Acties</th>
                     </tr>
                 </thead>
@@ -37,6 +38,7 @@
     				<tr data-id={{beerPub.id}}>
                         <td>{{beerPub.startDate}}</td>
                         <td>{{beerPub.endDate}}</td>
+                        <td><a href="{{ url_for('.catalogus', id=beerPub.id)}}">Catalogus</a></td>
                         <td>
 							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
                             <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -53,6 +55,8 @@
 <meta id="create-beerPub-url" data-url="{{ url_for('.create') }}">
 <meta id="delete-beerPub-url" data-url="{{ url_for('.delete') }}">
 <meta id="edit-beerPub-url" data-url="{{ url_for('.edit') }}">
+<meta id="manage-beerPub-url" data-url="{{ url_for('.catalogus', id=-1) }}">
+<meta id="manage-beerPub-url-placeholder" data-placeholder="-1">
 
 {% endblock %}
 

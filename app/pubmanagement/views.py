@@ -39,3 +39,10 @@ def edit():
 	beerPub.endDate = request.form['endDate']
 	db.session.commit()
 	return ("", http.HTTPStatus.NO_CONTENT)
+
+@pubmanagement_blueprint.route('/catalogus/<id>', methods=['GET'])
+@login_required
+@admin_required
+def catalogus(id):
+	beerPub = get_beer_pub(id)
+	return ("", http.HTTPStatus.NO_CONTENT)	
