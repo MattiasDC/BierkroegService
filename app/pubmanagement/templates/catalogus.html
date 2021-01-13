@@ -1,61 +1,23 @@
-{% extends "_base.html" %}
+{% extends "table.html" %}
 
-{% block css %}
-<link href="{{url_for('.static', filename='table.css')}}" rel="stylesheet" media="screen">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+{% block rows %}
+{% for beerPubProduct in beerPubProducts %}
+<tr>
+    <td>{{beerPubProduct.productId}}</td>
+    <td>{{beerPubProduct.price}}</td>
+    {% include "tableactions.html" %}
+</tr>
+{% endfor %}
 {% endblock %}
 
-{% block content %}
 
-{% include "homenavigation.html" %}
-
-<div class="container">
-    <h1></h1>
-    <div class="container">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-8"><h2>Bierkroeg Catalogus</h2></div>
-                    <div class="col-sm-4">
-                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>Nieuw</button>
-                    </div>
-                </div>
-            </div>
-            <table class="table table-bordered" data-locale="nl-NL">
-                <thead>
-                    <tr data-id={{beerPub.id}}>
-                        <th>Product</th>
-                        <th>Prijs</th>
-                        <th>Acties</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	{% for beerPubProduct in beerPubProducts %}
-                    <tr>
-                        <td>{{beerPubProduct.productId}}</td>
-                        <td>{{beerPubProduct.price}}</td>
-                        <td>
-                            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>     
-</div>
-
+{% block metas %}
+<meta id="create-beerPubProduct-url" data-url="{{ url_for('.create') }}">
+<meta id="delete-beerPubProduct-url" data-url="{{ url_for('.delete') }}">
+<meta id="edit-beerPubProduct-url" data-url="{{ url_for('.edit') }}">
 {% endblock %}
 
 {% block js %}
-<script src="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.js"></script>
-<script src="https://unpkg.com/bootstrap-table@1.15.4/dist/locale/bootstrap-table-nl-NL.min.js"></script>
+{{super()}}
 <script src="{{url_for('.static', filename='catalogus.js')}}"></script>
 {% endblock %}
-
-{% include "_footer.html" %}

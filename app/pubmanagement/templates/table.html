@@ -1,0 +1,52 @@
+{% extends "_base.html" %}
+
+{% block css %}
+<link href="{{url_for('.static', filename='table.css')}}" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+
+{% include "homenavigation.html" %}
+<div class="container">
+    <h1></h1>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>{{title}}</h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>Nieuw</button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered" data-locale="nl-NL">
+                <thead>
+                    <tr>
+                    {% for column in columns %}
+                        <th>{{column}}</th>
+                    {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                	{% block rows %}{% endblock %}
+                </tbody>
+            </table>
+        </div>
+    </div>     
+</div>
+
+{% block metas %}{% endblock %}
+
+{% endblock %}
+
+{% block js %}
+<script src="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.4/dist/locale/bootstrap-table-nl-NL.min.js"></script>
+<script src="{{url_for('.static', filename='table.js')}}"></script>
+{% endblock %}
+
+{% include "_footer.html" %}

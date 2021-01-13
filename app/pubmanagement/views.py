@@ -15,7 +15,7 @@ pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
 @login_required
 @admin_required
 def home():
-	return render_template('pubmanagement.html', beerPubs=BeerPub.query.all())
+	return render_template('pubmanagement.html', title="BierKroeg Management", columns=["Start", "Einde", "", "Acties"], beerPubs=BeerPub.query.all())
 
 @pubmanagement_blueprint.route('/create', methods=['POST'])
 @login_required
@@ -46,4 +46,4 @@ def edit():
 @admin_required
 def catalogus(id):
 	beerPub = get_beer_pub(id)
-	return render_template('catalogus.html', beerPub=beerPub, beerPubProducts=get_beer_pub_products(beerPub))
+	return render_template('catalogus.html', title="Catalogus", columns=["Product", "Prijs", "Acties"], beerPubProducts=get_beer_pub_products(beerPub))
