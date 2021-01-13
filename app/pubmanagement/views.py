@@ -17,24 +17,24 @@ pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
 def home():
 	return render_template('pubmanagement.html', title="BierKroeg Management", columns=["Start", "Einde", "", "Acties"], beerPubs=BeerPub.query.all())
 
-@pubmanagement_blueprint.route('/create', methods=['POST'])
+@pubmanagement_blueprint.route('/createbeerpub', methods=['POST'])
 @login_required
 @admin_required
-def create():
+def createBeerPub():
 	beerPub = create_beer_pub(request.form['startDate'], request.form['endDate'])
 	return jsonify(beerPub.id)
 
-@pubmanagement_blueprint.route('/delete', methods=['POST'])
+@pubmanagement_blueprint.route('/deletebeerpub', methods=['POST'])
 @login_required
 @admin_required
-def delete():
+def deleteBeerPub():
 	delete_beer_pub(request.form['id'])
 	return ("", http.HTTPStatus.NO_CONTENT)
 
-@pubmanagement_blueprint.route('/edit', methods=['POST'])
+@pubmanagement_blueprint.route('/editbeerpub', methods=['POST'])
 @login_required
 @admin_required
-def edit():
+def editBeerPub():
 	beerPub = get_beer_pub(request.form['id'])
 	beerPub.startDate = request.form['startDate']
 	beerPub.endDate = request.form['endDate']
@@ -47,3 +47,21 @@ def edit():
 def catalogus(id):
 	beerPub = get_beer_pub(id)
 	return render_template('catalogus.html', title="Catalogus", columns=["Product", "Prijs", "Acties"], beerPubProducts=get_beer_pub_products(beerPub))
+
+@pubmanagement_blueprint.route('/createbeerpubproduct', methods=['POST'])
+@login_required
+@admin_required
+def createBeerPubProduct():
+	return ("", http.HTTPStatus.NO_CONTENT)
+
+@pubmanagement_blueprint.route('/deletebeerpubproduct', methods=['POST'])
+@login_required
+@admin_required
+def deleteBeerPubProduct():
+	return ("", http.HTTPStatus.NO_CONTENT)
+
+@pubmanagement_blueprint.route('/editbeerpubproduct', methods=['POST'])
+@login_required
+@admin_required
+def editBeerPubProduct():
+	return ("", http.HTTPStatus.NO_CONTENT)
