@@ -1,0 +1,23 @@
+{% extends "table.html" %}
+
+{% block rows %}
+{% for products in products %}
+<tr data-id={{product.id}}>
+    <td>{{product.name}}</td>
+    {% include "tableactions.html" %}
+</tr>
+{% endfor %}
+{% endblock %}
+
+
+{% block metas %}
+<meta id="create-product-url" data-url="{{ url_for('.create') }}">
+<meta id="delete-product-url" data-url="{{ url_for('.delete') }}">
+<meta id="edit-product-url" data-url="{{ url_for('.edit') }}">
+{% endblock %}
+
+{% block js %}
+{{super()}}
+<script src="{{url_for('static', filename='utils.js')}}"></script>
+<script src="{{url_for('.static', filename='productmanagement.js')}}"></script>
+{% endblock %}

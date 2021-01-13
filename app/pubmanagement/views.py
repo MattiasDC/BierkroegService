@@ -1,9 +1,9 @@
-from flask import render_template, Blueprint, make_response, request, jsonify
+from flask import render_template, Blueprint, request, jsonify
 from flask_login import login_required
+import http
 from app.login.utils import admin_required
 from app import db
 from app.models.beer_pub import create_beer_pub, BeerPub, delete_beer_pub, get_beer_pub
-import http
 from app.models.beer_pub_product import get_beer_pub_products
 
 pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
@@ -15,7 +15,10 @@ pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
 @login_required
 @admin_required
 def home():
-	return render_template('pubmanagement.html', title="BierKroeg Management", columns=["Start", "Einde", "", "Acties"], beerPubs=BeerPub.query.all())
+	return render_template('pubmanagement.html',
+							title="BierKroeg Management",
+							columns=["Start", "Einde", "", "Acties"],
+							beerPubs=BeerPub.query.all())
 
 @pubmanagement_blueprint.route('/createbeerpub', methods=['POST'])
 @login_required

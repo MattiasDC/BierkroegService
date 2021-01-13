@@ -22,5 +22,6 @@
 
 {% block js %}
 {{super()}}
+<script src="{{url_for('static', filename='utils.js')}}"></script>
 <script src="{{url_for('.static', filename='pubmanagement.js')}}"></script>
 {% endblock %}
