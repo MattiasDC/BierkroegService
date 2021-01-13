@@ -12,10 +12,10 @@ $(document).ready(function(){
     }
 
     function onEdit(row) {
-        row.find('td').eq(1).html(createFloatInput('price', row.find('td').eq(1).text()));
+        makeColumnInput(row, 1, createFloatInput.bind(null, 'price'));
     }
     
-	  loadTable('<td></td>' + '<td>' + createFloatInput('price', "") + '<td/>',
+	  loadTable(["", createFloatInput('price', "")],
               deleteBeerPubProduct,
               isValidBeerPubProduct,
               createBeerPubProduct,

@@ -40,18 +40,12 @@ $(document).ready(function(){
     		$.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) })	
     }
 
-    function createDateInput(name, value) {
-    	return '<input type="Date" class="form-control" name="' + name + '" id="' + name + '" value="' + value + '"/>'
-    }
-
     function onEdit(row) {
-    	row.find('td').eq(0).html(createDateInput('startDate', row.find('td').eq(0).text()));
-        row.find('td').eq(1).html(createDateInput('endDate', row.find('td').eq(1).text()));
+    	makeColumnInput(row, 0, createDateInput.bind(null, 'startDate'));
+        makeColumnInput(row, 1, createDateInput.bind(null, 'endDate'));
     }
 
-	loadTable('<td>' + createDateInput('startDate', '') + '</td>' +
-              '<td>' + createDateInput('endDate', '') + '</td>' +
-              '<td></td>',
+	loadTable([createDateInput('startDate', ''), createDateInput('endDate', ''), ""],
               deleteBeerPub,
               startBeforeEnd,
               createBeerPub,

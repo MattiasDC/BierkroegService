@@ -4,12 +4,10 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 	              '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254</i></a>' + 
                   '<a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872</i></a>'
 
-
     // Append table with add row form on add new button click
     $(".add-new").click(function(){
-		$(this).attr("disabled", "disabled")
 		var index = $("table tbody tr:last-child").index()
-        var row = '<tr>' + rowColumns + '<td>' + actions + '</td></tr>'
+        var row = '<tr>' + wrapInTableColumns(rowColumns) + wrapInTableColumn(actions) + '</tr>'
     	$("table").append(row)		
 		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle()
         $('[data-toggle="tooltip"]').tooltip()
@@ -36,16 +34,14 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 				$(this).parent("td").html($(this).val())
 			})			
 			row.find(".add, .edit").toggle()
-			$(".add-new").removeAttr("disabled")
 		}		
     })
 
     // Edit row on edit button click
-	$(document).on("click", ".edit", function(){		
+	$(document).on("click", ".edit", function(){
 		var row  = $(this).parents('tr')
 		onEdit(row)
 		row.find(".add, .edit").toggle()
-		$(".add-new").attr("disabled", "disabled")
     })
 
     // Delete row on delete button click
@@ -54,6 +50,5 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
         var row = $(this).parents("tr")
         deleteFunction(row)
         row.remove()
-		$(".add-new").removeAttr("disabled")
     })
 }
