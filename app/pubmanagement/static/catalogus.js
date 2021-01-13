@@ -4,7 +4,7 @@ $(document).ready(function(){
     }
 
     function isValidBeerPubProduct(row) {
-        return true
+        return $("#price").val() > 0
     }
 
     function deleteBeerPubProduct(row) {

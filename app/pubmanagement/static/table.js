@@ -19,7 +19,7 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 	$(document).on("click", ".add", function(){
 		var hasErrors = false
 		var row = $(this).parents('tr')
-		var input = row.find('input[type="date"]')
+		var input = row.find('input')
         input.each(function(){
 			if(!$(this).val() || !validationFunction(row)){
 				$(this).addClass("error")
