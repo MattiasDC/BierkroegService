@@ -12,7 +12,7 @@ $(document).ready(function(){
     }
 
     function onEdit(row) {
-        row.find('td').eq(1).html(createStringInput('name', row.find('td').eq(0).text()));
+        row.find('td').eq(0).html(createStringInput('name', row.find('td').eq(0).text()));
     }
     
 	  loadTable('<td>' + createStringInput('name', "") + '</td>',
