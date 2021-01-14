@@ -12,3 +12,14 @@ class Product(db.Model):
 
 def get_product(id):
 	return Product.query.filter_by(id=id).one_or_none()
+
+def create_product(name):
+    product = Product(name=name)
+    db.session.add(product)
+    db.session.commit()
+    return product
+
+def delete_product(id):
+    product = get_product(id)
+    db.session.delete(product)
+    db.session.commit()

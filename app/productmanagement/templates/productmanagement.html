@@ -1,7 +1,7 @@
 {% extends "table.html" %}
 
 {% block rows %}
-{% for products in products %}
+{% for product in products %}
 <tr data-id={{product.id}}>
     <td>{{product.name}}</td>
     {% include "tableactions.html" %}
