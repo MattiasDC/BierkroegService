@@ -11,6 +11,10 @@ $(document).ready(function(){
     	return getStartDate() < getEndDate()
     }
 
+    function isValid(row) {
+        return $("#startDate").val() && $("#endDate").val() && startBeforeEnd()
+    }
+
     function getIdFromRow(row) {
     	return row[0].getAttribute("data-id")
     }
@@ -47,7 +51,7 @@ $(document).ready(function(){
 
 	loadTable([createDateInput('startDate', ''), createDateInput('endDate', ''), ""],
               deleteBeerPub,
-              startBeforeEnd,
+              isValid,
               createBeerPub,
               onEdit)
 })

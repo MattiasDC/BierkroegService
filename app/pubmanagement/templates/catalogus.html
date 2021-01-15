@@ -3,7 +3,7 @@
 {% block rows %}
 {% for beerPubProduct in beerPubProducts %}
 <tr>
-    <td>{{beerPubProduct.productId}}</td>
+    <td data-product-id={{beerPubProduct.productId}}></td>
     <td>{{beerPubProduct.price}}</td>
     {% include "tableactions.html" %}
 </tr>
@@ -21,4 +21,5 @@
 {{super()}}
 <script src="{{url_for('static', filename='utils.js')}}"></script>
 <script src="{{url_for('.static', filename='catalogus.js')}}"></script>
+<script>var products = JSON.parse({{ products|tojson|safe }})</script>
 {% endblock %}

@@ -9,3 +9,4 @@ bcrypt
 click
 email_validator
 get-docker-secret
+jsonpickle

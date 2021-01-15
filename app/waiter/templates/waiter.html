@@ -19,8 +19,8 @@
   			<br>        	
   			<ul class="list-group" id="productList">
   				{% for product in products %}
-    			<li class="list-group-item" data-product={{ product.Name }} data-id={{ product.Id }} data-price={{ product.Price }}>
-    				{{ product.Name }} <span style="color:#808080">(€{{product.Price}})</span>
+    			<li class="list-group-item" data-product={{ product.Name }} data-id={{ product.id }} data-price={{ product.price }}>
+    				{{ product.name }} <span style="color:#808080">(€{{product.price}})</span>
     			</li>
     			{% endfor %}
   			</ul>

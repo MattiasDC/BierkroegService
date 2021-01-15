@@ -17,9 +17,10 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 	$(document).on("click", ".add", function(){
 		var hasErrors = false
 		var row = $(this).parents('tr')
-		var input = row.find('input')
+		var input = row.find('input').add(row.find('button'))
+
         input.each(function(){
-			if(!$(this).val() || !validationFunction(row)){
+			if(!validationFunction(row)){
 				$(this).addClass("error")
 				hasErrors = true
 			} else{
@@ -31,10 +32,11 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 		if(!hasErrors){
 			createFunction(row)
 			input.each(function(){
-				$(this).parent("td").html($(this).val())
+				$(this).closest("td").text($(this).val())
+				$(this).remove()
 			})			
 			row.find(".add, .edit").toggle()
-		}		
+		}
     })
 
     // Edit row on edit button click

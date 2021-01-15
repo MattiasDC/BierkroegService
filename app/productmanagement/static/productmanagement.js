@@ -20,7 +20,7 @@ $(document).ready(function(){
     }
 
     function isValidProduct(row) {
-        return true
+        return $("#name").val()
     }
 
     function deleteProduct(row) {

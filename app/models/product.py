@@ -13,6 +13,9 @@ class Product(db.Model):
 def get_product(id):
 	return Product.query.filter_by(id=id).one_or_none()
 
+def get_products():
+	return Product.query.all()
+
 def create_product(name):
     product = Product(name=name)
     db.session.add(product)

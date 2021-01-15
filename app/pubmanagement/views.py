@@ -5,6 +5,8 @@ from app.login.utils import admin_required
 from app import db
 from app.models.beer_pub import create_beer_pub, BeerPub, delete_beer_pub, get_beer_pub
 from app.models.beer_pub_product import get_beer_pub_products
+from app.models.product import get_products
+import jsonpickle
 
 pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
 									url_prefix='/pubmanagement',
@@ -49,7 +51,12 @@ def editBeerPub():
 @admin_required
 def catalogus(id):
 	beerPub = get_beer_pub(id)
-	return render_template('catalogus.html', title="Catalogus", columns=["Product", "Prijs", "Acties"], beerPubProducts=get_beer_pub_products(beerPub))
+	return render_template('catalogus.html',
+		title="Catalogus",
+		columns=["Product", "Prijs (€)", "Acties"],
+		beerPubProducts=get_beer_pub_products(beerPub),
+		products=jsonpickle.encode(get_products(), unpicklable=False))
+
 
 @pubmanagement_blueprint.route('/createbeerpubproduct', methods=['POST'])
 @login_required
