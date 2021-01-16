@@ -1,4 +1,4 @@
-function loadTable(rowColumns, deleteFunction, validationFunction, createFunction, onEdit){
+function loadTable(rowColumns, deleteFunction, validationFunction, createFunction, onEdit, afterAdd){
 	$('[data-toggle="tooltip"]').tooltip()
 	var actions = '<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B</i></a>' + 
 	              '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254</i></a>' + 
@@ -11,11 +11,11 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
     	$("table").append(row)		
 		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle()
         $('[data-toggle="tooltip"]').tooltip()
+        afterAdd()
     })
 
-	// Add row on add button click
-	$(document).on("click", ".add", function(){
-		var hasErrors = false
+    function handleAdd() {
+    	var hasErrors = false
 		var row = $(this).parents('tr')
 		var input = row.find('input').add(row.find('button'))
 
@@ -37,7 +37,10 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 			})			
 			row.find(".add, .edit").toggle()
 		}
-    })
+    }
+
+	// Add row on add button click
+	$(document).on("click", ".add", handleAdd)
 
     // Edit row on edit button click
 	$(document).on("click", ".edit", function(){

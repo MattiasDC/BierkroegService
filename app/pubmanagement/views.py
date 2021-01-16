@@ -4,8 +4,8 @@ import http
 from app.login.utils import admin_required
 from app import db
 from app.models.beer_pub import create_beer_pub, BeerPub, delete_beer_pub, get_beer_pub
-from app.models.beer_pub_product import get_beer_pub_products
-from app.models.product import get_products
+from app.models.beer_pub_product import get_beer_pub_products, get_beer_pub_product, create_beer_pub_product, delete_beer_pub_product
+from app.models.product import get_products, get_product
 import jsonpickle
 
 pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
@@ -54,24 +54,30 @@ def catalogus(id):
 	return render_template('catalogus.html',
 		title="Catalogus",
 		columns=["Product", "Prijs (€)", "Acties"],
+		beerPub=beerPub,
 		beerPubProducts=get_beer_pub_products(beerPub),
-		products=jsonpickle.encode(get_products(), unpicklable=False))
+		get_product=get_product)
 
 
 @pubmanagement_blueprint.route('/createbeerpubproduct', methods=['POST'])
 @login_required
 @admin_required
 def createBeerPubProduct():
+	beerPubProduct = create_beer_pub_product(request.form['beerPubId'], request.form['productId'], request.form['price'])
 	return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/deletebeerpubproduct', methods=['POST'])
 @login_required
 @admin_required
 def deleteBeerPubProduct():
+	delete_beer_pub_product(request.form['beerPubId'], request.form['productId'])
 	return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/editbeerpubproduct', methods=['POST'])
 @login_required
 @admin_required
 def editBeerPubProduct():
+	beerPubProduct = get_beer_pub_product(request.form['beerPubId'], request.form['productId'])
+	beerPubProduct.price = request.form['price']
+	db.session.commit()
 	return ("", http.HTTPStatus.NO_CONTENT)

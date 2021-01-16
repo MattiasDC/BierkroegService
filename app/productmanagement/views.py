@@ -3,7 +3,8 @@ from flask_login import login_required
 from app.login.utils import admin_required
 from app import db
 import http
-from app.models.product import Product, create_product, delete_product, get_product
+from app.models.product import Product, create_product, delete_product, get_product, get_products
+import jsonpickle
 
 productmanagement_blueprint = Blueprint('productmanagement', __name__,
 										url_prefix='/productmanagement',
@@ -41,3 +42,9 @@ def edit():
 	product.name = request.form['name']
 	db.session.commit()
 	return ("", http.HTTPStatus.NO_CONTENT)
+
+@productmanagement_blueprint.route('/products', methods=['GET'])
+@login_required
+@admin_required
+def products():
+	return jsonify(jsonpickle.encode(get_products(), unpicklable=True))

@@ -26,3 +26,7 @@ function wrapInTableColumns(values) {
 function makeColumnInput(row, index, create) {
 	row.find('td').eq(index).html(create(row.find('td').eq(index).text()));
 }
+
+function hasData(obj, attribute) {
+	return obj.data(attribute) != undefined
+}

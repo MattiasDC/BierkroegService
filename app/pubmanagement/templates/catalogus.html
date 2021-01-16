@@ -2,8 +2,8 @@
 
 {% block rows %}
 {% for beerPubProduct in beerPubProducts %}
-<tr>
-    <td data-product-id={{beerPubProduct.productId}}></td>
+<tr data-product-id={{beerPubProduct.productId}} data-exists='true'>
+    <td>{{get_product(beerPubProduct.productId).name}}</td>
     <td>{{beerPubProduct.price}}</td>
     {% include "tableactions.html" %}
 </tr>
@@ -15,11 +15,12 @@
 <meta id="create-beerPubProduct-url" data-url="{{ url_for('.createBeerPubProduct') }}">
 <meta id="delete-beerPubProduct-url" data-url="{{ url_for('.deleteBeerPubProduct') }}">
 <meta id="edit-beerPubProduct-url" data-url="{{ url_for('.editBeerPubProduct') }}">
+<meta id="beerPub-id" data-id="{{beerPub.id}}">
+<meta id="products-url" data-url="{{ url_for('productmanagement.products') }}"
 {% endblock %}
 
 {% block js %}
 {{super()}}
 <script src="{{url_for('static', filename='utils.js')}}"></script>
 <script src="{{url_for('.static', filename='catalogus.js')}}"></script>
-<script>var products = JSON.parse({{ products|tojson|safe }})</script>
 {% endblock %}

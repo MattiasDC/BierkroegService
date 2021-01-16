@@ -1,21 +1,15 @@
 $(document).ready(function(){
 
-    function getIdFromRow(row) {
-      return row[0].getAttribute("data-id")
-    }
-
     function createProduct(row) {
       name = $("#name").val()
-      if (!row[0].hasAttribute("data-id")) {
+      if (!hasData(row,"id")) {
         $.post($("#create-product-url").data('url'),
           { 'name' : name },
-          function(id) {
-            row[0].setAttribute("data-id", id)
-          })  
+          function(id) { row.data("id", id) })  
       }
       else {
         $.post($("#edit-product-url").data('url'),
-          { 'id' : getIdFromRow(row), 'name' : name })   
+          { 'id' : row.data('id'), 'name' : name })   
       }
     }
 
@@ -24,8 +18,8 @@ $(document).ready(function(){
     }
 
     function deleteProduct(row) {
-    	if (row[0].hasAttribute("data-id"))
-        $.post($("#delete-product-url").data('url'), { 'id' : getIdFromRow(row) })  
+    	if (hasData(row, "id"))
+        $.post($("#delete-product-url").data('url'), { 'id' : row.data('id') })  
     }
 
     function onEdit(row) {
@@ -36,5 +30,6 @@ $(document).ready(function(){
               deleteProduct,
               isValidProduct,
               createProduct,
-              onEdit)
+              onEdit,
+              null)
 })

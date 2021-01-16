@@ -22,11 +22,11 @@ $(document).ready(function(){
     function createBeerPub(row) {
     	startDate = getStartDate()
     	endDate = getEndDate()
-    	if (!row[0].hasAttribute("data-id")) {
+    	if (!hasData(row, "id")) {
     		$.post($("#create-beerPub-url").data('url'),
     			{ 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() },
     			function(id) {
-    				row[0].setAttribute("data-id", id)
+    				row.data("id", id)
     				var placeHolder = $("#catalogus-beerPub-url-placeholder").data('placeholder')
     				var link = $("#catalogus-beerPub-url").data('url').replace(placeHolder, getIdFromRow(row))
     				row.find('td').eq(2).html("<a href=" + link + ">Catalogus</a>");
@@ -40,7 +40,7 @@ $(document).ready(function(){
     }
 
     function deleteBeerPub(row) {
-    	if (row[0].hasAttribute("data-id"))
+    	if (hasData(row, "id"))
     		$.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) })	
     }
 
@@ -53,5 +53,6 @@ $(document).ready(function(){
               deleteBeerPub,
               isValid,
               createBeerPub,
-              onEdit)
+              onEdit,
+              null)
 })

@@ -17,3 +17,16 @@ class BeerPubProduct(db.Model):
 def get_beer_pub_products(beerPub):
 	return BeerPubProduct.query.filter_by(beerPubId=beerPub.id).all()
 
+def get_beer_pub_product(beerPubId, productId):
+	return BeerPubProduct.query.filter_by(beerPubId=beerPubId, productId=productId).one_or_none()
+
+def create_beer_pub_product(beerPubId, productId, price):
+    beerPubProduct = BeerPubProduct(beerPubId=beerPubId, productId=productId, price=price)
+    db.session.add(beerPubProduct)
+    db.session.commit()
+    return beerPubProduct
+
+def delete_beer_pub_product(beerPubId, productId):
+    beerPubProduct = get_beer_pub_product(beerPubId, productId)
+    db.session.delete(beerPubProduct)
+    db.session.commit()
