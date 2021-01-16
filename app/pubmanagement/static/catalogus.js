@@ -56,7 +56,6 @@ $(document).ready(function(){
             ele.addEventListener("click", function(e) {
               $("#productDropDown").html($(this).text());
               $("#productDropDown").val($(this).text());
-              console.log($(this).data('id'))
               $("#productDropDown").closest('tr').data('product-id', $(this).data('id'))
             }, false);
             $(".dropdown-menu")[0].appendChild(ele)
