@@ -11,5 +11,11 @@ class BeerPubProduct(db.Model):
 	beerPubId = db.Column(db.Integer, ForeignKey(BeerPub.id), primary_key=True, nullable=False)
 	price = db.Column(db.Float, nullable=False)
 
-	def __repr__(self):
-		return f'<Product {self.product}, Price: {self.price}>'
+	def __eq__(self, other):
+		"""Overrides the default implementation"""
+		if isinstance(other, BeerPubProduct):
+			return self.productId == other.productId and self.beerPubId == other.beerPubId
+		return False
+
+	def __hash__(self):
+		return hash(repr(self))

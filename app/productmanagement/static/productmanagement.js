@@ -3,12 +3,12 @@ $(document).ready(function(){
     function createProduct(row) {
       name = $("#name").val()
       if (!hasData(row,"id")) {
-        $.post($("#create-product-url").data('url'),
+        return $.post($("#create-product-url").data('url'),
           { 'name' : name },
           function(id) { row.data("id", id) })  
       }
       else {
-        $.post($("#edit-product-url").data('url'),
+        return $.post($("#edit-product-url").data('url'),
           { 'id' : row.data('id'), 'name' : name })   
       }
     }

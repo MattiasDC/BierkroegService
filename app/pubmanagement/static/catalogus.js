@@ -4,12 +4,12 @@ $(document).ready(function(){
       var price = $("#price").val()
       var beerPubId = $("#beerPub-id").data('id')
       if (!hasData(row, "exists")) {
-        $.post($("#create-beerPubProduct-url").data('url'),
+        return $.post($("#create-beerPubProduct-url").data('url'),
           { 'price' : price, 'beerPubId' : beerPubId, 'productId' : row.data("product-id") },
           function() { row.data("exists", 'true') })  
       }
       else {
-        $.post($("#edit-beerPubProduct-url").data('url'),
+        return $.post($("#edit-beerPubProduct-url").data('url'),
           { 'beerPubId' : beerPubId, 'productId' : row.data("product-id"), 'price' : price })   
       }
     }
@@ -44,7 +44,7 @@ $(document).ready(function(){
     }
 
     function fillDropDown() {
-      $.getJSON($("#products-url").data('url'),
+      $.getJSON($("#possible-products-url").data('url'),
         function (productsString) {
           products = JSON.parse(productsString)
           var i
@@ -61,7 +61,7 @@ $(document).ready(function(){
             $(".dropdown-menu")[0].appendChild(ele)
           }
          })
-    }
+      }
 
 	  loadTable([createProductInput("Product"), createFloatInput('price', "")],
               deleteBeerPubProduct,

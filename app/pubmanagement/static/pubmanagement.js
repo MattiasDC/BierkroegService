@@ -16,14 +16,14 @@ $(document).ready(function(){
     }
 
     function getIdFromRow(row) {
-    	return row[0].getAttribute("data-id")
+    	return row.data("id")
     }
 
     function createBeerPub(row) {
     	startDate = getStartDate()
     	endDate = getEndDate()
     	if (!hasData(row, "id")) {
-    		$.post($("#create-beerPub-url").data('url'),
+    		return $.post($("#create-beerPub-url").data('url'),
     			{ 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() },
     			function(id) {
     				row.data("id", id)
@@ -33,7 +33,7 @@ $(document).ready(function(){
 	  			})	
     	}
     	else {
-    		$.post($("#edit-beerPub-url").data('url'),
+    		return $.post($("#edit-beerPub-url").data('url'),
     			{ 'id' : getIdFromRow(row), 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() })		
     	}
     	

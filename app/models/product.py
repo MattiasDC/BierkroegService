@@ -7,5 +7,11 @@ class Product(db.Model):
 	id = db.Column(db.Integer, primary_key=True, nullable=False)
 	name = db.Column(db.String(120), nullable=False)
 
-	def __repr__(self):
-		return f'<Product {self.name}>'
+	def __eq__(self, other):
+		"""Overrides the default implementation"""
+		if isinstance(other, Product):
+			return self.id == other.id
+		return False	
+
+	def __hash__(self):
+		return hash(repr(self))

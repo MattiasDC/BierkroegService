@@ -32,12 +32,21 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 
 		row.find(".error").first().focus()
 		if(!hasErrors){
-			createFunction(row)
-			input.each(function(){
-				$(this).closest("td").text($(this).val())
-				$(this).remove()
-			})			
-			row.find(".add, .edit").toggle()
+			var create = createFunction(row)
+            if (create)
+                create.done(function () {
+                                input.each(function(){
+                                    $(this).closest("td").text($(this).val())
+                                    $(this).remove()
+                                })          
+                                row.find(".add, .edit").toggle()
+                            })
+                      .fail(function (e) {
+                        if (e.responseJSON) {
+                          errorMessage = e.responseJSON.error
+                          alertModal(errorMessage.substring(errorMessage.indexOf(":")))
+                        }
+                      })
 		}
     }
 

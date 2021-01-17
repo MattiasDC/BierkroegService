@@ -16,7 +16,7 @@
 <meta id="delete-beerPubProduct-url" data-url="{{ url_for('.deleteBeerPubProduct') }}">
 <meta id="edit-beerPubProduct-url" data-url="{{ url_for('.editBeerPubProduct') }}">
 <meta id="beerPub-id" data-id="{{beerPub.id}}">
-<meta id="products-url" data-url="{{ url_for('productmanagement.products') }}"
+<meta id="possible-products-url" data-url="{{ url_for('pubmanagement.possibleProducts', beerPubId=beerPub.id) }}"
 {% endblock %}
 
 {% block js %}
