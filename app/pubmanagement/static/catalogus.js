@@ -22,8 +22,8 @@ $(document).ready(function(){
     	if (hasData(row, "product-id"))
       {
         var beerPubId = $("#beerPub-id").data('id')
-        $.post($("#delete-beerPubProduct-url").data('url'), { 'productId' : row.data("product-id"),
-                                                              'beerPubId' : beerPubId })  
+        return $.post($("#delete-beerPubProduct-url").data('url'), { 'productId' : row.data("product-id"),
+                                                                     'beerPubId' : beerPubId })  
       }
     }
 

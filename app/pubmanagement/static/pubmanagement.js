@@ -41,7 +41,7 @@ $(document).ready(function(){
 
     function deleteBeerPub(row) {
     	if (hasData(row, "id"))
-    		$.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) })	
+    		return $.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) })	
     }
 
     function onEdit(row) {

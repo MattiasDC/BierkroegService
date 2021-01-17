@@ -1,15 +1,21 @@
-from flask import render_template, Blueprint, request, jsonify
+from flask import render_template, Blueprint, request, jsonify, abort
 from flask_login import login_required
 from app.login.utils import admin_required
 from app import db
 import http
-from app.models.product import Product, create_product, delete_product, get_product, get_products
+from app.models.product import Product
+from app.models.product_functions import create_product, delete_product, get_product, get_products, can_delete_product
+
 import jsonpickle
 
 productmanagement_blueprint = Blueprint('productmanagement', __name__,
 										url_prefix='/productmanagement',
                                 		template_folder="templates",
                                 		static_folder="static")
+
+@productmanagement_blueprint.errorhandler(400)
+def api_error(e):
+    return jsonify(error=str(e)), 400
 
 @productmanagement_blueprint.route('/', methods=['GET'])
 @login_required
@@ -31,8 +37,12 @@ def create():
 @login_required
 @admin_required
 def delete():
-	delete_product(request.form['id'])
+	product = get_product(request.form['id'])
+	if not can_delete_product(product):
+		abort(400, description="Cannot remove a product which is being used in a beer pub.") 
+	delete_product(product)
 	return ("", http.HTTPStatus.NO_CONTENT)
+
 
 @productmanagement_blueprint.route('/edit', methods=['POST'])
 @login_required

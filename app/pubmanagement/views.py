@@ -3,9 +3,14 @@ from flask_login import login_required
 import http
 from app.login.utils import admin_required
 from app import db
-from app.models.beer_pub import create_beer_pub, BeerPub, delete_beer_pub, get_beer_pub
-from app.models.beer_pub_product import get_beer_pub_products, get_beer_pub_product, create_beer_pub_product, delete_beer_pub_product
-from app.models.product import get_products, get_product
+from app.models.beer_pub import BeerPub
+from app.models.beer_pub_functions import create_beer_pub, delete_beer_pub, get_beer_pub
+from app.models.beer_pub_product_functions import get_beer_pub_products,\
+													get_beer_pub_product,\
+												  	create_beer_pub_product,\
+												  	delete_beer_pub_product,\
+												  	delete_beer_pub_products
+from app.models.product_functions import get_products, get_product
 import jsonpickle
 
 pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
@@ -33,7 +38,9 @@ def createBeerPub():
 @login_required
 @admin_required
 def deleteBeerPub():
-	delete_beer_pub(request.form['id'])
+	beerPub = get_beer_pub(request.form['id'])
+	delete_beer_pub_products(beerPub)
+	delete_beer_pub(beerPub)
 	return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/editbeerpub', methods=['POST'])
@@ -70,7 +77,7 @@ def createBeerPubProduct():
 @login_required
 @admin_required
 def deleteBeerPubProduct():
-	delete_beer_pub_product(request.form['beerPubId'], request.form['productId'])
+	delete_beer_pub_product(get_beer_pub_product(request.form['beerPubId'], request.form['productId']))
 	return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/editbeerpubproduct', methods=['POST'])

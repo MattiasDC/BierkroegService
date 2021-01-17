@@ -17,9 +17,12 @@ $(document).ready(function(){
         return $("#name").val()
     }
 
-    function deleteProduct(row) {
+    function deleteProduct(row, ifSuccessful) {
     	if (hasData(row, "id"))
-        $.post($("#delete-product-url").data('url'), { 'id' : row.data('id') })  
+      {
+        return $.post($("#delete-product-url").data('url'),
+          { 'id' : row.data('id') })  
+      }
     }
 
     function onEdit(row) {

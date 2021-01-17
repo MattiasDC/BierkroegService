@@ -1,19 +1,8 @@
 from app import db
-from sqlalchemy import ForeignKey
-from app.models.product import Product
-from app.models.beer_pub import BeerPub
-from flask import current_app
 from typing import overload
-
-class BeerPubProduct(db.Model):
-	__table_args__ = {"schema": current_app.config['DB_SCHEMA']}
-
-	productId = db.Column(db.Integer, ForeignKey(Product.id), primary_key=True, nullable=False)
-	beerPubId = db.Column(db.Integer, ForeignKey(BeerPub.id), primary_key=True, nullable=False)
-	price = db.Column(db.Float, nullable=False)
-
-	def __repr__(self):
-		return f'<Product {self.product}, Price: {self.price}>'
+from .beer_pub_product import BeerPubProduct
+from .beer_pub import BeerPub
+from .product import Product
 
 @overload
 def get_beer_pub_products(beerPub : BeerPub): ...
@@ -36,7 +25,14 @@ def create_beer_pub_product(beerPubId, productId, price):
     db.session.commit()
     return beerPubProduct
 
-def delete_beer_pub_product(beerPubId, productId):
-    beerPubProduct = get_beer_pub_product(beerPubId, productId)
+def delete_beer_pub_product(beerPubProduct):
+    if beerPubProduct is None:
+        return
     db.session.delete(beerPubProduct)
     db.session.commit()
+
+def delete_beer_pub_products(beerPub):
+    if beerPub is None:
+        return
+    for beerPubProduct in get_beer_pub_products(beerPub):
+        delete_beer_pub_product(beerPubProduct)

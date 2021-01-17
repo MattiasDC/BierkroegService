@@ -11,7 +11,9 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
     	$("table").append(row)		
 		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle()
         $('[data-toggle="tooltip"]').tooltip()
-        afterAdd()
+        if (afterAdd)
+        	afterAdd()
+        $("table tbody tr").eq(index + 1).children().first('td').children().first().focus()
     })
 
     function handleAdd() {
@@ -53,7 +55,16 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 	$(document).on("click", ".delete", function(){
 		$(this).tooltip('hide')
         var row = $(this).parents("tr")
-        deleteFunction(row)
-        row.remove()
+        var del = deleteFunction(row)
+        if (del)
+        	del.done(function () {row.remove()})
+           	   .fail(function (e) {
+           	   	  if (e.responseJSON) {
+           	   	  	errorMessage = e.responseJSON.error
+            	  	alertModal(errorMessage.substring(errorMessage.indexOf(":")))
+           	   	  }
+            	})
+        else
+        	row.remove()
     })
 }

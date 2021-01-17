@@ -1,0 +1,14 @@
+<div id="alert-modal" class="modal fade">
+  <div class="modal-dialog">
+      <div id="alert-modal-body" class="modal-body"></div>
+      <div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button><strong>Error!</strong><span id="errorReason"></span>
+      </div>
+  </div>
+</div>
+<script>
+function alertModal(reason) {
+	$('#errorReason').html(reason);
+	$('#alert-modal').modal('show');
+}
+</script>
