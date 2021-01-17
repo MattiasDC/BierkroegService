@@ -1,6 +1,8 @@
 from flask import render_template, Blueprint, make_response
 from flask_login import login_required
-from app.models.product import Product
+from app.models.beer_pub_product_functions import get_beer_pub_products
+from app.models.beer_pub_functions import get_active_beer_pub
+from app.models.product_functions import get_product
 
 waiter_blueprint = Blueprint('waiter', __name__,
 							 url_prefix='/waiter',
@@ -10,4 +12,6 @@ waiter_blueprint = Blueprint('waiter', __name__,
 @waiter_blueprint.route('/', methods=['GET'])
 @login_required
 def home():
-	return make_response(render_template('waiter.html', products=Product.query.all()))
+	return render_template('waiter.html',
+		products=get_beer_pub_products(get_active_beer_pub()),
+		get_product=get_product)

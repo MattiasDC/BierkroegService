@@ -11,10 +11,12 @@ def get_beer_pub_products(beerPub : BeerPub): ...
 def get_beer_pub_products(product : Product): ...
 
 def get_beer_pub_products(arg):
-	if isinstance(arg, BeerPub):
-		return BeerPubProduct.query.filter_by(beerPubId=arg.id).all()
-	else:	
-		return BeerPubProduct.query.filter_by(productId=arg.id).all()
+    if arg is None:
+        return []
+    elif isinstance(arg, BeerPub):
+        return BeerPubProduct.query.filter_by(beerPubId=arg.id).all()
+    else:	
+        return BeerPubProduct.query.filter_by(productId=arg.id).all()
 
 def get_beer_pub_product(beerPubId, productId):
 	return BeerPubProduct.query.filter_by(beerPubId=beerPubId, productId=productId).one_or_none()

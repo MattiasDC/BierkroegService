@@ -18,9 +18,9 @@
   			<input class="form-control" id="productListInput" type="text" placeholder="Zoek product..">
   			<br>        	
   			<ul class="list-group" id="productList">
-  				{% for product in products %}
-    			<li class="list-group-item" data-product={{ product.Name }} data-id={{ product.id }} data-price={{ product.price }}>
-    				{{ product.name }} <span style="color:#808080">(€{{product.price}})</span>
+  				{% for beerPubProduct in products %}
+    			<li class="list-group-item" data-product={{ get_product(beerPubProduct.productId).name }} data-id={{ beerPubProduct.productId }} data-price={{ beerPubProduct.price }}>
+    				{{ get_product(beerPubProduct.productId).name }} <span style="color:#808080">(€{{beerPubProduct.price}})</span>
     			</li>
     			{% endfor %}
   			</ul>

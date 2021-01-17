@@ -15,7 +15,6 @@ function roundNumber(num, scale) {
 function addRowToOrder(productName, price, id) {
   var rowId = $("#order >tbody >tr").length;
   rowId = rowId + 1;
-  console.log("Adding product to order: {Row: "+ rowId + ", Product: " + productName + ", Price: " + price + ", Id: " + id + "}");
   
   var row = $('#order').bootstrapTable('getRowByUniqueId', id);
   if (row != null) {
@@ -30,7 +29,6 @@ function addRowToOrder(productName, price, id) {
 };
 
 function deleteRowFromOrder(id) {
-  console.log("Deleting product from oder with id: " + id)
   $('#order').bootstrapTable('remove', { field: 'id', values: [id] })
 };
 
@@ -47,7 +45,6 @@ function amountButtonFormatter(value, row, index) {
   };
 
 function recalculateOrderSummary() {
-	console.log("Change of order table detected")
 	var data = $('#order').bootstrapTable('getData')
 	var nofProducts = 0
 	var totalPrice = 0
@@ -63,11 +60,9 @@ function recalculateOrderSummary() {
 
 window.operateEvents = {
     'click .increment': function (e, value, row, index) {
-      console.log("Incrementing amount of product with id: " + row['id'])
       $("#order").bootstrapTable('updateCell', {index: index, field: 'amount', value: row['amount'] + 1});
     },
     'click .decrement': function (e, value, row, index) {
-      console.log("Decrementing amount of product with id: " + row['id'])
       var amount = row['amount'];
       if (amount == 1) {
 	    deleteRowFromOrder(row['id']);
