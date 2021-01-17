@@ -1,7 +1,7 @@
 {% extends "table.html" %}
 
 {% block rows %}
-{% for beerPub in beerPubs %}
+{% for beerPub in beerPubs|sort(attribute='startDate') %}
 <tr data-id={{beerPub.id}}>
     <td>{{beerPub.startDate}}</td>
     <td>{{beerPub.endDate}}</td>

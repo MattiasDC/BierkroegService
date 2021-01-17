@@ -1,5 +1,5 @@
 from app import db
-from .beer_pub_product import get_beer_pub_products
+from .beer_pub_product_functions import get_beer_pub_products
 from .product import Product
 
 def get_product(id):
