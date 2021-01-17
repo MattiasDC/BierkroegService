@@ -57,9 +57,14 @@ def deleteBeerPub():
 @login_required
 @admin_required
 def editBeerPub():
+	startDate = to_date(request.form['startDate'])
+	endDate = to_date(request.form['endDate'])
+	if overlaps_with_any(startDate, endDate):
+		abort(400, "Beer pub overlaps in time with another beer pub")
+
 	beerPub = get_beer_pub(request.form['id'])
-	beerPub.startDate = to_date(request.form['startDate'])
-	beerPub.endDate = request.form['endDate']
+	beerPub.startDate = startDate
+	beerPub.endDate = endDate
 	db.session.commit()
 	return ("", http.HTTPStatus.NO_CONTENT)
 

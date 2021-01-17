@@ -56,6 +56,9 @@ def delete():
 @login_required
 @admin_required
 def edit():
+	name = request.form['name']
+	if has_product_with_name(name):
+		abort(400, "A product with the same name already exists")
 	product = get_product(request.form['id'])
 	product.name = request.form['name']
 	db.session.commit()
