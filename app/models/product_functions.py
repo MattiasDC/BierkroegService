@@ -8,6 +8,9 @@ def get_product(id):
 def get_products():
 	return Product.query.all()
 
+def has_product_with_name(name):
+	return Product.query.filter_by(name=name).count() > 0
+
 def create_product(name):
     product = Product(name=name)
     db.session.add(product)

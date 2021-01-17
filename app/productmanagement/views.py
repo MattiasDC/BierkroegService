@@ -4,7 +4,12 @@ from app.login.utils import admin_required
 from app import db
 import http
 from app.models.product import Product
-from app.models.product_functions import create_product, delete_product, get_product, get_products, can_delete_product
+from app.models.product_functions import create_product,\
+										 delete_product,\
+										 get_product,\
+										 get_products,\
+										 can_delete_product,\
+										 has_product_with_name
 
 import jsonpickle
 
@@ -30,7 +35,10 @@ def home():
 @login_required
 @admin_required
 def create():
-	product = create_product(request.form['name'])
+	name = request.form['name']
+	if has_product_with_name(name):
+		abort(400, "A product with the same name already exists")
+	product = create_product(name)
 	return jsonify(product.id)
 
 @productmanagement_blueprint.route('/delete', methods=['POST'])
