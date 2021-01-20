@@ -36,7 +36,7 @@ def home():
 @admin_required
 def create():
 	name = request.form['name']
-	if has_product_with_name(name):
+	if has_product_with_name(name, None):
 		abort(400, "A product with the same name already exists")
 	product = create_product(name)
 	return jsonify(product.id)
@@ -57,9 +57,10 @@ def delete():
 @admin_required
 def edit():
 	name = request.form['name']
-	if has_product_with_name(name):
-		abort(400, "A product with the same name already exists")
 	product = get_product(request.form['id'])
+	if has_product_with_name(name, product):
+		abort(400, "A product with the same name already exists")
+	
 	product.name = request.form['name']
 	db.session.commit()
 	return ("", http.HTTPStatus.NO_CONTENT)

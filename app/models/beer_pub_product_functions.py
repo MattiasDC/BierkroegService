@@ -21,8 +21,8 @@ def get_beer_pub_products(arg):
 def get_beer_pub_product(beerPub, product):
 	return BeerPubProduct.query.filter_by(beerPubId=beerPub.id, productId=product.id).one_or_none()
 
-def create_beer_pub_product(beerPubId, productId, price):
-    beerPubProduct = BeerPubProduct(beerPubId=beerPubId, productId=productId, price=price)
+def create_beer_pub_product(beerPub, product, price):
+    beerPubProduct = BeerPubProduct(beerPubId=beerPub.id, productId=product.id, price=price)
     db.session.add(beerPubProduct)
     db.session.commit()
     return beerPubProduct

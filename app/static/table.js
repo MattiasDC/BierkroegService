@@ -1,16 +1,17 @@
 function loadTable(rowColumns, deleteFunction, validationFunction, createFunction, onEdit, afterAdd){
-	$('[data-toggle="tooltip"]').tooltip()
-	var actions = '<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B</i></a>' + 
-	              '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254</i></a>' + 
-                  '<a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872</i></a>'
+	var actions = '<a class="add" title="Add"><i class="material-icons">&#xE03B</i></a>' + 
+	              '<a class="edit" title="Edit"><i class="material-icons">&#xE254</i></a>' + 
+                  '<a class="delete" title="Delete"><i class="material-icons">&#xE872</i></a>'
 
     // Append table with add row form on add new button click
     $(".add-new").click(function(){
 		var index = $("table tbody tr:last-child").index()
         var row = '<tr>' + wrapInTableColumns(rowColumns) + wrapInTableColumn(actions) + '</tr>'
+        $("table").find(".edit, .delete").toggle()
+        $(".add-new").toggle()
+
     	$("table").append(row)		
 		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle()
-        $('[data-toggle="tooltip"]').tooltip()
         if (afterAdd)
         	afterAdd()
         $("table tbody tr").eq(index + 1).children().first('td').children().first().focus()
@@ -39,7 +40,9 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
                                     $(this).closest("td").text($(this).val())
                                     $(this).remove()
                                 })          
-                                row.find(".add, .edit").toggle()
+                                row.find(".add, .delete").toggle()
+                                $(".edit, .delete").toggle()
+                                $(".add-new").toggle()
                             })
                       .fail(function (e) {
                         if (e.responseJSON) {
@@ -57,7 +60,9 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 	$(document).on("click", ".edit", function(){
 		var row  = $(this).parents('tr')
 		onEdit(row)
-		row.find(".add, .edit").toggle()
+        $(".edit, .delete").toggle()
+		row.find(".add, .delete").toggle()
+        $(".add-new").toggle()
     })
 
     // Delete row on delete button click
@@ -75,5 +80,11 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
             	})
         else
         	row.remove()
+
+        editAndDeletes = $(".edit, .delete")
+        if (editAndDeletes.is(":hidden")) {
+          $(".add-new").toggle()
+          editAndDeletes.toggle()
+        }
     })
 }

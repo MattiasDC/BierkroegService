@@ -38,7 +38,7 @@ def home():
 def createBeerPub():
 	startDate = to_date(request.form['startDate'])
 	endDate = to_date(request.form['endDate'])
-	if overlaps_with_any(startDate, endDate):
+	if overlaps_with_any(startDate, endDate, None):
 		abort(400, "Beer pub overlaps in time with another beer pub")
 	
 	beerPub = create_beer_pub(startDate, endDate)		
@@ -59,10 +59,11 @@ def deleteBeerPub():
 def editBeerPub():
 	startDate = to_date(request.form['startDate'])
 	endDate = to_date(request.form['endDate'])
-	if overlaps_with_any(startDate, endDate):
+	beerPub = get_beer_pub(request.form['id'])
+
+	if overlaps_with_any(startDate, endDate, beerPub):
 		abort(400, "Beer pub overlaps in time with another beer pub")
 
-	beerPub = get_beer_pub(request.form['id'])
 	beerPub.startDate = startDate
 	beerPub.endDate = endDate
 	db.session.commit()
@@ -89,7 +90,7 @@ def createBeerPubProduct():
 	product = get_product(request.form['productId'])
 	if get_beer_pub_product(beerPub, product) is not None:
 		abort(400, "The beer pub already has the given product in its catalog")
-	beerPubProduct = create_beer_pub_product(beerPub, product, request.form['price'])
+	beerPubProduct = create_beer_pub_product(beerPub, product, float(request.form['price']))
 	return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/deletebeerpubproduct', methods=['POST'])
@@ -107,7 +108,7 @@ def editBeerPubProduct():
 	beerPub = get_beer_pub(request.form['beerPubId'])
 	product = get_product(request.form['productId'])
 	beerPubProduct = get_beer_pub_product(beerPub, product)
-	beerPubProduct.price = request.form['price']
+	beerPubProduct.price = float(request.form['price'])
 	db.session.commit()
 	return ("", http.HTTPStatus.NO_CONTENT)
 

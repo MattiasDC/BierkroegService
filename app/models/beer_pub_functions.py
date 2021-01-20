@@ -10,8 +10,8 @@ def get_beer_pub_from_date(date):
 	return BeerPub.query.filter(BeerPub.startDate <= date,
 								date <= BeerPub.endDate).one_or_none()
 
-def overlaps_with_any(startDate, endDate):
-	return any(map(lambda bp: overlaps(startDate, endDate, bp.startDate, bp.endDate), BeerPub.query.all()))
+def overlaps_with_any(startDate, endDate, beerPub):
+	return any(map(lambda bp: overlaps(startDate, endDate, bp.startDate, bp.endDate) and bp != beerPub, BeerPub.query.all()))
 
 def create_beer_pub(startDate, endDate):
     assert(not overlaps_with_any(startDate, endDate))
