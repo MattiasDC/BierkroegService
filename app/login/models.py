@@ -3,12 +3,12 @@ from app import db
 from utils.password_utils import check_password, get_hashed_password
 
 class User(db.Model):
-    email = db.Column(db.String(120), primary_key=True, nullable=False)
+    username = db.Column(db.String(120), primary_key=True, nullable=False)
     _password = db.Column(db.String, nullable=False)
     admin = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.email
+        return '<User %r>' % self.username
 
     @property
     def password(self):
@@ -26,7 +26,7 @@ class FlaskUser(UserMixin):
         self.user = user
 
     def get_id(self):
-        return self.user.email
+        return self.user.username
 
     def verify_password(self, password):
         return self.user.verify_password(password)
@@ -34,8 +34,8 @@ class FlaskUser(UserMixin):
     def is_admin(self):
         return self.user.admin
 
-def get_user(email):
-    user = User.query.filter_by(email=email).first()
+def get_user(username):
+    user = User.query.filter_by(username=username).first()
     if not user:
         return None
     return FlaskUser(user)

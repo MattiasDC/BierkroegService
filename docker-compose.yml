@@ -16,7 +16,7 @@ services:
       - db_port=1433
       - db_database=bks
       - db_username=bks
-      - admin_email=admin@admin.com
+      - admin_username=admin
     secrets:
       - db_pwd
       - flask_secret_key

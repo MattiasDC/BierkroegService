@@ -16,7 +16,7 @@ def login():
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = get_user(form.email.data)
+        user = get_user(form.username.data)
         if user is not None and user.verify_password(form.password.data):
             login_user(user, remember=form.rememberMe.data) 
             next_page = request.args.get('next')

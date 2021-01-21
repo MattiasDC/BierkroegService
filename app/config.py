@@ -16,7 +16,7 @@ class BaseConfig(object):
     	DB_PWD)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DB_SCHEMA = os.environ['db_schema']
-    ADMIN_EMAIL = os.environ['admin_email']
+    ADMIN_USERNAME = os.environ['admin_username']
     ADMIN_PWD = get_docker_secret('admin_pwd')
     
 class DevelopmentConfig(BaseConfig):

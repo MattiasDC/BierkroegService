@@ -8,15 +8,15 @@ login = LoginManager()
 login.login_view = 'login.login'
 
 def create_admin():
-	admin_email = app.config["ADMIN_EMAIL"]
-	if not User.query.filter_by(email=admin_email).count():
-		admin = User(email=admin_email, password=app.config["ADMIN_PWD"], admin=True)
+	admin_username = app.config["ADMIN_USERNAME"]
+	if not User.query.filter_by(username=admin_username).count():
+		admin = User(username=admin_username, password=app.config["ADMIN_PWD"], admin=True)
 		db.session.add(admin)
 		db.session.commit()
 
 @login.user_loader
-def load_user(email):
-    return get_user(email)
+def load_user(username):
+    return get_user(username)
 
 @login.unauthorized_handler
 def unauthorized_handler():
