@@ -39,3 +39,12 @@ def get_user(username):
     if not user:
         return None
     return FlaskUser(user)
+
+def create_user(username, password, admin):
+    user = User(username=username, password=password, admin=admin)
+    db.session.add(user)
+    db.session.commit()
+    return user
+
+def get_users():
+    return map(FlaskUser, User.query.all())

@@ -1,6 +1,7 @@
 from get_docker_secret import get_docker_secret
 import os
 from utils.db_utils import create_mysql_odbc_connection_string_url
+from datetime import timedelta
 
 class BaseConfig(object):
     """Base configuration."""
@@ -18,6 +19,8 @@ class BaseConfig(object):
     DB_SCHEMA = os.environ['db_schema']
     ADMIN_USERNAME = os.environ['admin_username']
     ADMIN_PWD = get_docker_secret('admin_pwd')
+    USER_PWD = get_docker_secret('user_pwd')
+    REMEMBER_COOKIE_DURATION = timedelta(days=100)
     
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""

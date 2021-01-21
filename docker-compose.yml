@@ -21,3 +21,4 @@ services:
       - db_pwd
       - flask_secret_key
       - admin_pwd
+      - user_pwd

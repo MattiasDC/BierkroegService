@@ -4,6 +4,7 @@ from app.models.beer_pub_product_functions import get_beer_pub_products
 from app.models.beer_pub_functions import get_active_beer_pub
 from app.models.product_functions import get_product
 from app.login.utils import admin_required
+from app.login.models import get_users
 
 waiter_blueprint = Blueprint('waiter', __name__,
 							 url_prefix='/waiter',
@@ -21,5 +22,7 @@ def waiter():
 @login_required
 @admin_required
 def waitermanagement():
-	return render_template('waitermanagement.html')
-
+	return render_template('waitermanagement.html',
+							title="Opdiener Management",
+							columns=["Naam", "Acties"],
+							waiters=filter(lambda user: not user.is_admin(), get_users()))
