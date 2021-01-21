@@ -3,15 +3,23 @@ from flask_login import login_required
 from app.models.beer_pub_product_functions import get_beer_pub_products
 from app.models.beer_pub_functions import get_active_beer_pub
 from app.models.product_functions import get_product
+from app.login.utils import admin_required
 
 waiter_blueprint = Blueprint('waiter', __name__,
 							 url_prefix='/waiter',
                              template_folder="templates",
                              static_folder="static")
 
-@waiter_blueprint.route('/', methods=['GET'])
+@waiter_blueprint.route('/waiter', methods=['GET'])
 @login_required
-def home():
+def waiter():
 	return render_template('waiter.html',
 		products=get_beer_pub_products(get_active_beer_pub()),
 		get_product=get_product)
+
+@waiter_blueprint.route('/management', methods=['GET'])
+@login_required
+@admin_required
+def waitermanagement():
+	return render_template('waitermanagement.html')
+

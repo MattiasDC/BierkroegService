@@ -6,9 +6,12 @@
     <h1>Bierkroeg Service</h1>
     <hr><br>
     <ul class="pager">
-  		<li><a href="{{url_for('waiter.home')}}">Opdiener</a></li>
-  		<li><a href="{{url_for('pubmanagement.home')}}">Bierkroeg Management</a></li>
-  		<li><a href="{{url_for('productmanagement.home')}}">Product Management</a></li>
+  		<li><a href="{{url_for('waiter.waiter')}}">Opdiener</a></li>
+  		{% if admin %}
+		    <li><a href="{{url_for('pubmanagement.home')}}">Bierkroeg Management</a></li>
+  			<li><a href="{{url_for('productmanagement.home')}}">Product Management</a></li>
+  			<li><a href="{{url_for('waiter.waitermanagement')}}">Opdiener Management</a></li>
+		{% endif %}
 	</ul>
 </div>
 

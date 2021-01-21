@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+{% endblock %}
+
+{% block content %}
+
+{% include "homenavigation.html" %}
+
+{% endblock %}
+
+{% block js %}
+<!-- Bootstrap-table -->
+<script src="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.4/dist/locale/bootstrap-table-nl-NL.min.js"></script>
+
+{% endblock %}
+
+{% include "_footer.html" %}
