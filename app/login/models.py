@@ -40,11 +40,20 @@ def get_user(username):
         return None
     return FlaskUser(user)
 
+def get_users():
+    return map(FlaskUser, User.query.all())
+
+def has_user_with_name(name):
+    return User.query.filter_by(username=name).count() > 0
+
 def create_user(username, password, admin):
     user = User(username=username, password=password, admin=admin)
     db.session.add(user)
     db.session.commit()
-    return user
+    return FlaskUser(user)
 
-def get_users():
-    return map(FlaskUser, User.query.all())
+def delete_user(user):
+    if user is None:
+        return
+    db.session.delete(user.user)
+    db.session.commit()

@@ -2,9 +2,20 @@
 
 {% block rows %}
 {% for waiter in waiters %}
-<tr>
+<tr data-id={{waiter.get_id()}}>
     <td>{{waiter.get_id()}}</td>
     {% include "tableactions.html" %}
 </tr>
 {% endfor %}
+{% endblock %}
+
+{% block metas %}
+<meta id="create-waiter-url" data-url="{{ url_for('.create') }}">
+<meta id="delete-waiter-url" data-url="{{ url_for('.delete') }}">
+{% endblock %}
+
+{% block js %}
+{{super()}}
+<script src="{{url_for('static', filename='utils.js')}}"></script>
+<script src="{{url_for('.static', filename='waitermanagement.js')}}"></script>
 {% endblock %}

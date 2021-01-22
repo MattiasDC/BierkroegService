@@ -1,7 +1,10 @@
 function loadTable(rowColumns, deleteFunction, validationFunction, createFunction, onEdit, afterAdd){
-	var actions = '<a class="add" title="Add"><i class="material-icons">&#xE03B</i></a>' + 
-	              '<a class="edit" title="Edit"><i class="material-icons">&#xE254</i></a>' + 
-                  '<a class="delete" title="Delete"><i class="material-icons">&#xE872</i></a>'
+	var actions = '<a class="add" title="Add"><i class="material-icons">&#xE03B</i></a>'
+	
+    if (onEdit)
+        actions += '<a class="edit" title="Edit"><i class="material-icons">&#xE254</i></a>' 
+                  
+    actions += '<a class="delete" title="Delete"><i class="material-icons">&#xE872</i></a>'
 
     // Append table with add row form on add new button click
     $(".add-new").click(function(){
