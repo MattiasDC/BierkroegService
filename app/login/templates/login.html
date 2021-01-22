@@ -21,6 +21,11 @@
         <p>{{ form.rememberMe() }} {{ form.rememberMe.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
+
+    {% if failed %}
+    {% include "alertmodal.html" %}
+    <script>alertModal(" Login failed");setTimeout(hideModal, 1000)</script>
+    {% endif %}
 {% endblock %}
 
 {% block js %}

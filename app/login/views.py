@@ -23,7 +23,9 @@ def login():
             if not next_page or urlparse(next_page).netloc != '':
                 next_page = url_for('main.home')
             return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
+        else:
+           return render_template('login.html', title='Sign In', form=form, failed=True) 
+    return render_template('login.html', title='Sign In', form=form, failed=False)
 
 @login_blueprint.route('/logout')
 @login_required
