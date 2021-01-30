@@ -1,7 +1,7 @@
 from app import db
 from typing import overload
 from .beer_pub_product import BeerPubProduct
-from .beer_pub import BeerPub
+from app.models.beer_pub import BeerPub
 from .product import Product
 
 @overload

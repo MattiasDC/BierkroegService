@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, request, redirect, url_for, flash,
 from flask_login import login_required, login_user, logout_user, current_user
 from urllib.parse import urlparse
 from .flaskuser import FlaskUser
-from app.models.user_functions import get_user
+from app.models.user.user_functions import get_user
 from .forms import LoginForm
 
 login_blueprint = Blueprint('login',

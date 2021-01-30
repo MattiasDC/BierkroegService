@@ -5,12 +5,12 @@ from app.login.utils import admin_required
 from app import db
 from app.models.beer_pub import BeerPub
 from app.models.beer_pub_functions import create_beer_pub, delete_beer_pub, get_beer_pub, overlaps_with_any
-from app.models.beer_pub_product_functions import get_beer_pub_products,\
-													get_beer_pub_product,\
-												  	create_beer_pub_product,\
-												  	delete_beer_pub_product,\
-												  	delete_beer_pub_products
-from app.models.product_functions import get_products, get_product
+from app.models.product.beer_pub_product_functions import get_beer_pub_products,\
+															get_beer_pub_product,\
+														  	create_beer_pub_product,\
+														  	delete_beer_pub_product,\
+														  	delete_beer_pub_products
+from app.models.product.product_functions import get_products, get_product
 import jsonpickle
 from utils.date_utils import to_date
 

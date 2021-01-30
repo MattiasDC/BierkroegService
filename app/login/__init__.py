@@ -2,10 +2,10 @@ from flask_login import LoginManager
 from flask import current_app as app
 from flask import redirect, url_for
 from .flaskuser import FlaskUser
-from app.models.user import User
-from app.models.user_functions import get_user, create_user, is_admin
-from app.models.role import get_admin_role
-from app.models.userrole import add_role
+from app.models.user.user import User
+from app.models.user.user_functions import get_user, create_user, is_admin
+from app.models.user.role import get_admin_role
+from app.models.user.userrole import add_role
 
 login = LoginManager()
 login.login_view = 'login.login'

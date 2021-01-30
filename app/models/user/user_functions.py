@@ -1,6 +1,6 @@
-from app.models.user import User
-from app.models.userrole import delete_user_roles, has_role
-from app.models.role import get_admin_role
+from .user import User
+from .userrole import delete_user_roles, has_role
+from .role import get_admin_role
 from app import db
 
 def get_user(username):

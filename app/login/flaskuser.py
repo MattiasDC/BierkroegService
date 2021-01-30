@@ -1,7 +1,7 @@
 from flask_login import UserMixin
-from app.models.user import User
-from app.models.userrole import has_role
-from app.models.role import get_admin_role
+from app.models.user.user import User
+from app.models.user.userrole import has_role
+from app.models.user.role import get_admin_role
 
 class FlaskUser(UserMixin):
     def __init__(self, user):

@@ -1,8 +1,8 @@
 from app import db
 from sqlalchemy import ForeignKey
 from flask import current_app
-from app.models.user import User
-from app.models.role import Role
+from .user import User
+from .role import Role
 
 class UserRole(db.Model):
 	__table_args__ = {"schema": current_app.config['DB_SCHEMA']}

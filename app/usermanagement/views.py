@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint, abort, request, current_app as app, jsonify
 from flask_login import login_required
 from app.login.utils import admin_required
-from app.models.user_functions import get_users, get_user, create_user, delete_user, has_user_with_name, is_admin
+from app.models.user.user_functions import get_users, get_user, create_user, delete_user, has_user_with_name, is_admin
 import http
 
 usermanagement_blueprint = Blueprint('usermanagement', __name__,

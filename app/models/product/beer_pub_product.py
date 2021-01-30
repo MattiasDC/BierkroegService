@@ -1,6 +1,6 @@
 from app import db
 from sqlalchemy import ForeignKey
-from app.models.product import Product
+from .product import Product
 from app.models.beer_pub import BeerPub
 from flask import current_app
 

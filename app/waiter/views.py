@@ -1,8 +1,8 @@
 from flask import render_template, Blueprint, current_app as app
 from flask_login import login_required
-from app.models.beer_pub_product_functions import get_beer_pub_products
+from app.models.product.beer_pub_product_functions import get_beer_pub_products
+from app.models.product.product_functions import get_product
 from app.models.beer_pub_functions import get_active_beer_pub
-from app.models.product_functions import get_product
 
 waiter_blueprint = Blueprint('waiter', __name__,
 							 url_prefix='/waiter',

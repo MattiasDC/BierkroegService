@@ -3,13 +3,13 @@ from flask_login import login_required
 from app.login.utils import admin_required
 from app import db
 import http
-from app.models.product import Product
-from app.models.product_functions import create_product,\
-										 delete_product,\
-										 get_product,\
-										 get_products,\
-										 can_delete_product,\
-										 has_product_with_name
+from app.models.product.product import Product
+from app.models.product.product_functions import create_product,\
+												 delete_product,\
+												 get_product,\
+												 get_products,\
+												 can_delete_product,\
+												 has_product_with_name
 
 import jsonpickle
 

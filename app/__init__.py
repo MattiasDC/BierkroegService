@@ -12,12 +12,12 @@ db = SQLAlchemy()
 dbModel = None
 
 def createDb():
-    from .models.user import User
-    from .models.role import Role
-    from .models.userrole import UserRole
+    from .models.user.user import User
+    from .models.user.role import Role
+    from .models.user.userrole import UserRole
     from .models.beer_pub import BeerPub
-    from .models.beer_pub_product import BeerPubProduct
-    from .models.product import Product
+    from .models.product.beer_pub_product import BeerPubProduct
+    from .models.product.product import Product
     db.create_all()
 
 def create_app():
@@ -40,7 +40,7 @@ def create_app():
         schema = app.config['DB_SCHEMA']
         dbModel.prepare(db.engine, reflect=True, schema=app.config['DB_SCHEMA'])
         from .login import create_admin, login
-        from .models.role import create_roles
+        from .models.user.role import create_roles
         login.init_app(app)
         createDb()
         create_roles()
