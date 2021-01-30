@@ -4,6 +4,13 @@
 {% for user in users %}
 <tr data-id={{user.username}}>
     <td>{{user.username}}</td>
+    {% for role in roles[user] %}
+    	<td>
+    	  <div class="form-check">
+		    <input class="form-check-input" type="checkbox" data-role={{role[0]}} {% if role[1] %} checked {% endif%}>
+		  </div>
+    	</td>
+    {% endfor %}
     {% include "tableactions.html" %}
 </tr>
 {% endfor %}
@@ -12,6 +19,7 @@
 {% block metas %}
 <meta id="create-user-url" data-url="{{ url_for('.create') }}">
 <meta id="delete-user-url" data-url="{{ url_for('.delete') }}">
+<meta id="set-role-url" data-url="{{ url_for('.set_role') }}">
 {% endblock %}
 
 {% block js %}

@@ -8,7 +8,7 @@ class Role(db.Model):
 
     def __eq__(self, other):
         """Overrides the default implementation"""
-        if isinstance(other, User):
+        if isinstance(other, Role):
             return self.id == other.id
         return False
 
@@ -20,6 +20,11 @@ def get_admin_id():
 
 def get_waiter_id():
     return "waiter"
+
+def translate(id):
+    if id == get_waiter_id():
+        return "opdiener"
+    return id
 
 def create_role_if_not_exit(id):
     if get_role(id) is None:
@@ -38,3 +43,6 @@ def get_admin_role():
 
 def get_waiter_role():
     return get_role(get_waiter_id())
+
+def get_roles():
+    return [get_admin_role(), get_waiter_role()]

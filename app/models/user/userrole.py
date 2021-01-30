@@ -19,8 +19,11 @@ class UserRole(db.Model):
 	def __hash__(self):
 		return hash(repr(self))
 
+def get_role(user, role):
+	return UserRole.query.filter_by(userId=user.username, roleId=role.id).one_or_none()
+
 def has_role(user, role):
-	return UserRole.query.filter_by(userId=user.username, roleId=role.id).one_or_none() is not None
+	return get_role(user, role) is not None
 
 def has_roles(user, roles):
 	return all(map(lambda role: UserRole.query.filter_by(userId=user.username, roleId=role.id).one_or_none() is not None, roles))
@@ -33,6 +36,11 @@ def add_role(user, role):
 		userRole = UserRole(userId=user.username, roleId=role.id)
 		db.session.add(userRole)
 		db.session.commit()
+
+def remove_role(user, role):
+	if has_role(user, role):
+		db.session.delete(get_role(user, role))
+		db.session.commit()	
 
 def delete_user_roles(user):
 	userRoles = UserRole.query.filter_by(userId=user.username)

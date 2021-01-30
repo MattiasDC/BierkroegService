@@ -20,6 +20,7 @@ $(document).ready(function(){
           { 'name' : row.data('id') })  
       }
     }
+
 	  loadTable([createStringInput('name', "")],
               deleteUser,
               isValidUser,
@@ -28,4 +29,10 @@ $(document).ready(function(){
               null)
 
     $(this).find(".edit").remove()
+
+    $(".form-check-input").click(function() {
+     $.post($("#set-role-url").data('url'), { 'name' : $(this).parents('tr').data('id'),
+                                              'role' : $(this).data('role'),
+                                              'enable' : $(this).is(':checked')})
+    })
 })
