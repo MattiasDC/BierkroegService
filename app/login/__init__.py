@@ -21,7 +21,10 @@ def create_admin():
 
 @login.user_loader
 def load_user(username):
-    return FlaskUser(get_user(username))
+    user = get_user(username)
+    if user is None:
+	    return None
+    return FlaskUser(user)
 
 @login.unauthorized_handler
 def unauthorized_handler():

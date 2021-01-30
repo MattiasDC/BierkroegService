@@ -18,13 +18,23 @@ class Role(db.Model):
 def get_admin_id():
     return "admin"
 
-def create_roles():
-    if get_role(get_admin_id()) is None:
-        db.session.add(Role(id=get_admin_id()))
+def get_waiter_id():
+    return "waiter"
+
+def create_role_if_not_exit(id):
+    if get_role(id) is None:
+        db.session.add(Role(id=id))
     db.session.commit()
+
+def create_roles():
+    create_role_if_not_exit(get_admin_id())
+    create_role_if_not_exit(get_waiter_id())
 
 def get_role(roleId):
     return Role.query.filter_by(id=roleId).one_or_none()
 
 def get_admin_role():
     return get_role(get_admin_id())
+
+def get_waiter_role():
+    return get_role(get_waiter_id())

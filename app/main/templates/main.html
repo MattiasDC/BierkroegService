@@ -6,12 +6,15 @@
     <h1>Bierkroeg Service</h1>
     <hr><br>
     <ul class="pager">
+      {% if admin or waiter %}
   		<li><a href="{{url_for('waiter.waiter')}}">Opdiener</a></li>
+      {% endif %}
+
   		{% if admin %}
 		    <li><a href="{{url_for('pubmanagement.home')}}">Bierkroeg Management</a></li>
   			<li><a href="{{url_for('productmanagement.home')}}">Product Management</a></li>
   			<li><a href="{{url_for('usermanagement.home')}}">User Management</a></li>
-		{% endif %}
+		  {% endif %}
 	</ul>
 </div>
 
