@@ -18,6 +18,10 @@ def createDb():
     from .models.beer_pub import BeerPub
     from .models.product.beer_pub_product import BeerPubProduct
     from .models.product.product import Product
+    from .models.order.order import Order
+    from .models.order.event import Event
+    from .models.order.orderevent import OrderEvent
+    from .models.order.orderproduct import OrderProduct
     db.create_all()
 
 def create_app():
