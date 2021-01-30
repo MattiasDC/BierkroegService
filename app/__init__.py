@@ -12,7 +12,9 @@ db = SQLAlchemy()
 dbModel = None
 
 def createDb():
-    from .login.models import User
+    from .models.user import User
+    from .models.role import Role
+    from .models.userrole import UserRole
     from .models.beer_pub import BeerPub
     from .models.beer_pub_product import BeerPubProduct
     from .models.product import Product
@@ -38,8 +40,10 @@ def create_app():
         schema = app.config['DB_SCHEMA']
         dbModel.prepare(db.engine, reflect=True, schema=app.config['DB_SCHEMA'])
         from .login import create_admin, login
+        from .models.role import create_roles
         login.init_app(app)
         createDb()
+        create_roles()
         create_admin()
 
     # register blueprints
@@ -53,6 +57,8 @@ def create_app():
     app.register_blueprint(productmanagement_blueprint)
     from .waiter.views import waiter_blueprint
     app.register_blueprint(waiter_blueprint)
+    from .usermanagement.views import usermanagement_blueprint
+    app.register_blueprint(usermanagement_blueprint)
 
     # shell context for flask cli
     app.shell_context_processor({'app': app})

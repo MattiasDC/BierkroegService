@@ -1,0 +1,21 @@
+{% extends "table.html" %}
+
+{% block rows %}
+{% for user in users %}
+<tr data-id={{user.username}}>
+    <td>{{user.username}}</td>
+    {% include "tableactions.html" %}
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block metas %}
+<meta id="create-user-url" data-url="{{ url_for('.create') }}">
+<meta id="delete-user-url" data-url="{{ url_for('.delete') }}">
+{% endblock %}
+
+{% block js %}
+{{super()}}
+<script src="{{url_for('static', filename='utils.js')}}"></script>
+<script src="{{url_for('.static', filename='usermanagement.js')}}"></script>
+{% endblock %}
