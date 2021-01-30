@@ -21,6 +21,9 @@ class UserRole(db.Model):
 
 def has_role(user, role):
 	return UserRole.query.filter_by(userId=user.username, roleId=role.id).one_or_none() is not None
+
+def has_roles(user, roles):
+	return all(map(lambda role: UserRole.query.filter_by(userId=user.username, roleId=role.id).one_or_none() is not None, roles))
 	
 def add_role(user, role):
 	if not has_role(user, role):
