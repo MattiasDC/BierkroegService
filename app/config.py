@@ -20,7 +20,7 @@ class BaseConfig(object):
     ADMIN_USERNAME = os.environ['admin_username']
     ADMIN_PWD = get_docker_secret('admin_pwd')
     USER_PWD = get_docker_secret('user_pwd')
-    REMEMBER_COOKIE_DURATION = timedelta(days=100)
+    REMEMBER_COOKIE_DURATION = timedelta(days=1)
     
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""
