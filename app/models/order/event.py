@@ -15,7 +15,6 @@ class Event(db.Model):
 	def __hash__(self):
 		return hash(repr(self))
 
-
 def get_ordered_event_id():
 	return "ordered"
 
@@ -32,7 +31,6 @@ def create_event_if_not_exit(id):
     if get_event(id) is None:
         db.session.add(Event(id=id))
     db.session.commit()
-
 
 def create_events():
 	create_event_if_not_exit(get_ordered_event_id())

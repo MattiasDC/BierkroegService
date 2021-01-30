@@ -59,8 +59,8 @@ def create_app():
     app.register_blueprint(pubmanagement_blueprint)
     from .productmanagement.views import productmanagement_blueprint
     app.register_blueprint(productmanagement_blueprint)
-    from .waiter.views import waiter_blueprint
-    app.register_blueprint(waiter_blueprint)
+    from .order.views import order_blueprint
+    app.register_blueprint(order_blueprint)
     from .usermanagement.views import usermanagement_blueprint
     app.register_blueprint(usermanagement_blueprint)
 

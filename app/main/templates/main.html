@@ -7,7 +7,7 @@
     <hr><br>
     <ul class="pager">
       {% if 'admin' in roles or 'waiter' in roles %}
-  		<li><a href="{{url_for('waiter.waiter')}}">Opdiener</a></li>
+  		<li><a href="{{url_for('order.waiter')}}">Opdiener</a></li>
       {% endif %}
 
   		{% if 'admin' in roles %}
