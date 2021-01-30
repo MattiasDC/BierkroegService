@@ -43,6 +43,6 @@ def remove_role(user, role):
 		db.session.commit()	
 
 def delete_user_roles(user):
-	userRoles = UserRole.query.filter_by(userId=user.username)
-	db.session.delete(userRoles)
+	for userRole in UserRole.query.filter_by(userId=user.username):
+		db.session.delete(userRole)
 	db.session.commit()

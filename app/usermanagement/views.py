@@ -27,12 +27,14 @@ def home():
 	  ["Acties"]
 
 	users = list(filter(lambda user: not is_admin(user), get_users()))
+	rolesPerUser = {user:list(map(lambda role: has_role(user, role), nonAdminRoles)) for user in users}
+	print(rolesPerUser, flush=True)
 	return render_template('usermanagement.html',
 							title="User Management",
 							columns=columns,
 							users=users,
-							roles={user:list(map(lambda role: [role.id, has_role(user, role)], nonAdminRoles))\
-									for user in users})
+							rolesPerUser=rolesPerUser,
+							roles=list(map(lambda role: role.id, nonAdminRoles)))
 
 
 @usermanagement_blueprint.route('/create', methods=['POST'])
@@ -60,10 +62,8 @@ def set_role():
 	user = get_user(request.form['name'])
 	role = get_role(request.form['role'])
 	enableDisable = strtobool(request.form['enable'])
-	print(enableDisable, flush=True)
 	if enableDisable:
 		add_role(user, role)
 	else:
-		print(enableDisable, flush=True)
 		remove_role(user, role)
 	return ("", http.HTTPStatus.NO_CONTENT)

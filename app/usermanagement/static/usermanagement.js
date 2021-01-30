@@ -5,7 +5,15 @@ $(document).ready(function(){
       if (!hasData(row, "id")) {
         return $.post($("#create-user-url").data('url'),
           { 'name' : name },
-          function(name) { row.data("id", name) })  
+          function(name) {
+            row.data("id", name)
+            roles = row.find("td").slice(1,-1).each(function(i, e) {
+              $(e).html("<div class=\"form-check\">\
+                             <input class=\"form-check-input\" type=\"checkbox\">\
+                         </div>")
+            })
+            registerClick()
+          })  
       }
     }
 
@@ -21,7 +29,15 @@ $(document).ready(function(){
       }
     }
 
-	  loadTable([createStringInput('name', "")],
+    function registerClick() {
+      $(".form-check-input").click(function() {
+        $.post($("#set-role-url").data('url'), { 'name' : $(this).parents('tr').data('id'),
+                                                 'role' : get_roles()[$(this).closest('td').index()-1],
+                                                 'enable' : $(this).is(':checked')})
+       })
+    }
+
+	  loadTable([createStringInput('name', ""), "", ""],
               deleteUser,
               isValidUser,
               createUser,
@@ -29,10 +45,6 @@ $(document).ready(function(){
               null)
 
     $(this).find(".edit").remove()
-
-    $(".form-check-input").click(function() {
-     $.post($("#set-role-url").data('url'), { 'name' : $(this).parents('tr').data('id'),
-                                              'role' : $(this).data('role'),
-                                              'enable' : $(this).is(':checked')})
-    })
+    registerClick()
+    
 })

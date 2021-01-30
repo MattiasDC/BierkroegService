@@ -11,7 +11,7 @@
 {% include "homenavigation.html" %}
 
 <div class="container">
-    <h1>Opdiener</h1>
+    <h1>{% if waiter %}Opdiener{% endif %}{% if cash_desk %}Kassa{% endif %}</h1>
     <div class="wrapper">
     	<div class="first-column">
     		<h2>Product</h2>

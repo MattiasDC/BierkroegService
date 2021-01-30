@@ -4,11 +4,9 @@
 {% for user in users %}
 <tr data-id={{user.username}}>
     <td>{{user.username}}</td>
-    {% for role in roles[user] %}
+    {% for role in rolesPerUser[user] %}
     	<td>
-    	  <div class="form-check">
-		    <input class="form-check-input" type="checkbox" data-role={{role[0]}} {% if role[1] %} checked {% endif%}>
-		  </div>
+    	  {% include "rolecheckbox.html" %}
     	</td>
     {% endfor %}
     {% include "tableactions.html" %}
@@ -26,4 +24,5 @@
 {{super()}}
 <script src="{{url_for('static', filename='utils.js')}}"></script>
 <script src="{{url_for('.static', filename='usermanagement.js')}}"></script>
+<script>function get_roles() { return {{roles|safe}} }</script>
 {% endblock %}

@@ -10,6 +10,10 @@
   		<li><a href="{{url_for('order.waiter')}}">Opdiener</a></li>
       {% endif %}
 
+      {% if 'admin' in roles or 'cash desk' in roles %}
+      <li><a href="{{url_for('order.cash_desk')}}">Kassa Order</a></li>
+      {% endif %}
+
   		{% if 'admin' in roles %}
 		  <li><a href="{{url_for('pubmanagement.home')}}">Bierkroeg Management</a></li>
   		<li><a href="{{url_for('productmanagement.home')}}">Product Management</a></li>
