@@ -51,12 +51,14 @@
     				</tbody>
     			</table>
     		</div>
-        <button type="button" class="btn btn-secondary btn-block">
+        <button id="sendOrder" type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#confirmOrder">
             <span style="font-size:larger;font-weight:bold;">Verstuur Bestelling</span>
         </button>
     	</div>
 	</div>
 </div>
+
+{% include "confirmorder.html" %}
 
 {% endblock %}
 

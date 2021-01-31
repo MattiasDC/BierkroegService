@@ -56,6 +56,8 @@ function recalculateOrderSummary() {
 
 	$("#orderSummary").bootstrapTable('updateCell', {index: 0, field: 'nofProducts', value: nofProducts});
 	$("#orderSummary").bootstrapTable('updateCell', {index: 0, field: 'totalPrice', value: roundNumber(totalPrice, 2)});
+
+  $("#sendOrder").prop('disabled', totalPrice == 0)
 }
 
 window.operateEvents = {
@@ -137,4 +139,17 @@ $(document).ready(function(){
   });
 
   initTable($("#order"));
+
+  $("#sendOrder").prop('disabled', true)
+
+  $("#confirmOrderButton").click(function() {
+    var tableInput = $("#tableInput").val()
+    if (!tableInput) {
+      $("#tableInput").addClass("is-invalid")
+      return
+    }
+
+    $("#tableInput").removeClass("is-invalid")
+    $("#confirmOrder").modal("hide")
+  })
 });
