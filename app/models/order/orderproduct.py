@@ -9,12 +9,22 @@ class OrderProduct(db.Model):
 
 	orderId = db.Column(db.Integer, ForeignKey(Order.id), primary_key=True, nullable=False)
 	prudctId = db.Column(db.Integer, ForeignKey(Product.id), primary_key=True, nullable=False)
+	amount = db.Column(db.Integer, nullable=False)
 
 	def __eq__(self, other):
 		"""Overrides the default implementation"""
 		if isinstance(other, OrderProduct):
-			return self.orderId == other.orderId and self.productId == other.productId
+			return self.orderId == other.orderId and self.productId == other.productId and self.amount == other.amount
 		return False
 
 	def __hash__(self):
 		return hash(repr(self))
+
+def create_order_products(order, products, amounts):
+	assert(len(products) == len(amounts))
+	orderProducts = list(map(lambda product, amount:
+		OrderProduct(orderId=order.id, productId=product.id, amount=amount), zip(products, amounts)))
+	for orderProduct in orderProducts:
+		db.session.add(orderProduct)
+	db.session.commit()
+	return orderProducts

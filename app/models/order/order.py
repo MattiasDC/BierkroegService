@@ -21,8 +21,3 @@ class Order(db.Model):
 
 	def __hash__(self):
 		return hash(repr(self))
-
-def get_orders(beerPub):
-	if beerPub is None:
-		return []
-	return Order.query.filter_by(beerPubId=beerPub.id)

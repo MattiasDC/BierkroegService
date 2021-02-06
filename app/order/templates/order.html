@@ -60,6 +60,8 @@
 
 {% include "confirmorder.html" %}
 
+<meta id="create-order-url" data-url="{{ url_for('.new_waiter_order') }}">
+
 {% endblock %}
 
 {% block js %}

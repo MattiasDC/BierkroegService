@@ -113,6 +113,18 @@ function initTable(table) {
     })
   }
 
+function sendOrder(table) {
+  var data = $('#order').bootstrapTable('getData')
+  var products = []
+  var amounts = []
+  for (index = 0; index < data.length; index++) {
+    products.push(data[index]['id'])
+    amounts.push(data[index]['amount'])
+  }
+
+  $.post($("#create-order-url").data('url'), { 'table':table, 'products':products, 'amounts':amounts })
+}
+
 $(document).ready(function(){
   // Filtering search list
   $("#productListInput").on("keyup", function(k) {
@@ -140,6 +152,10 @@ $(document).ready(function(){
 
   initTable($("#order"));
 
+  $('#confirmOrder').on('shown.bs.modal', function() {
+    $('#tableInput').trigger('focus');
+  });
+
   $("#sendOrder").prop('disabled', true)
 
   $("#confirmOrderButton").click(function() {
@@ -151,5 +167,14 @@ $(document).ready(function(){
 
     $("#tableInput").removeClass("is-invalid")
     $("#confirmOrder").modal("hide")
+
+    sendOrder(tableInput)
+    $("#tableInput").val("")
   })
+
+  $('#tableInput').on('keypress', (event)=> {
+        if(event.which === 13){
+            $('#confirmOrderButton').click();
+        }
+  });
 });

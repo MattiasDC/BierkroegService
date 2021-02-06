@@ -18,3 +18,9 @@ class OrderEvent(db.Model):
 
 	def __hash__(self):
 		return hash(repr(self))
+
+def create_order_event(order, event):
+	orderEvent = OrderEvent(orderId=order.id, eventId=event.id)
+	db.session.add(orderEvent)
+	db.session.commit()
+	return orderEvent

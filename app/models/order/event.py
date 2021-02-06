@@ -21,18 +21,27 @@ def get_ordered_event_id():
 def get_glasses_ready_event_id():
 	return "glasses ready"
 
-def get_finished_event_id():
-	return "finished"
+def get_delivered_event_id():
+	return "delivered"
 	
 def get_event(eventId):
     return Event.query.filter_by(id=eventId).one_or_none()
 
+def get_ordered_event():
+	return get_event(get_ordered_event_id())
+
+def get_glasses_ready_event():
+	return get_event(get_glasses_ready_event_id())
+
+def get_delivered_event():
+	return get_event(get_delivered_event_id())
+
 def create_event_if_not_exit(id):
     if get_event(id) is None:
         db.session.add(Event(id=id))
-    db.session.commit()
 
 def create_events():
 	create_event_if_not_exit(get_ordered_event_id())
 	create_event_if_not_exit(get_glasses_ready_event_id())
-	create_event_if_not_exit(get_finished_event_id())
+	create_event_if_not_exit(get_delivered_event_id())
+	db.session.commit()
