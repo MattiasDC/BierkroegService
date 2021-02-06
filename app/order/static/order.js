@@ -122,7 +122,17 @@ function sendOrder(table) {
     amounts.push(data[index]['amount'])
   }
 
-  $.post($("#create-order-url").data('url'), { 'table':table, 'products':products, 'amounts':amounts })
+  $.post($("#create-order-url").data('url'),
+        { 'table':table, 'products':products, 'amounts':amounts },
+        function() {
+          initTable($("#order"))
+          recalculateOrderSummary()
+        }).fail(function (e) {
+          if (e.responseJSON) {
+            errorMessage = e.responseJSON.error
+            alertModal(errorMessage.substring(errorMessage.indexOf(":")))
+          }
+        })
 }
 
 $(document).ready(function(){

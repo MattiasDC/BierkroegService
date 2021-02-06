@@ -58,7 +58,7 @@ def new_waiter_order():
 
 	waiter = current_user.user
 	table = request.form['table']
-	products = request.form.getlist('products')
-	amounts = request.form.getlist('amounts')
+	products = request.form.getlist('products[]')
+	amounts = request.form.getlist('amounts[]')
 	create_order(beerPub, waiter, list(map(get_product, products)), amounts, table, True)
 	return ("", http.HTTPStatus.NO_CONTENT)
