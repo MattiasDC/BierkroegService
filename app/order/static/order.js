@@ -128,10 +128,7 @@ function sendOrder(table) {
           initTable($("#order"))
           recalculateOrderSummary()
         }).fail(function (e) {
-          if (e.responseJSON) {
-            errorMessage = e.responseJSON.error
-            alertModal(errorMessage.substring(errorMessage.indexOf(":")))
-          }
+          alertModal(" De bestelling is mislukt, probeer opnieuw!")
         })
 }
 
