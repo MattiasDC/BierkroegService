@@ -11,7 +11,8 @@
       {% endif %}
 
       {% if 'admin' in roles or 'cash desk' in roles %}
-      <li><a href="{{url_for('order.cash_desk')}}">Kassa Bestelling</a></li>
+      <li><a href="{{url_for('order.cash_desk_order')}}">Kassa Bestelling</a></li>
+      <li><a href="{{url_for('order.order_history')}}">Bestelling Geschiedenis</a></li>
       {% endif %}
 
   		{% if 'admin' in roles %}

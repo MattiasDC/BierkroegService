@@ -1,0 +1,14 @@
+{% extends "table.html" %}
+
+{% block rows %}
+{% for order in orders %}
+<tr>
+    <td>{{order.id}}</td>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block js %}
+{{super()}}
+<script src="{{url_for('.static', filename='orderhistory.js')}}"></script>
+{% endblock %}
