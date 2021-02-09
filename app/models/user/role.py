@@ -24,7 +24,7 @@ def get_waiter_id():
 def get_cash_desk_id():
     return "cash desk"
 
-def translate(id):
+def translate_role(id):
     if id == get_waiter_id():
         return "opdiener"
     if id == get_cash_desk_id():

@@ -61,7 +61,13 @@
 {% include "confirmorder.html" %}
 {% include "alertmodal.html" %}
 
+
+{% if waiter %}
 <meta id="create-order-url" data-url="{{ url_for('.new_waiter_order') }}">
+{% endif %}
+{% if cash_desk %}
+<meta id="create-order-url" data-url="{{ url_for('.new_cash_desk_order') }}">
+{% endif %}
 
 {% endblock %}
 

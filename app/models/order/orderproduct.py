@@ -27,3 +27,12 @@ def create_order_products(order, products, amounts):
 		db.session.add(orderProduct)
 	db.session.commit()
 	return orderProducts
+
+def delete_order_products(order):
+	orderProducts = OrderProduct.query.filter_by(orderId=order.id)
+	for orderProduct in orderProducts:
+		db.session.delete(orderProduct)
+	db.session.commit()
+
+def get_order_total_price(order):
+	return sum(map(lambda op: op.amount, OrderProduct.query.filter_by(orderId=order.id)))
