@@ -10,11 +10,11 @@ class BaseConfig(object):
     ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
     DB_PWD = get_docker_secret('db_pwd')
     SQLALCHEMY_DATABASE_URI = create_mysql_odbc_connection_string_url(os.environ['db_driver'],
-    	os.environ['db_server'],
+        os.environ['db_server'],
         os.environ['db_port'],
-    	os.environ['db_database'],
-    	os.environ['db_username'],
-    	DB_PWD)
+        os.environ['db_database'],
+        os.environ['db_username'],
+        DB_PWD)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DB_SCHEMA = os.environ['db_schema']
     ADMIN_USERNAME = os.environ['admin_username']

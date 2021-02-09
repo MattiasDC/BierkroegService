@@ -18,8 +18,8 @@ function addRowToOrder(productName, price, id) {
   
   var row = $('#order').bootstrapTable('getRowByUniqueId', id);
   if (row != null) {
-  	row['amount'] += 1
-  	$("#order").bootstrapTable('updateByUniqueId', {id: id, row: row});
+      row['amount'] += 1
+      $("#order").bootstrapTable('updateByUniqueId', {id: id, row: row});
     return;
   }
   $('#order').bootstrapTable('insertRow', {
@@ -45,17 +45,17 @@ function amountButtonFormatter(value, row, index) {
   };
 
 function recalculateOrderSummary() {
-	var data = $('#order').bootstrapTable('getData')
-	var nofProducts = 0
-	var totalPrice = 0
-	for (index = 0; index < data.length; index++) {
-		var amount = data[index]['amount']
-		nofProducts += amount
-		totalPrice += data[index]['price']*amount
-	}
+    var data = $('#order').bootstrapTable('getData')
+    var nofProducts = 0
+    var totalPrice = 0
+    for (index = 0; index < data.length; index++) {
+        var amount = data[index]['amount']
+        nofProducts += amount
+        totalPrice += data[index]['price']*amount
+    }
 
-	$("#orderSummary").bootstrapTable('updateCell', {index: 0, field: 'nofProducts', value: nofProducts});
-	$("#orderSummary").bootstrapTable('updateCell', {index: 0, field: 'totalPrice', value: roundNumber(totalPrice, 2)});
+    $("#orderSummary").bootstrapTable('updateCell', {index: 0, field: 'nofProducts', value: nofProducts});
+    $("#orderSummary").bootstrapTable('updateCell', {index: 0, field: 'totalPrice', value: roundNumber(totalPrice, 2)});
 
   $("#sendOrder").prop('disabled', totalPrice == 0)
 }
@@ -67,8 +67,8 @@ window.operateEvents = {
     'click .decrement': function (e, value, row, index) {
       var amount = row['amount'];
       if (amount == 1) {
-	    deleteRowFromOrder(row['id']);
-	    return;
+        deleteRowFromOrder(row['id']);
+        return;
       }
       $("#order").bootstrapTable('updateCell', {index: index, field: 'amount', value: amount - 1});
     }
@@ -96,7 +96,7 @@ function initTable(table) {
           visible: false
         },
         {
-       	  title: 'Aantal',
+             title: 'Aantal',
           field: 'AmountEdit',
           events: window.operateEvents,
           formatter: amountButtonFormatter,
@@ -135,16 +135,16 @@ function sendOrder(table) {
 $(document).ready(function(){
   // Filtering search list
   $("#productListInput").on("keyup", function(k) {
-  	if (k.keyCode == 13)
-  	{
-  	var firstVisible = $('#productList').find('li:visible:first');
-  	if (firstVisible.length == 0)
-  		return;
-  	addRowToOrder(firstVisible[0].dataset.product,
-  				  parseFloat(firstVisible[0].dataset.price),
-  				  firstVisible[0].dataset.id);
-  	$(this).val('');
-  	}
+      if (k.keyCode == 13)
+      {
+      var firstVisible = $('#productList').find('li:visible:first');
+      if (firstVisible.length == 0)
+          return;
+      addRowToOrder(firstVisible[0].dataset.product,
+                    parseFloat(firstVisible[0].dataset.price),
+                    firstVisible[0].dataset.id);
+      $(this).val('');
+      }
     var value = $(this).val().toLowerCase();
     $("#productList li").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -153,8 +153,8 @@ $(document).ready(function(){
 
   $("li").on("click",function() {
     addRowToOrder($(this)[0].dataset.product,
-    			  parseFloat($(this)[0].dataset.price),
-    			  $(this)[0].dataset.id)
+                  parseFloat($(this)[0].dataset.price),
+                  $(this)[0].dataset.id)
   });
 
   initTable($("#order"));

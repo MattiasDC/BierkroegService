@@ -11,19 +11,19 @@ login = LoginManager()
 login.login_view = 'login.login'
 
 def create_admin():
-	admin_username = app.config["ADMIN_USERNAME"]
-	admin = User.query.filter_by(username=admin_username).one_or_none()
-	if not admin:
-		admin = create_user(admin_username, app.config["ADMIN_PWD"])
-	if not is_admin(admin):
-		add_role(admin, get_admin_role())
+    admin_username = app.config["ADMIN_USERNAME"]
+    admin = User.query.filter_by(username=admin_username).one_or_none()
+    if not admin:
+        admin = create_user(admin_username, app.config["ADMIN_PWD"])
+    if not is_admin(admin):
+        add_role(admin, get_admin_role())
 
 
 @login.user_loader
 def load_user(username):
     user = get_user(username)
     if user is None:
-	    return None
+        return None
     return FlaskUser(user)
 
 @login.unauthorized_handler

@@ -18,7 +18,7 @@ $(document).ready(function(){
     }
 
     function deleteProduct(row, ifSuccessful) {
-    	if (hasData(row, "id"))
+        if (hasData(row, "id"))
       {
         return $.post($("#delete-product-url").data('url'),
           { 'id' : row.data('id') })  
@@ -29,7 +29,7 @@ $(document).ready(function(){
         makeColumnInput(row, 0, createStringInput.bind(null, 'name'));
     }
     
-	  loadTable([createStringInput('name', "")],
+      loadTable([createStringInput('name', "")],
               deleteProduct,
               isValidProduct,
               createProduct,

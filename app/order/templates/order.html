@@ -13,49 +13,49 @@
 <div class="container">
     <h1>{% if waiter %}Opdiener{% endif %}{% if cash_desk %}Kassa{% endif %}</h1>
     <div class="wrapper">
-    	<div class="first-column">
-    		<h2>Product</h2>
-  			<input class="form-control" id="productListInput" type="text" placeholder="Zoek product..">
-  			<br>        	
-  			<ul class="list-group" id="productList">
-  				{% for beerPubProduct in products %}
-    			<li class="list-group-item" data-product={{ get_product(beerPubProduct.productId).name }} data-id={{ beerPubProduct.productId }} data-price={{ beerPubProduct.price }}>
-    				{{ get_product(beerPubProduct.productId).name }} <span style="color:#808080">(€{{beerPubProduct.price}})</span>
-    			</li>
-    			{% endfor %}
-  			</ul>
-    	</div>
-    	<div class="second-column">
-    	   	<h2>Bestelling</h2>
-    		<div class="Row">
-    	    	<table id="order" data-toggle="table">
-      				<thead>
-      				</thead>
-      				<tbody>
-      				</tbody>
-    			</table>
-    		</div>
-    		<div class=Row>
-    			<table id="orderSummary" data-toggle="table">
-    				<thead>
-    					<tr>
-    						<th data-field='nofProducts' data-type='Number'>Aantal Producten</th>
-    						<th data-field='totalPrice' data-type='Number'>Totaal Prijs <span style="color:#808080">(€)</span></th>
-    					</tr>
-    				</thead>
-    				<tbody>
-    					<tr>
-    						<td>0</td>
-    						<td>0.0</td>
-    					</tr>
-    				</tbody>
-    			</table>
-    		</div>
+        <div class="first-column">
+            <h2>Product</h2>
+              <input class="form-control" id="productListInput" type="text" placeholder="Zoek product..">
+              <br>            
+              <ul class="list-group" id="productList">
+                  {% for beerPubProduct in products %}
+                <li class="list-group-item" data-product={{ get_product(beerPubProduct.productId).name }} data-id={{ beerPubProduct.productId }} data-price={{ beerPubProduct.price }}>
+                    {{ get_product(beerPubProduct.productId).name }} <span style="color:#808080">(€{{beerPubProduct.price}})</span>
+                </li>
+                {% endfor %}
+              </ul>
+        </div>
+        <div class="second-column">
+               <h2>Bestelling</h2>
+            <div class="Row">
+                <table id="order" data-toggle="table">
+                      <thead>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                </table>
+            </div>
+            <div class=Row>
+                <table id="orderSummary" data-toggle="table">
+                    <thead>
+                        <tr>
+                            <th data-field='nofProducts' data-type='Number'>Aantal Producten</th>
+                            <th data-field='totalPrice' data-type='Number'>Totaal Prijs <span style="color:#808080">(€)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0.0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         <button id="sendOrder" type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#confirmOrder">
             <span style="font-size:larger;font-weight:bold;">Verstuur Bestelling</span>
         </button>
-    	</div>
-	</div>
+        </div>
+    </div>
 </div>
 
 {% include "confirmorder.html" %}

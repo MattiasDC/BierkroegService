@@ -19,7 +19,7 @@ $(document).ready(function(){
     }
 
     function deleteBeerPubProduct(row) {
-    	if (hasData(row, "product-id"))
+        if (hasData(row, "product-id"))
       {
         var beerPubId = $("#beerPub-id").data('id')
         return $.post($("#delete-beerPubProduct-url").data('url'), { 'productId' : row.data("product-id"),
@@ -63,7 +63,7 @@ $(document).ready(function(){
          })
       }
 
-	  loadTable([createProductInput("Product"), createFloatInput('price', "")],
+      loadTable([createProductInput("Product"), createFloatInput('price', "")],
               deleteBeerPubProduct,
               isValidBeerPubProduct,
               createBeerPubProduct,

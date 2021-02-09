@@ -1,7 +1,7 @@
 $(document).ready(function () {
-	
-	function deleteOrder(row, ifSuccessful) {
-    	return $.post($("#delete-order-url").data('url'), { 'id' : row.data('id') })  
+    
+    function deleteOrder(row, ifSuccessful) {
+        return $.post($("#delete-order-url").data('url'), { 'id' : row.data('id') })  
     }
 
     loadTable([],
@@ -11,6 +11,6 @@ $(document).ready(function () {
               null,
               null)
 
-	$("#btnNew").toggle()
-	$(this).find(".edit").remove()
+    $("#btnNew").toggle()
+    $(this).find(".edit").remove()
 })

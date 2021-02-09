@@ -3,9 +3,9 @@ from flask_login import login_required, current_user
 from app.models.user.userrole import get_roles
 
 main_blueprint = Blueprint('main',
-							__name__,
-							template_folder="templates",
-							static_folder="static")
+                            __name__,
+                            template_folder="templates",
+                            static_folder="static")
 
 @main_blueprint.route('/', methods=['GET'])
 @login_required

@@ -22,7 +22,7 @@ $(document).ready(function(){
     }
 
     function deleteUser(row, ifSuccessful) {
-    	if (hasData(row, "id"))
+        if (hasData(row, "id"))
       {
         return $.post($("#delete-user-url").data('url'),
           { 'name' : row.data('id') })  
@@ -37,7 +37,7 @@ $(document).ready(function(){
        })
     }
 
-	  loadTable([createStringInput('name', ""), "", ""],
+      loadTable([createStringInput('name', ""), "", ""],
               deleteUser,
               isValidUser,
               createUser,

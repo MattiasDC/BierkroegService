@@ -8,9 +8,9 @@ import http
 from distutils.util import strtobool
 
 usermanagement_blueprint = Blueprint('usermanagement', __name__,
-					      			 url_prefix='/usermanagement',
-                          			 template_folder="templates",
-                          			 static_folder="static")
+                                       url_prefix='/usermanagement',
+                                       template_folder="templates",
+                                       static_folder="static")
 
 @usermanagement_blueprint.errorhandler(400)
 def api_error(e):
@@ -20,50 +20,50 @@ def api_error(e):
 @login_required
 @admin_required
 def home():
-	nonAdminRoles = list(filter(lambda role: role != get_admin_role(), get_roles()))
-	
-	columns = ["Naam"] +\
-	 list(map(lambda role: translate_role(role.id).capitalize(), nonAdminRoles)) +\
-	  ["Acties"]
+    nonAdminRoles = list(filter(lambda role: role != get_admin_role(), get_roles()))
+    
+    columns = ["Naam"] +\
+     list(map(lambda role: translate_role(role.id).capitalize(), nonAdminRoles)) +\
+      ["Acties"]
 
-	users = list(filter(lambda user: not is_admin(user), get_users()))
-	rolesPerUser = {user:list(map(lambda role: has_role(user, role), nonAdminRoles)) for user in users}
-	print(rolesPerUser, flush=True)
-	return render_template('usermanagement.html',
-							title="User Management",
-							columns=columns,
-							users=users,
-							rolesPerUser=rolesPerUser,
-							roles=list(map(lambda role: role.id, nonAdminRoles)))
+    users = list(filter(lambda user: not is_admin(user), get_users()))
+    rolesPerUser = {user:list(map(lambda role: has_role(user, role), nonAdminRoles)) for user in users}
+    print(rolesPerUser, flush=True)
+    return render_template('usermanagement.html',
+                            title="User Management",
+                            columns=columns,
+                            users=users,
+                            rolesPerUser=rolesPerUser,
+                            roles=list(map(lambda role: role.id, nonAdminRoles)))
 
 
 @usermanagement_blueprint.route('/create', methods=['POST'])
 @login_required
 @admin_required
 def create():
-	name = request.form['name']
-	if has_user_with_name(name):
-		abort(400, "A user with the same name already exists")
-	user = create_user(name, app.config['USER_PWD'])
-	return jsonify(user.username)
+    name = request.form['name']
+    if has_user_with_name(name):
+        abort(400, "A user with the same name already exists")
+    user = create_user(name, app.config['USER_PWD'])
+    return jsonify(user.username)
 
 @usermanagement_blueprint.route('/delete', methods=['POST'])
 @login_required
 @admin_required
 def delete():
-	user = get_user(request.form['name'])
-	delete_user(user)
-	return ("", http.HTTPStatus.NO_CONTENT)
+    user = get_user(request.form['name'])
+    delete_user(user)
+    return ("", http.HTTPStatus.NO_CONTENT)
 
 @usermanagement_blueprint.route('/setrole', methods=['POST'])
 @login_required
 @admin_required
 def set_role():
-	user = get_user(request.form['name'])
-	role = get_role(request.form['role'])
-	enableDisable = strtobool(request.form['enable'])
-	if enableDisable:
-		add_role(user, role)
-	else:
-		remove_role(user, role)
-	return ("", http.HTTPStatus.NO_CONTENT)
+    user = get_user(request.form['name'])
+    role = get_role(request.form['role'])
+    enableDisable = strtobool(request.form['enable'])
+    if enableDisable:
+        add_role(user, role)
+    else:
+        remove_role(user, role)
+    return ("", http.HTTPStatus.NO_CONTENT)

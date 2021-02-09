@@ -3,7 +3,7 @@ function createFloatInput(name, value) {
 }
 
 function createDateInput(name, value) {
-	return '<input type="Date" class="form-control" name="' + name + '" id="' + name + '" value="' + value + '"/>'
+    return '<input type="Date" class="form-control" name="' + name + '" id="' + name + '" value="' + value + '"/>'
 }
 
 function createStringInput(name, value) {
@@ -11,22 +11,22 @@ function createStringInput(name, value) {
 }
 
 function wrapInTableColumn(value) {
-	return '<td>' + value + '</td>'
+    return '<td>' + value + '</td>'
 }
 
 function wrapInTableColumns(values) {
-	var i
-	var text = ""
-	for (i = 0; i < values.length; i++) {
-  		text += wrapInTableColumn(values[i])
-	}
-	return text
+    var i
+    var text = ""
+    for (i = 0; i < values.length; i++) {
+          text += wrapInTableColumn(values[i])
+    }
+    return text
 }
 
 function makeColumnInput(row, index, create) {
-	row.find('td').eq(index).html(create(row.find('td').eq(index).text()));
+    row.find('td').eq(index).html(create(row.find('td').eq(index).text()));
 }
 
 function hasData(obj, attribute) {
-	return obj.data(attribute) != undefined
+    return obj.data(attribute) != undefined
 }

@@ -5,9 +5,9 @@
 <tr data-id={{user.username}}>
     <td>{{user.username}}</td>
     {% for role in rolesPerUser[user] %}
-    	<td>
-    	  {% include "rolecheckbox.html" %}
-    	</td>
+        <td>
+          {% include "rolecheckbox.html" %}
+        </td>
     {% endfor %}
     {% include "tableactions.html" %}
 </tr>
