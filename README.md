@@ -12,5 +12,5 @@ Environment variables to set:
     - db_port
     - db_database
     - db_username
-4) In terminal: python dc.py --build --user mdc (user is used for docker-compose)
+4) In terminal run docker-compose. E.g.: docker-compose -f ./docker-compose.yml -f ./docker-compose.db.yml -f ./dev/docker-compose.dev.yml -f ./dev/docker-compose.dev.mdc.yml up (--build --force-recreate)
 6) Open web browser at localhost:5004
