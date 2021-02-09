@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  webservice:
+    environment:
+      - db_driver=ODBC Driver 17 for SQL Server
+      - db_server=hobbies-mdc.database.windows.net
+      - db_port=1433
+      - db_database=bks
+      - db_username=bks
