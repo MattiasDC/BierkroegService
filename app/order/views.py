@@ -58,7 +58,7 @@ def get_sorted_orders(orders):
 def order_history():
     return render_template('orderhistory.html',
         title="Bestellingen",
-        columns=["Id", "Persoon", "Bedrag", "Status", "Besteld", "Acties"],
+        columns=["Id", "Persoon", "Bedrag", "Status", "Besteld", "Opmerkingen", "Acties"],
         orders=get_sorted_orders(get_orders(get_active_beer_pub())),
         get_last_event=lambda order: translate_event(get_last_event(order).eventId).capitalize(),
         get_creation_time=get_order_creation_time,
@@ -72,7 +72,8 @@ def new_order(user, paidAtOrder):
     table = request.form['table']
     products = request.form.getlist('products[]')
     amounts = request.form.getlist('amounts[]')
-    create_order(beerPub, user, list(map(get_product, products)), amounts, table, paidAtOrder)
+    remarks = request.form['remarks']
+    create_order(beerPub, user, list(map(get_product, products)), amounts, table, paidAtOrder, remarks)
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @order_blueprint.route('/newwaiterorder', methods=['POST'])

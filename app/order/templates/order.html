@@ -13,22 +13,10 @@
 <div class="container">
     <h1>{% if waiter %}Opdiener{% endif %}{% if cash_desk %}Kassa{% endif %}</h1>
     <div class="wrapper">
-        <div class="first-column">
-            <h2>Product</h2>
-              <input class="form-control" id="productListInput" type="text" placeholder="Zoek product..">
-              <br>            
-              <ul class="list-group" id="productList">
-                  {% for beerPubProduct in products %}
-                <li class="list-group-item" data-product={{ get_product(beerPubProduct.productId).name }} data-id={{ beerPubProduct.productId }} data-price={{ beerPubProduct.price }}>
-                    {{ get_product(beerPubProduct.productId).name }} <span style="color:#808080">(€{{beerPubProduct.price}})</span>
-                </li>
-                {% endfor %}
-              </ul>
-        </div>
-        <div class="second-column">
-               <h2>Bestelling</h2>
+        <div class="container-fluid">
+            <h2>Bestelling</h2>
             <div class="Row">
-                <table id="order" data-toggle="table">
+                <table id="order" data-toggle="table" >
                       <thead>
                       </thead>
                       <tbody>
@@ -39,8 +27,8 @@
                 <table id="orderSummary" data-toggle="table">
                     <thead>
                         <tr>
-                            <th data-field='nofProducts' data-type='Number'>Aantal Producten</th>
-                            <th data-field='totalPrice' data-type='Number'>Totaal Prijs <span style="color:#808080">(€)</span></th>
+                            <th data-field='nofProducts' data-type='Number'># Producten</th>
+                            <th data-field='totalPrice' data-type='Number'>Tot. Prijs <span style="color:#808080">(€)</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,10 +39,36 @@
                     </tbody>
                 </table>
             </div>
+            <div class=Row>
+                <table id="remarksTable" data-toggle="table">
+                    <thead>
+                        <tr>
+                            <th>Opmerkingen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input class="form-control" type="string" id="remarks" style="font-size:16px"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         <button id="sendOrder" type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#confirmOrder">
-            <span style="font-size:larger;font-weight:bold;">Verstuur Bestelling</span>
+            <span style="font-size:16px;font-weight:bold;">Verstuur Bestelling</span>
         </button>
         </div>
+    </div>
+    <div class="container-fluid">
+        <h2>Product</h2>
+        <input class="form-control" id="productListInput" type="text" placeholder="Zoek product..">
+        <br>            
+        <ul class="list-group" id="productList">
+            {% for beerPubProduct in products %}
+                <li class="list-group-item" data-product="{{ get_product(beerPubProduct.productId).name }}" data-id={{ beerPubProduct.productId }} data-price={{ beerPubProduct.price }}>
+                {{ get_product(beerPubProduct.productId).name }} <span style="color:#808080">(€{{beerPubProduct.price}})</span>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
@@ -72,6 +86,7 @@
 {% endblock %}
 
 {% block js %}
+<script src="{{url_for('static', filename='utils.js')}}" type="text/javascript"></script>
 <script src="{{url_for('.static', filename='order.js')}}" type="text/javascript"></script>
 
 <!-- Bootstrap-table -->

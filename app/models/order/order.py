@@ -12,6 +12,7 @@ class Order(db.Model):
     waiter = db.Column(db.String(128), ForeignKey(User.username), nullable=False)
     paidAtOrder = db.Column(db.Boolean, nullable=False)
     table = db.Column(db.String, nullable=False)
+    remarks = db.Column(db.String)
 
     def __eq__(self, other):
         """Overrides the default implementation"""

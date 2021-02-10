@@ -1,20 +1,21 @@
 .wrapper {
   display: flex;
-  height: 100vh;
+  flex-direction: row;
 }
 
-.first-column {
-  flex: 0 0 auto;
-  left: 0;
-  overflow: auto;
-}
-
-.second-column {
-  flex: 1 0 auto;
-  margin-left: 10px;
-  position: sticky;
+.container-fluid {
+  margin-top:10px;
+  border-top:2px solid black;
+  padding-top:10px;
 }
 
 .list-group-item {
   user-select: none;
 }
+
+.table {
+  overflow-wrap: break-all;
+  max-width:100%;
+}
+
+.tbody {overflow-x: hidden;}

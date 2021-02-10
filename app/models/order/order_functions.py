@@ -12,8 +12,8 @@ def get_orders(beerPub):
 def get_order(orderId):
     return Order.query.filter_by(id=orderId).one_or_none()
 
-def create_order(beerPub, waiter, products, amounts, table, paidAtOrder):
-    order = Order(beerPubId=beerPub.id, waiter=waiter.username, paidAtOrder=paidAtOrder, table=table)
+def create_order(beerPub, waiter, products, amounts, table, paidAtOrder, remarks=""):
+    order = Order(beerPubId=beerPub.id, waiter=waiter.username, paidAtOrder=paidAtOrder, table=table, remarks=remarks)
     db.session.add(order)
     db.session.commit()
 

@@ -8,6 +8,7 @@
     <td>€{{get_order_total_price(order)}}</td>
     <td>{{get_last_event(order)}}</td>
     <td>{{get_creation_time(order)}}</td>
+    <td>{{order.remarks}}</td>
     {% include "tableactions.html" %}
 </tr>
 {% endfor %}

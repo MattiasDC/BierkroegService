@@ -15,7 +15,6 @@ function roundNumber(num, scale) {
 function addRowToOrder(productName, price, id) {
   var rowId = $("#order >tbody >tr").length;
   rowId = rowId + 1;
-  
   var row = $('#order').bootstrapTable('getRowByUniqueId', id);
   if (row != null) {
       row['amount'] += 1
@@ -37,7 +36,7 @@ function amountButtonFormatter(value, row, index) {
       '<a class="decrement" href="javascript:void(0)" title="Decrement">',
       '<i class="glyphicon glyphicon-minus"></i>',
       '</a>',
-      '&nbsp;' + row['amount'] + '&nbsp;',
+      '&nbsp;&nbsp;&nbsp;&nbsp;' + row['amount'] + '&nbsp;&nbsp;&nbsp;&nbsp;',
       '<a class="increment" href="javascript:void(0)" title="Increment">',
       '<i class="glyphicon glyphicon-plus"></i>',
       '</a>'
@@ -96,7 +95,7 @@ function initTable(table) {
           visible: false
         },
         {
-             title: 'Aantal',
+          title: 'Aantal',
           field: 'AmountEdit',
           events: window.operateEvents,
           formatter: amountButtonFormatter,
@@ -113,7 +112,7 @@ function initTable(table) {
     })
   }
 
-function sendOrder(table) {
+function sendOrder(table, remarks) {
   var data = $('#order').bootstrapTable('getData')
   var products = []
   var amounts = []
@@ -123,7 +122,7 @@ function sendOrder(table) {
   }
 
   $.post($("#create-order-url").data('url'),
-        { 'table':table, 'products':products, 'amounts':amounts },
+        { 'table':table, 'products':products, 'amounts':amounts, 'remarks':remarks },
         function() {
           initTable($("#order"))
           recalculateOrderSummary()
@@ -138,7 +137,7 @@ $(document).ready(function(){
       if (k.keyCode == 13)
       {
       var firstVisible = $('#productList').find('li:visible:first');
-      if (firstVisible.length == 0)
+      if (firstVisible.length == 0 || $(this).val() == "")
           return;
       addRowToOrder(firstVisible[0].dataset.product,
                     parseFloat(firstVisible[0].dataset.price),
@@ -175,13 +174,10 @@ $(document).ready(function(){
     $("#tableInput").removeClass("is-invalid")
     $("#confirmOrder").modal("hide")
 
-    sendOrder(tableInput)
+    var remarks = $("#remarks").val()
+    sendOrder(tableInput, remarks)
     $("#tableInput").val("")
   })
 
-  $('#tableInput').on('keypress', (event)=> {
-        if(event.which === 13){
-            $('#confirmOrderButton').click();
-        }
-  });
+  redirectEnter($("#tableInput"), $("#confirmOrderButton"))
 });

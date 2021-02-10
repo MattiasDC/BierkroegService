@@ -30,3 +30,11 @@ function makeColumnInput(row, index, create) {
 function hasData(obj, attribute) {
     return obj.data(attribute) != undefined
 }
+
+function redirectEnter(input, clicker) {
+  input.on('keypress', (event)=> {
+        if(event.which === 13){
+            clicker.click();
+        }
+  });
+}
