@@ -2,7 +2,8 @@
 
 {% block rows %}
 {% for user in users %}
-<tr data-id={{user.username}}>
+<tr>
+	<td hidden>{{user.username}}</td>
     <td>{{user.username}}</td>
     {% for role in rolesPerUser[user] %}
         <td>

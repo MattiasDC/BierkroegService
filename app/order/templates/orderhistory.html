@@ -1,8 +1,19 @@
 {% extends "table.html" %}
 
+{% block css %}
+{{super()}}
+<link href="{{url_for('.static', filename='orderhistory.css')}}" rel="stylesheet" media="screen">
+{% endblock %}
+
 {% block rows %}
 {% for order in orders %}
-<tr data-id={{order.id}}>
+<tr>
+    <td hidden>{{order.id}}</td>
+	<td>
+		<button type="button" class="btn btn-link" id="collapse{{order.id}}Btn" data-toggle="collapse" data-target="#collapse{{order.id}}">
+			<i class="fa fa-plus"></i>
+		</button>
+	</td>
     <td>{{order.id}}</td>
     <td>{{order.waiter}}</td>
     <td>€{{get_order_total_price(order)}}</td>
@@ -10,6 +21,32 @@
     <td>{{get_creation_time(order)}}</td>
     <td>{{order.remarks}}</td>
     {% include "tableactions.html" %}
+</tr>
+<tr>
+	<td colspan="8" class="hiddenRow">
+		<div class="accordian-body collapse" id="collapse{{order.id}}">
+			<div class="table-responsive">
+                <table class="table" data-locale="nl-NL">
+                    <thead>
+                        <tr>
+                        	<th>Product</th>
+                        	<th>#</th>
+                        	<th>Prijs</th>
+                        </tr>
+                    </thead>
+                    	{% for orderProduct in get_order_products(order) %}
+                    	<tr>
+                    		<td>{{get_product(orderProduct.productId).name}}</td>
+                    		<td>{{orderProduct.amount}}</td>
+                    		<td>{{get_order_product_price(orderProduct)}}</td>
+                    	</tr>
+                    	{% endfor %}
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+		</div>
+	</td>
 </tr>
 {% endfor %}
 {% endblock %}

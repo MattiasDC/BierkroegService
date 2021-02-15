@@ -2,7 +2,8 @@
 
 {% block rows %}
 {% for product in products %}
-<tr data-id={{product.id}}>
+<tr>
+	<td hidden>{{product.id}}</td>
     <td>{{product.name}}</td>
     {% include "tableactions.html" %}
 </tr>

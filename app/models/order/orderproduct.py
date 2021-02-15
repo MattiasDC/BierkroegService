@@ -19,20 +19,3 @@ class OrderProduct(db.Model):
 
     def __hash__(self):
         return hash(repr(self))
-
-def create_order_products(order, products, amounts):
-    assert(len(products) == len(amounts))
-    orderProducts = [OrderProduct(orderId=order.id, productId=product.id, amount=amount) for product, amount in zip(products, amounts)]
-    for orderProduct in orderProducts:
-        db.session.add(orderProduct)
-    db.session.commit()
-    return orderProducts
-
-def delete_order_products(order):
-    orderProducts = OrderProduct.query.filter_by(orderId=order.id)
-    for orderProduct in orderProducts:
-        db.session.delete(orderProduct)
-    db.session.commit()
-
-def get_order_total_price(order):
-    return sum(map(lambda op: op.amount, OrderProduct.query.filter_by(orderId=order.id)))

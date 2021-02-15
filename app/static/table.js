@@ -9,11 +9,11 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
     // Append table with add row form on add new button click
     $(".add-new").click(function(){
         var index = $("table tbody tr:last-child").index()
-        var row = '<tr>' + wrapInTableColumns(rowColumns) + wrapInTableColumn(actions) + '</tr>'
+        var row = '<tr><td hidden>-1</td>' + wrapInTableColumns(rowColumns) + wrapInTableColumn(actions) + '</tr>'
         $("table").find(".edit, .delete").toggle()
-        $(".add-new").toggle()
+        $(".add-new").prop('disabled', !$(".add-new").prop('disabled'))
 
-        $("table").append(row)        
+        $("table tbody").append(row)        
         $("table tbody tr").eq(index + 1).find(".add, .edit").toggle()
         if (afterAdd)
             afterAdd()
@@ -45,7 +45,7 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
                                 })          
                                 row.find(".add, .delete").toggle()
                                 $(".edit, .delete").toggle()
-                                $(".add-new").toggle()
+                                $(".add-new").prop('disabled', !$(".add-new").prop('disabled'))
                             })
                       .fail(function (e) {
                         if (e.responseJSON) {
@@ -65,7 +65,7 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
         onEdit(row)
         $(".edit, .delete").toggle()
         row.find(".add, .delete").toggle()
-        $(".add-new").toggle()
+        $(".add-new").prop('disabled', !$(".add-new").prop('disabled'))
     })
 
     // Delete row on delete button click
@@ -86,7 +86,7 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
 
         editAndDeletes = $(".edit, .delete")
         if (editAndDeletes.is(":hidden")) {
-          $(".add-new").toggle()
+          $(".add-new").prop('disabled', !$(".add-new").prop('disabled'))
           editAndDeletes.toggle()
         }
     })

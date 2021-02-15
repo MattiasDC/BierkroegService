@@ -3,35 +3,36 @@ $(document).ready(function(){
     function createBeerPubProduct(row) {
       var price = $("#price").val()
       var beerPubId = $("#beerPub-id").data('id')
-      if (!hasData(row, "exists")) {
+      var productId = row.find("td:first").text()
+      var isEdit = row.data('isEdit')
+      if (!isEdit) {
         return $.post($("#create-beerPubProduct-url").data('url'),
-          { 'price' : price, 'beerPubId' : beerPubId, 'productId' : row.data("product-id") },
+          { 'price' : price, 'beerPubId' : beerPubId, 'productId' : productId },
           function() { row.data("exists", 'true') })  
       }
       else {
+        row.data("isEdit", false)
         return $.post($("#edit-beerPubProduct-url").data('url'),
-          { 'beerPubId' : beerPubId, 'productId' : row.data("product-id"), 'price' : price })   
+          { 'beerPubId' : beerPubId, 'productId' : productId, 'price' : price })   
       }
     }
 
     function isValidBeerPubProduct(row) {
-      return $("#price").val() && $("#price").val() > 0 && hasData($("#productDropDown").closest('tr'), 'product-id')
+      return $("#price").val() && $("#price").val() > 0 && row.find("td:first").text() != -1
     }
 
     function deleteBeerPubProduct(row) {
-        if (hasData(row, "product-id"))
-      {
-        var beerPubId = $("#beerPub-id").data('id')
-        return $.post($("#delete-beerPubProduct-url").data('url'), { 'productId' : row.data("product-id"),
-                                                                     'beerPubId' : beerPubId })  
-      }
+      var beerPubId = $("#beerPub-id").data('id')
+      return $.post($("#delete-beerPubProduct-url").data('url'), { 'productId' : row.find("td:first").text(),
+                                                                   'beerPubId' : beerPubId })  
     }
 
     function onEdit(row) {
-        var productName = row.find('td').eq(0).text()
-        row.find('td').eq(0).html(createProductInput(productName));
+        row.data("isEdit", true)
+        var productName = row.find('td').eq(1).text()
+        row.find('td').eq(1).html(createProductInput(productName));
         $("#productDropDown").val(productName);
-        makeColumnInput(row, 1, createFloatInput.bind(null, 'price'));
+        makeColumnInput(row, 2, createFloatInput.bind(null, 'price'));
     }
 
     function createProductInput(initialButtonValue) {
@@ -56,7 +57,7 @@ $(document).ready(function(){
             ele.addEventListener("click", function(e) {
               $("#productDropDown").html($(this).text());
               $("#productDropDown").val($(this).text());
-              $("#productDropDown").closest('tr').data('product-id', $(this).data('id'))
+              $("#productDropDown").closest('tr').find('td:first').text($(this).data('id'))
             }, false);
             $(".dropdown-menu")[0].appendChild(ele)
           }

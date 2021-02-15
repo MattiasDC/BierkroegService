@@ -11,6 +11,7 @@ from app.models.product.beer_pub_product_functions import get_beer_pub_products,
                                                               delete_beer_pub_product,\
                                                               delete_beer_pub_products
 from app.models.product.product_functions import get_products, get_product
+from app.models.order.order_functions import delete_orders
 import jsonpickle
 from utils.date_utils import to_date
 
@@ -29,7 +30,7 @@ def api_error(e):
 def home():
     return render_template('pubmanagement.html',
                             title="BierKroeg Management",
-                            columns=["Start", "Einde", "", "Acties"],
+                            columns=["Start", "Einde", "Catalogus", "Acties"],
                             beerPubs=BeerPub.query.all())
 
 @pubmanagement_blueprint.route('/createbeerpub', methods=['POST'])
@@ -49,8 +50,10 @@ def createBeerPub():
 @admin_required
 def deleteBeerPub():
     beerPub = get_beer_pub(request.form['id'])
-    delete_beer_pub_products(beerPub)
-    delete_beer_pub(beerPub)
+    if beerPub is not None:
+        delete_beer_pub_products(beerPub)
+        delete_orders(beerPub)
+        delete_beer_pub(beerPub)
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/editbeerpub', methods=['POST'])
@@ -97,8 +100,9 @@ def createBeerPubProduct():
 @login_required
 @admin_required
 def deleteBeerPubProduct():
-    delete_beer_pub_product(get_beer_pub_product(get_beer_pub(request.form['beerPubId']),
-                                                 get_product(request.form['productId'])))
+    product = get_product(request.form['productId'])
+    if product is not None:
+        delete_beer_pub_product(get_beer_pub_product(get_beer_pub(request.form['beerPubId']), product))
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/editbeerpubproduct', methods=['POST'])

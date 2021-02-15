@@ -2,7 +2,8 @@
 
 {% block rows %}
 {% for beerPubProduct in beerPubProducts %}
-<tr data-product-id={{beerPubProduct.productId}} data-exists='true'>
+<tr>
+	<td hidden>{{beerPubProduct.productId}}</td>
     <td>{{get_product(beerPubProduct.productId).name}}</td>
     <td>{{beerPubProduct.price}}</td>
     {% include "tableactions.html" %}

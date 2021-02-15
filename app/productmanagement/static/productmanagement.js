@@ -2,14 +2,16 @@ $(document).ready(function(){
 
     function createProduct(row) {
       name = $("#name").val()
-      if (!hasData(row,"id")) {
+      idCol = row.find("td:first")
+      id = idCol.text()
+      if (id == -1) {
         return $.post($("#create-product-url").data('url'),
           { 'name' : name },
-          function(id) { row.data("id", id) })  
+          function(id) { idCol.text(id) })  
       }
       else {
         return $.post($("#edit-product-url").data('url'),
-          { 'id' : row.data('id'), 'name' : name })   
+          { 'id' : id, 'name' : name })   
       }
     }
 
@@ -18,15 +20,12 @@ $(document).ready(function(){
     }
 
     function deleteProduct(row, ifSuccessful) {
-        if (hasData(row, "id"))
-      {
-        return $.post($("#delete-product-url").data('url'),
-          { 'id' : row.data('id') })  
-      }
+      id = row.find("td:first").text()
+      return $.post($("#delete-product-url").data('url'), { 'id' : id })
     }
 
     function onEdit(row) {
-        makeColumnInput(row, 0, createStringInput.bind(null, 'name'));
+        makeColumnInput(row, 1, createStringInput.bind(null, 'name'));
     }
     
       loadTable([createStringInput('name', "")],

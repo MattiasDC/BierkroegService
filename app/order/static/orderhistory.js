@@ -1,7 +1,7 @@
 $(document).ready(function () {
     
     function deleteOrder(row, ifSuccessful) {
-        return $.post($("#delete-order-url").data('url'), { 'id' : row.data('id') })  
+        return $.post($("#delete-order-url").data('url'), { 'id' : row.find('td:first').text() })  
     }
 
     loadTable([],
@@ -13,4 +13,10 @@ $(document).ready(function () {
 
     $("#btnNew").toggle()
     $(this).find(".edit").remove()
+
+    $(".collapse").on('show.bs.collapse', function(){
+      $("#"+$(this).attr("id")+"Btn").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+    }).on('hide.bs.collapse', function(){
+      $("#"+$(this).attr("id")+"Btn").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+    });
 })

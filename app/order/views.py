@@ -3,9 +3,8 @@ from flask_login import login_required, current_user
 from app.models.product.beer_pub_product_functions import get_beer_pub_products
 from app.models.product.product_functions import get_product
 from app.models.beer_pub_functions import get_active_beer_pub
-from app.models.order.order_functions import get_orders, create_order, get_order, delete_order
+from app.models.order.order_functions import get_orders, create_order, get_order, delete_order, get_order_total_price, get_order_products, get_order_product_price
 from app.models.order.orderevent import get_last_event, get_creation_time
-from app.models.order.orderproduct import get_order_total_price
 from app.models.order.event import translate_event, get_event_logical_ordering
 from app.login.utils import roles_required
 from app.models.user.role import get_waiter_id, get_cash_desk_id
@@ -58,11 +57,14 @@ def get_sorted_orders(orders):
 def order_history():
     return render_template('orderhistory.html',
         title="Bestellingen",
-        columns=["Id", "Persoon", "Bedrag", "Status", "Besteld", "Opmerkingen", "Acties"],
+        columns=["", "Id", "Persoon", "Bedrag", "Status", "Besteld", "Opmerkingen", "Acties"],
         orders=get_sorted_orders(get_orders(get_active_beer_pub())),
         get_last_event=lambda order: translate_event(get_last_event(order).eventId).capitalize(),
         get_creation_time=get_order_creation_time,
-        get_order_total_price=get_order_total_price)
+        get_order_total_price=get_order_total_price,
+        get_order_products=get_order_products,
+        get_order_product_price=get_order_product_price,
+        get_product=get_product)
 
 def new_order(user, paidAtOrder):
     beerPub = get_active_beer_pub()

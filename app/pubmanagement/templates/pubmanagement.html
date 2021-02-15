@@ -2,7 +2,8 @@
 
 {% block rows %}
 {% for beerPub in beerPubs|sort(attribute='startDate') %}
-<tr data-id={{beerPub.id}}>
+<tr>
+	<td hidden>{{beerPub.id}}</td>
     <td>{{beerPub.startDate}}</td>
     <td>{{beerPub.endDate}}</td>
     <td><a href="{{ url_for('.catalogus', id=beerPub.id)}}">Catalogus</a></td>

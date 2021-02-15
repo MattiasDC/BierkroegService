@@ -11,34 +11,25 @@
 {% block content %}
 
 {% include "homenavigation.html" %}
-<div class="container">
-    <h1></h1>
-    <div class="container">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-8"><h2>{{title}}</h2></div>
-                    <div class="col-sm-4">
-                        <button type="button" id="btnNew" class="btn btn-info add-new"><i class="fa fa-plus"></i>Nieuw</button>
-                    </div>
-                </div>
-            </div>
-            <table class="table table-bordered" data-locale="nl-NL">
-                <thead>
-                    <tr>
-                    {% for column in columns %}
-                        <th>{{column}}</th>
-                    {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% block rows %}{% endblock %}
-                </tbody>
-            </table>
-        </div>
-    </div>     
-</div>
-
+<div class="table-responsive">
+    <table class="table table-borderless" data-unique-id="id" data-locale="nl-NL">
+        <caption>
+            <span style="color:black;">{{title}}</span>
+            <button type="button" id="btnNew" class="btn btn-info add-new"><i class="fa fa-plus"></i>Nieuw</button>
+        </caption>
+        <thead>
+            <tr>
+                <th hidden>id</th>
+                {% for column in columns %}
+                    <th>{{column}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% block rows %}{% endblock %}
+        </tbody>
+    </table>
+<div>
 {% include "alertmodal.html" %}
 
 {% block metas %}{% endblock %}

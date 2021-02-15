@@ -2,19 +2,17 @@ $(document).ready(function(){
 
     function createUser(row) {
       name = $("#name").val()
-      if (!hasData(row, "id")) {
-        return $.post($("#create-user-url").data('url'),
+      return $.post($("#create-user-url").data('url'),
           { 'name' : name },
           function(name) {
-            row.data("id", name)
-            roles = row.find("td").slice(1,-1).each(function(i, e) {
+            row.find("td:first").text(name)
+            roles = row.find("td").slice(2,-1).each(function(i, e) {
               $(e).html("<div class=\"form-check\">\
                              <input class=\"form-check-input\" type=\"checkbox\">\
                          </div>")
             })
             registerClick()
-          })  
-      }
+          })
     }
 
     function isValidUser(row) {
@@ -22,17 +20,14 @@ $(document).ready(function(){
     }
 
     function deleteUser(row, ifSuccessful) {
-        if (hasData(row, "id"))
-      {
-        return $.post($("#delete-user-url").data('url'),
-          { 'name' : row.data('id') })  
-      }
+      id = row.find("td:first").text()
+      return $.post($("#delete-user-url").data('url'), { 'name' : id })
     }
 
     function registerClick() {
       $(".form-check-input").click(function() {
-        $.post($("#set-role-url").data('url'), { 'name' : $(this).parents('tr').data('id'),
-                                                 'role' : get_roles()[$(this).closest('td').index()-1],
+        $.post($("#set-role-url").data('url'), { 'name' : $(this).parents('tr').find('td:first').text(),
+                                                 'role' : get_roles()[$(this).closest('td').index()-2],
                                                  'enable' : $(this).is(':checked')})
        })
     }

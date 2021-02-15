@@ -14,7 +14,7 @@ def overlaps_with_any(startDate, endDate, beerPub):
     return any(map(lambda bp: overlaps(startDate, endDate, bp.startDate, bp.endDate) and bp != beerPub, BeerPub.query.all()))
 
 def create_beer_pub(startDate, endDate):
-    assert(not overlaps_with_any(startDate, endDate))
+    assert(not overlaps_with_any(startDate, endDate, None))
     beerPub = BeerPub(startDate=startDate, endDate=endDate)
     db.session.add(beerPub)
     db.session.commit()

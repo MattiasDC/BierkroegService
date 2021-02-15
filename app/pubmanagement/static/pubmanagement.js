@@ -16,20 +16,20 @@ $(document).ready(function(){
     }
 
     function getIdFromRow(row) {
-        return row.data("id")
+        return row.find("td:first").text()
     }
 
     function createBeerPub(row) {
         startDate = getStartDate()
         endDate = getEndDate()
-        if (!hasData(row, "id")) {
+        if (getIdFromRow(row) == -1) {
             return $.post($("#create-beerPub-url").data('url'),
                 { 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() },
                 function(id) {
-                    row.data("id", id)
+                    row.find("td:first").text(id)
                     var placeHolder = $("#catalogus-beerPub-url-placeholder").data('placeholder')
                     var link = $("#catalogus-beerPub-url").data('url').replace(placeHolder, getIdFromRow(row))
-                    row.find('td').eq(2).html("<a href=" + link + ">Catalogus</a>");
+                    row.find('td').eq(3).html("<a href=" + link + ">Catalogus</a>");
                   })    
         }
         else {
@@ -40,13 +40,12 @@ $(document).ready(function(){
     }
 
     function deleteBeerPub(row) {
-        if (hasData(row, "id"))
-            return $.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) })    
+        return $.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) })    
     }
 
     function onEdit(row) {
-        makeColumnInput(row, 0, createDateInput.bind(null, 'startDate'));
-        makeColumnInput(row, 1, createDateInput.bind(null, 'endDate'));
+        makeColumnInput(row, 1, createDateInput.bind(null, 'startDate'));
+        makeColumnInput(row, 2, createDateInput.bind(null, 'endDate'));
     }
 
     loadTable([createDateInput('startDate', ''), createDateInput('endDate', ''), ""],
