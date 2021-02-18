@@ -19,9 +19,9 @@ $(document).ready(function(){
         return $("#name").val()
     }
 
-    function deleteUser(row, ifSuccessful) {
+    function deleteUser(row, deletedCallback) {
       id = row.find("td:first").text()
-      return $.post($("#delete-user-url").data('url'), { 'name' : id })
+      deletedCallback($.post($("#delete-user-url").data('url'), { 'name' : id }))
     }
 
     function registerClick() {

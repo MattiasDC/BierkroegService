@@ -21,10 +21,11 @@ $(document).ready(function(){
       return $("#price").val() && $("#price").val() > 0 && row.find("td:first").text() != -1
     }
 
-    function deleteBeerPubProduct(row) {
+    function deleteBeerPubProduct(row, deletedCallback) {
       var beerPubId = $("#beerPub-id").data('id')
-      return $.post($("#delete-beerPubProduct-url").data('url'), { 'productId' : row.find("td:first").text(),
-                                                                   'beerPubId' : beerPubId })  
+      deletedCallback($.post($("#delete-beerPubProduct-url").data('url'),
+                      { 'productId' : row.find("td:first").text(),
+                        'beerPubId' : beerPubId }))
     }
 
     function onEdit(row) {

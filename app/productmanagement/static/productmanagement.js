@@ -19,9 +19,9 @@ $(document).ready(function(){
         return $("#name").val()
     }
 
-    function deleteProduct(row, ifSuccessful) {
+    function deleteProduct(row, deletedCallback) {
       id = row.find("td:first").text()
-      return $.post($("#delete-product-url").data('url'), { 'id' : id })
+      deletedCallback($.post($("#delete-product-url").data('url'), { 'id' : id }))
     }
 
     function onEdit(row) {

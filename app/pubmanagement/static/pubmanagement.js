@@ -39,8 +39,12 @@ $(document).ready(function(){
         
     }
 
-    function deleteBeerPub(row) {
-        return $.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) })    
+    function deleteBeerPub(row, deletedCallback) {
+        $("#confirmDeletion").modal("show")
+        $("#confirmDeleteButton").off("click").click(function () {
+            deletedCallback($.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) }))
+            $("#confirmDeletion").modal("hide")
+        })
     }
 
     function onEdit(row) {

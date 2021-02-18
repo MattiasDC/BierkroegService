@@ -72,22 +72,23 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
     $(document).on("click", ".delete", function(){
         $(this).tooltip('hide')
         var row = $(this).parents("tr")
-        var del = deleteFunction(row)
-        if (del)
-            del.done(function () {row.remove()})
-                  .fail(function (e) {
-                        if (e.responseJSON) {
+        deleteFunction(row, function (del) {
+          if (del)
+              del.done(function () {row.remove()})
+                    .fail(function (e) {
+                          if (e.responseJSON) {
                             errorMessage = e.responseJSON.error
-                      alertModal(errorMessage.substring(errorMessage.indexOf(":")))
-                        }
-                })
-        else
-            row.remove()
-
-        editAndDeletes = $(".edit, .delete")
-        if (editAndDeletes.is(":hidden")) {
-          $(".add-new").prop('disabled', !$(".add-new").prop('disabled'))
-          editAndDeletes.toggle()
-        }
+                            alertModal(errorMessage.substring(errorMessage.indexOf(":")))
+                          }
+                    })
+          else
+              row.remove()
+  
+            editAndDeletes = $(".edit, .delete")
+            if (editAndDeletes.is(":hidden")) {
+              $(".add-new").prop('disabled', !$(".add-new").prop('disabled'))
+              editAndDeletes.toggle()
+            }
+        })
     })
 }

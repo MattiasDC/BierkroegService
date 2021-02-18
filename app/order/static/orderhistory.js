@@ -1,7 +1,7 @@
 $(document).ready(function () {
     
-    function deleteOrder(row, ifSuccessful) {
-        return $.post($("#delete-order-url").data('url'), { 'id' : row.find('td:first').text() })  
+    function deleteOrder(row, deletedCallback) {
+        deletedCallback($.post($("#delete-order-url").data('url'), { 'id' : row.find('td:first').text() }))
     }
 
     loadTable([],
