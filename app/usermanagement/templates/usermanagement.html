@@ -3,7 +3,7 @@
 {% block rows %}
 {% for user in users %}
 <tr>
-	<td hidden>{{user.username}}</td>
+	<td hidden>{{user.id}}</td>
     <td>{{user.username}}</td>
     {% for role in rolesPerUser[user] %}
         <td>

@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, request, redirect, url_for, flash,
 from flask_login import login_required, login_user, logout_user, current_user
 from urllib.parse import urlparse
 from .flaskuser import FlaskUser
-from app.models.user.user_functions import get_user
+from app.models.user.user import User
 from .forms import LoginForm
 
 login_blueprint = Blueprint('login',
@@ -17,7 +17,7 @@ def login():
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = get_user(form.username.data)
+        user = User.get(form.username.data)
         if user is not None and user.verify_password(form.password.data):
             login_user(FlaskUser(user), remember=form.rememberMe.data) 
             next_page = request.args.get('next')

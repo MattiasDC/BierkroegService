@@ -4,14 +4,7 @@ import http
 from app.login.utils import admin_required
 from app import db
 from app.models.beer_pub import BeerPub
-from app.models.beer_pub_functions import create_beer_pub, delete_beer_pub, get_beer_pub, overlaps_with_any
-from app.models.product.beer_pub_product_functions import get_beer_pub_products,\
-                                                            get_beer_pub_product,\
-                                                              create_beer_pub_product,\
-                                                              delete_beer_pub_product,\
-                                                              delete_beer_pub_products
-from app.models.product.product_functions import get_products, get_product
-from app.models.order.order_functions import delete_orders
+from app.models.product.product import Product
 import jsonpickle
 from utils.date_utils import to_date
 
@@ -31,44 +24,47 @@ def home():
     return render_template('pubmanagement.html',
                             title="BierKroeg Management",
                             columns=["Start", "Einde", "Catalogus", "Acties"],
-                            beerPubs=BeerPub.query.all())
+                            beer_pubs=BeerPub.get_all())
 
 @pubmanagement_blueprint.route('/createbeerpub', methods=['POST'])
 @login_required
 @admin_required
 def createBeerPub():
-    startDate = to_date(request.form['startDate'])
-    endDate = to_date(request.form['endDate'])
-    if overlaps_with_any(startDate, endDate, None):
+    start_date = to_date(request.form['startDate'])
+    end_date = to_date(request.form['endDate'])
+    if end_date < start_date:
+        abort(400, "Start date cannot be before end date!")
+
+    beer_pub = BeerPub.create(start_date, end_date)
+    if beer_pub is None:
         abort(400, "Beer pub overlaps in time with another beer pub")
-    
-    beerPub = create_beer_pub(startDate, endDate)        
-    return jsonify(beerPub.id)
+    return jsonify(beer_pub.id)
 
 @pubmanagement_blueprint.route('/deletebeerpub', methods=['POST'])
 @login_required
 @admin_required
 def deleteBeerPub():
-    beerPub = get_beer_pub(request.form['id'])
-    if beerPub is not None:
-        delete_beer_pub_products(beerPub)
-        delete_orders(beerPub)
-        delete_beer_pub(beerPub)
+    beer_pub = BeerPub.get(request.form['id'])
+    if beer_pub is None:
+        return ("", http.HTTPStatus.NO_CONTENT)
+
+    if len(beer_pub.get_orders()) > 0:
+        abort(400, "A beer pub with orders cannot be deleted")
+    beer_pub.delete()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/editbeerpub', methods=['POST'])
 @login_required
 @admin_required
 def editBeerPub():
-    startDate = to_date(request.form['startDate'])
-    endDate = to_date(request.form['endDate'])
-    beerPub = get_beer_pub(request.form['id'])
+    start_date = to_date(request.form['startDate'])
+    end_date = to_date(request.form['endDate'])
+    if end_date < start_date:
+        abort(400, "Start date cannot be before end date!")
 
-    if overlaps_with_any(startDate, endDate, beerPub):
-        abort(400, "Beer pub overlaps in time with another beer pub")
-
-    beerPub.startDate = startDate
-    beerPub.endDate = endDate
+    beer_pub = BeerPub.get(request.form['id'])
+    beer_pub.start_date = start_date
+    beer_pub.end_date = end_date
     db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
@@ -76,51 +72,44 @@ def editBeerPub():
 @login_required
 @admin_required
 def catalogus(id):
-    beerPub = get_beer_pub(id)
+    beer_pub = BeerPub.get(id)
     return render_template('catalogus.html',
         title="Catalogus",
         columns=["Product", "Prijs (€)", "Acties"],
-        beerPub=beerPub,
-        beerPubProducts=get_beer_pub_products(beerPub),
-        get_product=get_product)
+        beer_pub=beer_pub)
 
 
-@pubmanagement_blueprint.route('/createbeerpubproduct', methods=['POST'])
+@pubmanagement_blueprint.route('/addproduct', methods=['POST'])
 @login_required
 @admin_required
-def createBeerPubProduct():
-    beerPub = get_beer_pub(request.form['beerPubId'])
-    product = get_product(request.form['productId'])
-    if get_beer_pub_product(beerPub, product) is not None:
-        abort(400, "The beer pub already has the given product in its catalog")
-    beerPubProduct = create_beer_pub_product(beerPub, product, float(request.form['price']))
+def addProduct():
+    beer_pub = BeerPub.get(request.form['beerPubId'])
+    product = Product.get(request.form['productId'])
+    beer_pub.add_product(product, float(request.form['price']))
     return ("", http.HTTPStatus.NO_CONTENT)
 
-@pubmanagement_blueprint.route('/deletebeerpubproduct', methods=['POST'])
+@pubmanagement_blueprint.route('/removeproduct', methods=['POST'])
 @login_required
 @admin_required
-def deleteBeerPubProduct():
-    product = get_product(request.form['productId'])
+def removeProduct():
+    product = Product.get(request.form['productId'])
     if product is not None:
-        delete_beer_pub_product(get_beer_pub_product(get_beer_pub(request.form['beerPubId']), product))
+        BeerPub.get(request.form['beerPubId']).remove_product(product)
     return ("", http.HTTPStatus.NO_CONTENT)
 
-@pubmanagement_blueprint.route('/editbeerpubproduct', methods=['POST'])
+@pubmanagement_blueprint.route('/editproduct', methods=['POST'])
 @login_required
 @admin_required
-def editBeerPubProduct():
-    beerPub = get_beer_pub(request.form['beerPubId'])
-    product = get_product(request.form['productId'])
-    beerPubProduct = get_beer_pub_product(beerPub, product)
-    beerPubProduct.price = float(request.form['price'])
-    db.session.commit()
+def editProduct():
+    beer_pub = BeerPub.get(request.form['beerPubId'])
+    product = Product.get(request.form['productId'])
+    beer_pub.change_price(product, float(request.form['price']))
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/possibleproducts/<beerPubId>', methods=['GET'])
 @login_required
 @admin_required
 def possibleProducts(beerPubId):
-    beerPub = get_beer_pub(beerPubId)
-    possibleProducts = list(set(get_products()) -
-        set(map(lambda bpp: get_product(bpp.productId), get_beer_pub_products(beerPub))))
-    return jsonify(jsonpickle.encode(possibleProducts, unpicklable=True))
+    beer_pub = BeerPub.get(beerPubId)
+    possible_products = list(set(Product.get_all()) - set(beer_pub.get_products()))
+    return jsonify(jsonpickle.encode(possible_products, unpicklable=True))

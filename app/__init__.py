@@ -44,13 +44,13 @@ def create_app():
         schema = app.config['DB_SCHEMA']
         dbModel.prepare(db.engine, reflect=True, schema=app.config['DB_SCHEMA'])
         from .login import create_admin, login
-        from .models.user.role import create_roles
-        from .models.order.event import create_events
+        from .models.user.role import Role
+        from .models.order.event import Event
         login.init_app(app)
         createDb()
-        create_roles()
+        Role.create_roles()
         create_admin()
-        create_events()
+        Event.create_events()
 
     # register blueprints
     from .main.views import main_blueprint

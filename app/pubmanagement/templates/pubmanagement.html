@@ -1,12 +1,12 @@
 {% extends "table.html" %}
 
 {% block rows %}
-{% for beerPub in beerPubs|sort(attribute='startDate') %}
+{% for beer_pub in beer_pubs|sort(attribute='startDate') %}
 <tr>
-	<td hidden>{{beerPub.id}}</td>
-    <td>{{beerPub.startDate}}</td>
-    <td>{{beerPub.endDate}}</td>
-    <td><a href="{{ url_for('.catalogus', id=beerPub.id)}}">Catalogus</a></td>
+	<td hidden>{{beer_pub.id}}</td>
+    <td>{{beer_pub.start_date}}</td>
+    <td>{{beer_pub.end_date}}</td>
+    <td><a href="{{ url_for('.catalogus', id=beer_pub.id)}}">Catalogus</a></td>
     {% include "tableactions.html" %}
 </tr>
 {% endfor %}

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block rows %}
-{% for order in orders %}
+{% for order in beer_pub.get_orders() %}
 <tr>
     <td hidden>{{order.id}}</td>
 	<td>
@@ -16,9 +16,9 @@
 	</td>
     <td>{{order.id}}</td>
     <td>{{order.waiter}}</td>
-    <td>€{{get_order_total_price(order)}}</td>
-    <td>{{get_last_event(order)}}</td>
-    <td>{{get_creation_time(order)}}</td>
+    <td>€{{order.get_total_price()}}</td>
+    <td>{{order.get_last_event().translate()}}</td>
+    <td>{{get_ordered_time_formatted(order.get_ordered_time())}}</td>
     <td>{{order.remarks}}</td>
     {% include "tableactions.html" %}
 </tr>
@@ -34,11 +34,11 @@
                         	<th>Prijs</th>
                         </tr>
                     </thead>
-                    	{% for orderProduct in get_order_products(order) %}
+                    	{% for product in order.get_products() %}
                     	<tr>
-                    		<td>{{get_product(orderProduct.productId).name}}</td>
-                    		<td>{{orderProduct.amount}}</td>
-                    		<td>{{get_order_product_price(orderProduct)}}</td>
+                    		<td>{{product.name}}</td>
+                    		<td>{{order.get_product_amount(product)}}</td>
+                    		<td>{{order.get_product_price(product)}}</td>
                     	</tr>
                     	{% endfor %}
                     <tbody>

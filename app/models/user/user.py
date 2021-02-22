@@ -2,11 +2,14 @@ from app import db
 from utils.password_utils import check_password, get_hashed_password
 from sqlalchemy import ForeignKey
 from flask import current_app
+from .userrole import UserRole
+from .role import Role
 
 class User(db.Model):
     __table_args__ = {"schema": current_app.config['DB_SCHEMA']}
 
-    username = db.Column(db.String(128), primary_key=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    username = db.Column(db.String, nullable=False)
     _password = db.Column(db.String, nullable=False)
 
     def __eq__(self, other):
@@ -28,3 +31,43 @@ class User(db.Model):
 
     def verify_password(self, password):
         return check_password(password.encode('utf8'), self._password.encode('utf8'))
+    
+    def is_admin(self):
+        return UserRole.has_role(self, Role.get_admin())
+
+    def add_role(self, role):
+        UserRole.add_role(self, role)
+
+    def remove_role(self, role):
+        UserRole.get(self, role).delete()
+
+    def get_roles(self):
+        return list(map(lambda ur: Role.get(ur.role_id), UserRole.get_roles(self)))
+
+    def has_roles(self, roles):
+        return len(set(roles) - set(self.get_roles())) == 0
+
+    def can_change_name(self, name):
+        users_with_name = User.query.filter_by(username=name).count()
+        return users_with_name <= 1 and users_with_name.one_or_none() != self
+    
+    def delete(self):
+        for role in self.get_roles():
+            self.remove_role(role)
+        db.session.delete(self)
+        db.session.commit()
+
+    @classmethod
+    def get(cls, id):
+        return User.query.filter_by(id=id).one_or_none()
+
+    @classmethod
+    def get_all(cls):
+        return User.query.all()
+    
+    @classmethod
+    def create(cls, username, password):
+        user = User(username=username, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return user

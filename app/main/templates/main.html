@@ -6,20 +6,20 @@
     <h1>Bierkroeg Service</h1>
     <hr><br>
     <ul class="pager">
-      {% if 'admin' in roles or 'waiter' in roles %}
+      {% if admin in roles or waiter in roles %}
           <li><a href="{{url_for('order.waiter')}}">Bestelling</a></li>
       {% endif %}
 
-      {% if 'admin' in roles or 'cash desk' in roles %}
+      {% if admin in roles or cash_desk in roles %}
       <li><a href="{{url_for('order.cash_desk_order')}}">Kassa Bestelling</a></li>
       <li><a href="{{url_for('order.order_history')}}">Bestelling Geschiedenis</a></li>
       {% endif %}
 
-          {% if 'admin' in roles %}
-          <li><a href="{{url_for('pubmanagement.home')}}">Bierkroeg Management</a></li>
-          <li><a href="{{url_for('productmanagement.home')}}">Product Management</a></li>
-          <li><a href="{{url_for('usermanagement.home')}}">User Management</a></li>
-          {% endif %}
+      {% if admin in roles %}
+      <li><a href="{{url_for('pubmanagement.home')}}">Bierkroeg Management</a></li>
+      <li><a href="{{url_for('productmanagement.home')}}">Product Management</a></li>
+      <li><a href="{{url_for('usermanagement.home')}}">User Management</a></li>
+      {% endif %}
     </ul>
 </div>
 

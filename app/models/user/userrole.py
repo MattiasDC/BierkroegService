@@ -1,14 +1,13 @@
 from app import db
 from sqlalchemy import ForeignKey
 from flask import current_app
-from .user import User
-from .role import Role
 
 class UserRole(db.Model):
     __table_args__ = {"schema": current_app.config['DB_SCHEMA']}
+    schema = current_app.config['DB_SCHEMA']
 
-    userId = db.Column(db.String(128), ForeignKey(User.username), primary_key=True, nullable=False)
-    roleId = db.Column(db.String(128), ForeignKey(Role.id), primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey(f'{schema}.user.id'), primary_key=True, nullable=False)
+    role_id = db.Column(db.String(128), ForeignKey(f'{schema}.role.id'), primary_key=True, nullable=False)
 
     def __eq__(self, other):
         """Overrides the default implementation"""
@@ -19,30 +18,29 @@ class UserRole(db.Model):
     def __hash__(self):
         return hash(repr(self))
 
-def get_role(user, role):
-    return UserRole.query.filter_by(userId=user.username, roleId=role.id).one_or_none()
-
-def has_role(user, role):
-    return get_role(user, role) is not None
-
-def has_roles(user, roles):
-    return all(map(lambda role: UserRole.query.filter_by(userId=user.username, roleId=role.id).one_or_none() is not None, roles))
-    
-def get_roles(user):
-    return UserRole.query.filter_by(userId=user.username)
-
-def add_role(user, role):
-    if not has_role(user, role):
-        userRole = UserRole(userId=user.username, roleId=role.id)
-        db.session.add(userRole)
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
 
-def remove_role(user, role):
-    if has_role(user, role):
-        db.session.delete(get_role(user, role))
-        db.session.commit()    
-
-def delete_user_roles(user):
-    for userRole in UserRole.query.filter_by(userId=user.username):
-        db.session.delete(userRole)
-    db.session.commit()
+    @classmethod
+    def get(cls, user, role):
+        return UserRole.query.filter_by(user_id=user.id, role_id=role.id).one_or_none()
+    
+    @classmethod
+    def has_role(cls, user, role):
+        return cls.get(user, role) is not None
+    
+    @classmethod
+    def has_roles(cls, user, roles):
+        return all(map(lambda role: UserRole.query.filter_by(user_id=user.id, role_id=role.id).one_or_none() is not None, roles))
+        
+    @classmethod
+    def get_roles(cls, user):
+        return UserRole.query.filter_by(user_id=user.id)
+    
+    @classmethod
+    def add_role(cls, user, role):
+        if not cls.has_role(user, role):
+            userRole = UserRole(user_id=user.id, role_id=role.id)
+            db.session.add(userRole)
+            db.session.commit()

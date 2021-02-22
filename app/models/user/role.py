@@ -15,43 +15,53 @@ class Role(db.Model):
     def __hash__(self):
         return hash(repr(self))
 
-def get_admin_id():
-    return "admin"
+    def translate(self):
+        if self.id == self.get_waiter_id():
+            return "opdiener"
+        if self.id == self.get_cash_desk_id():
+            return "kassa"
+        return self.id
 
-def get_waiter_id():
-    return "waiter"
-
-def get_cash_desk_id():
-    return "cash desk"
-
-def translate_role(id):
-    if id == get_waiter_id():
-        return "opdiener"
-    if id == get_cash_desk_id():
-        return "kassa"
-    return id
-
-def create_role_if_not_exit(id):
-    if get_role(id) is None:
-        db.session.add(Role(id=id))
-    db.session.commit()
-
-def create_roles():
-    create_role_if_not_exit(get_admin_id())
-    create_role_if_not_exit(get_waiter_id())
-    create_role_if_not_exit(get_cash_desk_id())
-
-def get_role(roleId):
-    return Role.query.filter_by(id=roleId).one_or_none()
-
-def get_admin_role():
-    return get_role(get_admin_id())
-
-def get_waiter_role():
-    return get_role(get_waiter_id())
-
-def get_cash_desk_role():
-    return get_role(get_cash_desk_id())
-
-def get_roles():
-    return [get_admin_role(), get_waiter_role(), get_cash_desk_role()]
+    @classmethod
+    def get_admin_id(cls):
+        return "admin"
+    
+    @classmethod
+    def get_waiter_id(cls):
+        return "waiter"
+    
+    @classmethod
+    def get_cash_desk_id(cls):
+        return "cash desk"
+    
+    @classmethod
+    def __create_if_not_exit(cls, id):
+        if cls.get(id) is None:
+            db.session.add(Role(id=id))
+        db.session.commit()
+    
+    @classmethod
+    def create_roles(cls):
+        cls.__create_if_not_exit(cls.get_admin_id())
+        cls.__create_if_not_exit(cls.get_waiter_id())
+        cls.__create_if_not_exit(cls.get_cash_desk_id())
+    
+    @classmethod
+    def get(cls, roleId):
+        return Role.query.filter_by(id=roleId).one_or_none()
+    
+    @classmethod
+    def get_admin(cls):
+        return cls.get(cls.get_admin_id())
+    
+    @classmethod
+    def get_waiter(cls):
+        return cls.get(cls.get_waiter_id())
+    
+    @classmethod
+    def get_cash_desk(cls):
+        return cls.get(cls.get_cash_desk_id())
+    
+    @classmethod
+    def get_all(cls):
+        return [cls.get_admin(), cls.get_waiter(), cls.get_cash_desk()]

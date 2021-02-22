@@ -7,8 +7,9 @@ Push button bij toog -> er staan minstens 3 bestellingen klaar
 indien op -> rood, niet uit lijst halen (verwarring)
 
 
-Confirm deletion
-inheritance
+transactions (overlapping bp, duplicate names products, duplicate names users, adding products to beer pub)
 data-url
 pagination
-deletion -> deactivation flag
+redirect if no active beer pub
+naming variables with _
+class methods with cls arg

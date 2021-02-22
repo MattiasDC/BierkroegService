@@ -1,11 +1,11 @@
 {% extends "table.html" %}
 
 {% block rows %}
-{% for beerPubProduct in beerPubProducts %}
+{% for product in beer_pub.get_products() %}
 <tr>
-	<td hidden>{{beerPubProduct.productId}}</td>
-    <td>{{get_product(beerPubProduct.productId).name}}</td>
-    <td>{{beerPubProduct.price}}</td>
+	<td hidden>{{product.id}}</td>
+    <td>{{product.name}}</td>
+    <td>{{beer_pub.get_price(product)}}</td>
     {% include "tableactions.html" %}
 </tr>
 {% endfor %}
@@ -13,11 +13,11 @@
 
 
 {% block metas %}
-<meta id="create-beerPubProduct-url" data-url="{{ url_for('.createBeerPubProduct') }}">
-<meta id="delete-beerPubProduct-url" data-url="{{ url_for('.deleteBeerPubProduct') }}">
-<meta id="edit-beerPubProduct-url" data-url="{{ url_for('.editBeerPubProduct') }}">
-<meta id="beerPub-id" data-id="{{beerPub.id}}">
-<meta id="possible-products-url" data-url="{{ url_for('pubmanagement.possibleProducts', beerPubId=beerPub.id) }}"
+<meta id="create-beerPubProduct-url" data-url="{{ url_for('.addProduct') }}">
+<meta id="delete-beerPubProduct-url" data-url="{{ url_for('.removeProduct') }}">
+<meta id="edit-beerPubProduct-url" data-url="{{ url_for('.editProduct') }}">
+<meta id="beerPub-id" data-id="{{beer_pub.id}}">
+<meta id="possible-products-url" data-url="{{ url_for('pubmanagement.possibleProducts', beerPubId=beer_pub.id) }}"
 {% endblock %}
 
 {% block js %}

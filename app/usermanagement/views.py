@@ -1,9 +1,8 @@
 from flask import render_template, Blueprint, abort, request, current_app as app, jsonify
 from flask_login import login_required
 from app.login.utils import admin_required
-from app.models.user.user_functions import get_users, get_user, create_user, delete_user, has_user_with_name, is_admin
-from app.models.user.role import get_roles, get_admin_role, get_role, translate_role
-from app.models.user.userrole import has_role, add_role, remove_role
+from app.models.user.user import User
+from app.models.user.role import Role
 import http
 from distutils.util import strtobool
 
@@ -20,15 +19,11 @@ def api_error(e):
 @login_required
 @admin_required
 def home():
-    nonAdminRoles = list(filter(lambda role: role != get_admin_role(), get_roles()))
-    
-    columns = ["Naam"] +\
-     list(map(lambda role: translate_role(role.id).capitalize(), nonAdminRoles)) +\
-      ["Acties"]
+    nonAdminRoles = list(filter(lambda role: role != Role.get_admin(), Role.get_all()))
+    columns = ["Naam"] + list(map(lambda role: role.translate().capitalize(), nonAdminRoles)) + ["Acties"]
 
-    users = list(filter(lambda user: not is_admin(user), get_users()))
-    rolesPerUser = {user:list(map(lambda role: has_role(user, role), nonAdminRoles)) for user in users}
-    print(rolesPerUser, flush=True)
+    users = list(filter(lambda user: not user.is_admin(), User.get_all()))
+    rolesPerUser = {user: list(map(lambda r: r in user.get_roles(), nonAdminRoles)) for user in users}
     return render_template('usermanagement.html',
                             title="User Management",
                             columns=columns,
@@ -42,28 +37,26 @@ def home():
 @admin_required
 def create():
     name = request.form['name']
-    if has_user_with_name(name):
-        abort(400, "A user with the same name already exists")
-    user = create_user(name, app.config['USER_PWD'])
-    return jsonify(user.username)
+    user = User.create(name, app.config['USER_PWD'])
+    return jsonify(user.id)
 
 @usermanagement_blueprint.route('/delete', methods=['POST'])
 @login_required
 @admin_required
 def delete():
-    user = get_user(request.form['name'])
-    delete_user(user)
+    user = User.get(request.form['id'])
+    user.delete()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @usermanagement_blueprint.route('/setrole', methods=['POST'])
 @login_required
 @admin_required
 def set_role():
-    user = get_user(request.form['name'])
-    role = get_role(request.form['role'])
+    user = User.get(request.form['id'])
+    role = Role.get(request.form['role'])
     enableDisable = strtobool(request.form['enable'])
     if enableDisable:
-        add_role(user, role)
+        user.add_role(role)
     else:
-        remove_role(user, role)
+        user.remove_role(role)
     return ("", http.HTTPStatus.NO_CONTENT)
