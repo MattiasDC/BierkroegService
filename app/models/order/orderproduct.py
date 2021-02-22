@@ -21,10 +21,6 @@ class OrderProduct(db.Model):
 
     def delete(self):
         db.session.delete(self)
-        
-    @classmethod
-    def get_all(cls, order):
-        return OrderProduct.query.filter_by(order_id=order.id)
 
     @classmethod
     def get(cls, order, product):

@@ -28,7 +28,3 @@ class OrderEvent(db.Model):
         orderEvent = OrderEvent(order_id=order.id, event_id=event.id, timestamp=datetime.now())
         db.session.add(orderEvent)
         return orderEvent
-
-    @classmethod
-    def get(cls, order):
-        return OrderEvent.query.filter_by(order_id=order.id)

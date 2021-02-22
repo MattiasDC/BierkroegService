@@ -32,10 +32,6 @@ class UserRole(db.Model):
     @classmethod
     def has_roles(cls, user, roles):
         return all(map(lambda role: UserRole.query.filter_by(user_id=user.id, role_id=role.id).one_or_none() is not None, roles))
-        
-    @classmethod
-    def get_roles(cls, user):
-        return UserRole.query.filter_by(user_id=user.id)
     
     @classmethod
     def add_role(cls, user, role):

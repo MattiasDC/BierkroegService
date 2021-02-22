@@ -8,6 +8,7 @@ from app.models.order.order import Order
 from app.models.product.product import Product
 import http
 from datetime import date
+from app import db
 
 order_blueprint = Blueprint('order', __name__,
                              url_prefix='/order',

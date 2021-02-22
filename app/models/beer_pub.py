@@ -1,9 +1,11 @@
 from app import db
 from flask import current_app
+from sqlalchemy.orm import relationship
 from datetime import date
 from utils.date_utils import overlaps
 from .product.beer_pub_product import BeerPubProduct
 from .product.product import Product
+from utils.first import first
 
 class BeerPub(db.Model):
     __table_args__ = {"schema": current_app.config['DB_SCHEMA']}
@@ -11,6 +13,8 @@ class BeerPub(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
+    orders = relationship("Order")
+    beer_pub_products = relationship("BeerPubProduct")
 
     def __eq__(self, other):
         """Overrides the default implementation"""
@@ -28,28 +32,27 @@ class BeerPub(db.Model):
     def add_product(self, product, price):
         BeerPubProduct.create(self, product, price)
 
+    def __get_beer_pub_product(self, product):
+        return first(self.beer_pub_products, lambda bpp: bpp.product_id==product.id)
+
     def remove_product(self, product):
-        BeerPubProduct.get(self, product).delete()
+        self.__get_beer_pub_product(product).delete()
 
     def get_products(self):
-        return list(map(lambda bpp: Product.get(bpp.product_id), BeerPubProduct.get_all(self)))
+        return list(map(lambda bpp: Product.get(bpp.product_id), self.beer_pub_products))
 
     def get_price(self, product):
         return BeerPubProduct.get(self, product).price
 
     def change_price(self, product, price):
-        BeerPubProduct.get(self, product).price = price
-
-    def get_orders(self):
-        from .order.order import Order
-        return list(Order.get_orders(self))
+        self.__get_beer_pub_product(product).price = price
 
     def overlaps_with_any(self, start_date, end_date):
         return any(map(lambda bp: overlaps(self.start_date, self.end_date, bp.start_date, bp.end_date) and\
             bp != self, BeerPub.query.all()))
     
     def delete(self):
-        for bpp in BeerPubProduct.get_all(self):
+        for bpp in self.beer_pub_products:
             bpp.delete()
         db.session.delete(self)
 

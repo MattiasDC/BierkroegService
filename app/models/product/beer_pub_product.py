@@ -23,10 +23,6 @@ class BeerPubProduct(db.Model):
         db.session.delete(self)
 
     @classmethod
-    def get_all(cls, beer_pub):
-        return BeerPubProduct.query.filter_by(beer_pub_id=beer_pub.id)
-
-    @classmethod
     def get(cls, beer_pub, product):
         return BeerPubProduct.query.filter_by(beer_pub_id=beer_pub.id, product_id=product.id).one_or_none()
     

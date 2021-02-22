@@ -1,6 +1,7 @@
 from app import db
 from utils.password_utils import check_password, get_hashed_password
 from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 from flask import current_app
 from .userrole import UserRole
 from .role import Role
@@ -11,6 +12,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     username = db.Column(db.String, unique=True, nullable=False)
     _password = db.Column(db.String, nullable=False)
+    user_roles = relationship("UserRole")
 
     def __eq__(self, other):
         """Overrides the default implementation"""
@@ -42,7 +44,7 @@ class User(db.Model):
         UserRole.get(self, role).delete()
 
     def get_roles(self):
-        return list(map(lambda ur: Role.get(ur.role_id), UserRole.get_roles(self)))
+        return list(map(lambda ur: Role.get(ur.role_id), self.user_roles))
 
     def has_roles(self, roles):
         return len(set(roles) - set(self.get_roles())) == 0

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block rows %}
-{% for order in beer_pub.get_orders() %}
+{% for order in beer_pub.orders %}
 <tr>
     <td hidden>{{order.id}}</td>
 	<td>

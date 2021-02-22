@@ -5,6 +5,7 @@ from app.models.user.user import User
 from app.models.user.role import Role
 import http
 from distutils.util import strtobool
+from app import db
 
 usermanagement_blueprint = Blueprint('usermanagement', __name__,
                                        url_prefix='/usermanagement',
@@ -38,6 +39,7 @@ def home():
 def create():
     name = request.form['name']
     user = User.create(name, app.config['USER_PWD'])
+    db.session.commit()
     return jsonify(user.id)
 
 @usermanagement_blueprint.route('/delete', methods=['POST'])
@@ -46,6 +48,7 @@ def create():
 def delete():
     user = User.get(request.form['id'])
     user.delete()
+    db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @usermanagement_blueprint.route('/setrole', methods=['POST'])
@@ -59,4 +62,5 @@ def set_role():
         user.add_role(role)
     else:
         user.remove_role(role)
+    db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)

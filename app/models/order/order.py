@@ -1,5 +1,6 @@
 from app import db
 from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 from flask import current_app
 from .orderproduct import OrderProduct
 from .event import Event
@@ -8,6 +9,7 @@ from app.models.product.beer_pub_product import BeerPubProduct
 from app.models.product.product import Product
 from app.models.user.user import User
 from datetime import datetime
+from utils.first import first
 
 class Order(db.Model):
     __table_args__ = {"schema": current_app.config['DB_SCHEMA']}
@@ -19,6 +21,8 @@ class Order(db.Model):
     paid_at_order = db.Column(db.Boolean, nullable=False)
     table = db.Column(db.String, nullable=False)
     remarks = db.Column(db.String)
+    order_events = relationship("OrderEvent")
+    order_products = relationship("OrderProduct")
 
     def __eq__(self, other):
         """Overrides the default implementation"""
@@ -33,7 +37,7 @@ class Order(db.Model):
         return User.get(self.waiter)
 
     def get_products(self):
-        return list(map(lambda op: Product.get(op.product_id), OrderProduct.get_all(self)))
+        return list(map(lambda op: Product.get(op.product_id), self.order_products))
 
     def get_product_amount(self, product):
         return OrderProduct.get(self, product).amount
@@ -50,10 +54,10 @@ class Order(db.Model):
         return sum(map(lambda p: self.get_product_price(p), self.get_products()))
 
     def get_last_event(self):
-        return Event.get(sorted(OrderEvent.query.filter_by(order_id=self.id), key=lambda order_event: order_event.timestamp, reverse=True)[0].event_id)
+        return Event.get(sorted(self.order_events, key=lambda order_event: order_event.timestamp, reverse=True)[0].event_id)
     
     def get_ordered_time(self):
-        return OrderEvent.query.filter_by(order_id=self.id, event_id=Event.get_ordered_id())[0].timestamp
+        return first(self.order_events, lambda oe: oe.event_id==Event.get_ordered_id()).timestamp
 
     def add_event(self, event):
         OrderEvent.create(self, event)
@@ -76,10 +80,6 @@ class Order(db.Model):
         order_products = [OrderProduct(order_id=self.id, product_id=product.id, amount=amount) for product, amount in zip(products, amounts)]
         for order_product in order_products:
             db.session.add(order_product)
-
-    @classmethod
-    def get_orders(cls, beer_pub):
-        return Order.query.filter_by(beer_pub_id=beer_pub.id)
     
     @classmethod
     def get(cls, order_id):

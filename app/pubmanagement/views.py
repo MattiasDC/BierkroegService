@@ -7,6 +7,7 @@ from app.models.beer_pub import BeerPub
 from app.models.product.product import Product
 import jsonpickle
 from utils.date_utils import to_date
+from app import db
 
 pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
                                     url_prefix='/pubmanagement',

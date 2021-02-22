@@ -13,11 +13,11 @@
 
 
 {% block metas %}
-<meta id="create-beerPubProduct-url" data-url="{{ url_for('.addProduct') }}">
-<meta id="delete-beerPubProduct-url" data-url="{{ url_for('.removeProduct') }}">
-<meta id="edit-beerPubProduct-url" data-url="{{ url_for('.editProduct') }}">
+<meta id="create-beerPubProduct-url" data-url="{{ url_for('.add_product') }}">
+<meta id="delete-beerPubProduct-url" data-url="{{ url_for('.remove_product') }}">
+<meta id="edit-beerPubProduct-url" data-url="{{ url_for('.edit_product') }}">
 <meta id="beerPub-id" data-id="{{beer_pub.id}}">
-<meta id="possible-products-url" data-url="{{ url_for('pubmanagement.possibleProducts', beerPubId=beer_pub.id) }}"
+<meta id="possible-products-url" data-url="{{ url_for('pubmanagement.possible_products', beerPubId=beer_pub.id) }}"
 {% endblock %}
 
 {% block js %}
