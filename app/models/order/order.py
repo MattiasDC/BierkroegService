@@ -6,6 +6,7 @@ from .event import Event
 from .orderevent import OrderEvent
 from app.models.product.beer_pub_product import BeerPubProduct
 from app.models.product.product import Product
+from app.models.user.user import User
 from datetime import datetime
 
 class Order(db.Model):
@@ -27,6 +28,9 @@ class Order(db.Model):
 
     def __hash__(self):
         return hash(repr(self))
+
+    def get_waiter(self):
+        return User.get(self.waiter)
 
     def get_products(self):
         return list(map(lambda op: Product.get(op.product_id), OrderProduct.get_all(self)))

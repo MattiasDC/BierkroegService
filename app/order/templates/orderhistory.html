@@ -15,7 +15,7 @@
 		</button>
 	</td>
     <td>{{order.id}}</td>
-    <td>{{order.waiter}}</td>
+    <td>{{order.get_waiter().username}}</td>
     <td>€{{order.get_total_price()}}</td>
     <td>{{order.get_last_event().translate()}}</td>
     <td>{{get_ordered_time_formatted(order.get_ordered_time())}}</td>

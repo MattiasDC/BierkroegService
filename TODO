@@ -10,6 +10,4 @@ indien op -> rood, niet uit lijst halen (verwarring)
 transactions (overlapping bp, duplicate names products, duplicate names users, adding products to beer pub)
 data-url
 pagination
-redirect if no active beer pub
 naming variables with _
-class methods with cls arg
