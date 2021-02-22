@@ -12,10 +12,6 @@ productmanagement_blueprint = Blueprint('productmanagement', __name__,
                                         template_folder="templates",
                                         static_folder="static")
 
-@productmanagement_blueprint.errorhandler(400)
-def api_error(e):
-    return jsonify(error=str(e)), 400
-
 @productmanagement_blueprint.route('/', methods=['GET'])
 @login_required
 @admin_required

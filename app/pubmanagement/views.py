@@ -13,10 +13,6 @@ pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
                                     template_folder="templates",
                                     static_folder="static")
 
-@pubmanagement_blueprint.errorhandler(400)
-def api_error(e):
-    return jsonify(error=str(e)), 400
-
 @pubmanagement_blueprint.route('/', methods=['GET'])
 @login_required
 @admin_required

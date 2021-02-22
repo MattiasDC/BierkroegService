@@ -52,6 +52,8 @@ def create_app():
         create_admin()
         Event.create_events()
 
+        from .handlers.errorhandlers import api_error, no_active_beer_pub
+
     # register blueprints
     from .main.views import main_blueprint
     app.register_blueprint(main_blueprint)
@@ -65,6 +67,7 @@ def create_app():
     app.register_blueprint(order_blueprint)
     from .usermanagement.views import usermanagement_blueprint
     app.register_blueprint(usermanagement_blueprint)
+
 
     # shell context for flask cli
     app.shell_context_processor({'app': app})

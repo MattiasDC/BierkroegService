@@ -1,5 +1,6 @@
-from flask import render_template, Blueprint, request, abort, jsonify, current_app as app
+from flask import render_template, Blueprint, request, abort, current_app as app
 from flask_login import login_required, current_user
+from app.common.get_active_beer_pub import get_active_beer_pub
 from app.login.utils import roles_required
 from app.models.user.role import Role
 from app.models.beer_pub import BeerPub
@@ -13,16 +14,12 @@ order_blueprint = Blueprint('order', __name__,
                              template_folder="templates",
                              static_folder="static")
 
-@order_blueprint.errorhandler(400)
-def api_error(e):
-    return jsonify(error=str(e)), 400
-
 @order_blueprint.route('/waiter', methods=['GET'])
 @login_required
 @roles_required(Role.get_waiter_id())
 def waiter():
     return render_template('order.html',
-        beer_pub=BeerPub.get_active(),
+        beer_pub=get_active_beer_pub(),
         waiter=True)
 
 @order_blueprint.route('/cashdeskorder', methods=['GET'])
@@ -30,7 +27,7 @@ def waiter():
 @roles_required(Role.get_cash_desk_id())
 def cash_desk_order():
     return render_template('order.html',
-        beer_pub=BeerPub.get_active(),
+        beer_pub=get_active_beer_pub(),
         cash_desk=True)
 
 def get_ordered_time_formatted(datetime):
@@ -48,13 +45,11 @@ def order_history():
     return render_template('orderhistory.html',
         title="Bestellingen",
         columns=["", "Id", "Persoon", "Bedrag", "Status", "Besteld", "Opmerkingen", "Acties"],
-        beer_pub=BeerPub.get_active(),
+        beer_pub=get_active_beer_pub(),
         get_ordered_time_formatted=get_ordered_time_formatted)
 
 def new_order(user, paidAtOrder):
-    beerPub = BeerPub.get_active()
-    if beerPub is None:
-        abort(400, "There is no active beer pub!")
+    beerPub = get_active_beer_pub()
 
     table = request.form['table']
     products = request.form.getlist('products[]')
