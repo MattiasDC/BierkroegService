@@ -16,9 +16,9 @@ class Role(db.Model):
         return hash(repr(self))
 
     def translate(self):
-        if self.id == self.get_waiter_id():
+        if self.id == Role.get_waiter_id():
             return "opdiener"
-        if self.id == self.get_cash_desk_id():
+        if self.id == Role.get_cash_desk_id():
             return "kassa"
         return self.id
 
@@ -47,8 +47,8 @@ class Role(db.Model):
         cls.__create_if_not_exit(cls.get_cash_desk_id())
     
     @classmethod
-    def get(cls, roleId):
-        return Role.query.filter_by(id=roleId).one_or_none()
+    def get(cls, role_id):
+        return Role.query.filter_by(id=role_id).one_or_none()
     
     @classmethod
     def get_admin(cls):

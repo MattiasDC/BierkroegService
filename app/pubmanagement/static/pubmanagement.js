@@ -23,17 +23,17 @@ $(document).ready(function(){
         startDate = getStartDate()
         endDate = getEndDate()
         if (getIdFromRow(row) == -1) {
-            return $.post($("#create-beerPub-url").data('url'),
+            return $.post($("#create-beer-pub-url").data('url'),
                 { 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() },
                 function(id) {
                     row.find("td:first").text(id)
-                    var placeHolder = $("#catalogus-beerPub-url-placeholder").data('placeholder')
+                    var placeHolder = $("#catalogus-beer-pub-url-placeholder").data('placeholder')
                     var link = $("#catalogus-beerPub-url").data('url').replace(placeHolder, getIdFromRow(row))
                     row.find('td').eq(3).html("<a href=" + link + ">Catalogus</a>");
                   })    
         }
         else {
-            return $.post($("#edit-beerPub-url").data('url'),
+            return $.post($("#edit-beer-pub-url").data('url'),
                 { 'id' : getIdFromRow(row), 'startDate' : startDate.toJSON(), 'endDate' : endDate.toJSON() })        
         }
         
@@ -42,7 +42,7 @@ $(document).ready(function(){
     function deleteBeerPub(row, deletedCallback) {
         $("#confirmDeletion").modal("show")
         $("#confirmDeleteButton").off("click").click(function () {
-            deletedCallback($.post($("#delete-beerPub-url").data('url'), { 'id' : getIdFromRow(row) }))
+            deletedCallback($.post($("#delete-beer-pub-url").data('url'), { 'id' : getIdFromRow(row) }))
             $("#confirmDeletion").modal("hide")
         })
     }

@@ -25,7 +25,7 @@ def home():
 @pubmanagement_blueprint.route('/createbeerpub', methods=['POST'])
 @login_required
 @admin_required
-def createBeerPub():
+def create_beer_pub():
     start_date = to_date(request.form['startDate'])
     end_date = to_date(request.form['endDate'])
     if end_date < start_date:
@@ -39,7 +39,7 @@ def createBeerPub():
 @pubmanagement_blueprint.route('/deletebeerpub', methods=['POST'])
 @login_required
 @admin_required
-def deleteBeerPub():
+def delete_beer_pub():
     beer_pub = BeerPub.get(request.form['id'])
     if beer_pub is None:
         return ("", http.HTTPStatus.NO_CONTENT)
@@ -52,7 +52,7 @@ def deleteBeerPub():
 @pubmanagement_blueprint.route('/editbeerpub', methods=['POST'])
 @login_required
 @admin_required
-def editBeerPub():
+def edit_beer_pub():
     start_date = to_date(request.form['startDate'])
     end_date = to_date(request.form['endDate'])
     if end_date < start_date:
@@ -78,7 +78,7 @@ def catalogus(id):
 @pubmanagement_blueprint.route('/addproduct', methods=['POST'])
 @login_required
 @admin_required
-def addProduct():
+def add_product():
     beer_pub = BeerPub.get(request.form['beerPubId'])
     product = Product.get(request.form['productId'])
     beer_pub.add_product(product, float(request.form['price']))
@@ -87,7 +87,7 @@ def addProduct():
 @pubmanagement_blueprint.route('/removeproduct', methods=['POST'])
 @login_required
 @admin_required
-def removeProduct():
+def remove_product():
     product = Product.get(request.form['productId'])
     if product is not None:
         BeerPub.get(request.form['beerPubId']).remove_product(product)
@@ -96,7 +96,7 @@ def removeProduct():
 @pubmanagement_blueprint.route('/editproduct', methods=['POST'])
 @login_required
 @admin_required
-def editProduct():
+def edit_product():
     beer_pub = BeerPub.get(request.form['beerPubId'])
     product = Product.get(request.form['productId'])
     beer_pub.change_price(product, float(request.form['price']))
@@ -105,7 +105,7 @@ def editProduct():
 @pubmanagement_blueprint.route('/possibleproducts/<beerPubId>', methods=['GET'])
 @login_required
 @admin_required
-def possibleProducts(beerPubId):
+def possible_products(beerPubId):
     beer_pub = BeerPub.get(beerPubId)
     possible_products = list(set(Product.get_all()) - set(beer_pub.get_products()))
     return jsonify(jsonpickle.encode(possible_products, unpicklable=True))

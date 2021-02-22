@@ -15,11 +15,11 @@
 {% endblock %}
 
 {% block metas %}
-<meta id="create-beerPub-url" data-url="{{ url_for('.createBeerPub') }}">
-<meta id="delete-beerPub-url" data-url="{{ url_for('.deleteBeerPub') }}">
-<meta id="edit-beerPub-url" data-url="{{ url_for('.editBeerPub') }}">
-<meta id="catalogus-beerPub-url" data-url="{{ url_for('.catalogus', id=-1) }}">
-<meta id="catalogus-beerPub-url-placeholder" data-placeholder="-1">
+<meta id="create-beer-pub-url" data-url="{{ url_for('.create_beer_pub') }}">
+<meta id="delete-beer-pub-url" data-url="{{ url_for('.delete_beer_pub') }}">
+<meta id="edit-beer-pub-url" data-url="{{ url_for('.edit_beer_pub') }}">
+<meta id="catalogus-beer-pub-url" data-url="{{ url_for('.catalogus', id=-1) }}">
+<meta id="catalogus-beer-pub-url-placeholder" data-placeholder="-1">
 {% endblock %}
 
 {% block js %}

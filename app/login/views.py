@@ -19,7 +19,7 @@ def login():
     if form.validate_on_submit():
         user = User.get(form.username.data)
         if user is not None and user.verify_password(form.password.data):
-            login_user(FlaskUser(user), remember=form.rememberMe.data) 
+            login_user(FlaskUser(user), remember=form.remember_me.data) 
             next_page = request.args.get('next')
             if not next_page or urlparse(next_page).netloc != '':
                 next_page = url_for('main.home')
