@@ -5,7 +5,7 @@ class Product(db.Model):
     __table_args__ = {"schema": current_app.config['DB_SCHEMA']}
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False, unique=True)
 
     def __eq__(self, other):
         """Overrides the default implementation"""
@@ -22,7 +22,6 @@ class Product(db.Model):
 
     def delete(self):
         db.session.delete(self)
-        db.session.commit()
         
     @classmethod    
     def exist(cls, name):
@@ -40,5 +39,4 @@ class Product(db.Model):
     def create(cls, name):
         product = Product(name=name)
         db.session.add(product)
-        db.session.commit()
         return product

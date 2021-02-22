@@ -34,6 +34,7 @@ def create_beer_pub():
     beer_pub = BeerPub.create(start_date, end_date)
     if beer_pub is None:
         abort(400, "Beer pub overlaps in time with another beer pub")
+    db.session.commit()
     return jsonify(beer_pub.id)
 
 @pubmanagement_blueprint.route('/deletebeerpub', methods=['POST'])
@@ -47,6 +48,7 @@ def delete_beer_pub():
     if len(beer_pub.get_orders()) > 0:
         abort(400, "A beer pub with orders cannot be deleted")
     beer_pub.delete()
+    db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/editbeerpub', methods=['POST'])
@@ -82,6 +84,7 @@ def add_product():
     beer_pub = BeerPub.get(request.form['beerPubId'])
     product = Product.get(request.form['productId'])
     beer_pub.add_product(product, float(request.form['price']))
+    db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/removeproduct', methods=['POST'])
@@ -91,6 +94,7 @@ def remove_product():
     product = Product.get(request.form['productId'])
     if product is not None:
         BeerPub.get(request.form['beerPubId']).remove_product(product)
+        db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/editproduct', methods=['POST'])
@@ -100,6 +104,7 @@ def edit_product():
     beer_pub = BeerPub.get(request.form['beerPubId'])
     product = Product.get(request.form['productId'])
     beer_pub.change_price(product, float(request.form['price']))
+    db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @pubmanagement_blueprint.route('/possibleproducts/<beerPubId>', methods=['GET'])

@@ -29,6 +29,7 @@ def create():
     if Product.exist(name):
         abort(400, "A product with the same name already exists")
     product = Product.create(name)
+    db.session.commit()
     return jsonify(product.id)
 
 @productmanagement_blueprint.route('/delete', methods=['POST'])
@@ -41,6 +42,7 @@ def delete():
     if len(BeerPub.get_from_product(product)) != 0:
         abort(400, description="Cannot remove a product which is being used in a beer pub.") 
     product.delete()
+    db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 

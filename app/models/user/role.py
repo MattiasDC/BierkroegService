@@ -38,7 +38,6 @@ class Role(db.Model):
     def __create_if_not_exit(cls, id):
         if cls.get(id) is None:
             db.session.add(Role(id=id))
-        db.session.commit()
     
     @classmethod
     def create_roles(cls):

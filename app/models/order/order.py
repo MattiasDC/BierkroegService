@@ -62,7 +62,6 @@ class Order(db.Model):
         self.__delete_events()
         self.__delete_products()
         db.session.delete(self)
-        db.session.commit()
     
     def __delete_events(self):
         for event in OrderEvent.get(self):
@@ -77,7 +76,6 @@ class Order(db.Model):
         order_products = [OrderProduct(order_id=self.id, product_id=product.id, amount=amount) for product, amount in zip(products, amounts)]
         for order_product in order_products:
             db.session.add(order_product)
-        db.session.commit()
 
     @classmethod
     def get_orders(cls, beer_pub):
@@ -91,7 +89,6 @@ class Order(db.Model):
     def create(cls, beer_pub, waiter, products, amounts, table, paid_at_order, remarks=""):
         order = Order(beer_pub_id=beer_pub.id, waiter=waiter.id, paid_at_order=paid_at_order, table=table, remarks=remarks)
         db.session.add(order)
-        db.session.commit()
     
         order.add_event(Event.get_ordered())
         order.__add_order_products(products, amounts)

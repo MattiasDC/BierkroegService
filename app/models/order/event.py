@@ -78,4 +78,3 @@ class Event(db.Model):
         cls.__create_if_not_exit(cls.get_ordered_id())
         cls.__create_if_not_exit(cls.get_glasses_ready_id())
         cls.__create_if_not_exit(cls.get_delivered_id())
-        db.session.commit()

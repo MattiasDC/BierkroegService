@@ -9,7 +9,7 @@ class User(db.Model):
     __table_args__ = {"schema": current_app.config['DB_SCHEMA']}
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    username = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, unique=True, nullable=False)
     _password = db.Column(db.String, nullable=False)
 
     def __eq__(self, other):
@@ -55,7 +55,6 @@ class User(db.Model):
         for role in self.get_roles():
             self.remove_role(role)
         db.session.delete(self)
-        db.session.commit()
 
     @classmethod
     def get(cls, id):
@@ -69,5 +68,4 @@ class User(db.Model):
     def create(cls, username, password):
         user = User(username=username, password=password)
         db.session.add(user)
-        db.session.commit()
         return user

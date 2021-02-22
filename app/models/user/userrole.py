@@ -20,7 +20,6 @@ class UserRole(db.Model):
 
     def delete(self):
         db.session.delete(self)
-        db.session.commit()
 
     @classmethod
     def get(cls, user, role):
@@ -43,4 +42,3 @@ class UserRole(db.Model):
         if not cls.has_role(user, role):
             userRole = UserRole(user_id=user.id, role_id=role.id)
             db.session.add(userRole)
-            db.session.commit()

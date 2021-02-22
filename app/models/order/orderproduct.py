@@ -21,7 +21,6 @@ class OrderProduct(db.Model):
 
     def delete(self):
         db.session.delete(self)
-        db.session.commit()
         
     @classmethod
     def get_all(cls, order):

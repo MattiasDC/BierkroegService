@@ -39,7 +39,6 @@ class BeerPub(db.Model):
 
     def change_price(self, product, price):
         BeerPubProduct.get(self, product).price = price
-        db.session.commit()
 
     def get_orders(self):
         from .order.order import Order
@@ -53,7 +52,6 @@ class BeerPub(db.Model):
         for bpp in BeerPubProduct.get_all(self):
             bpp.delete()
         db.session.delete(self)
-        db.session.commit()
 
     @classmethod
     def get(cls, id):
@@ -78,7 +76,6 @@ class BeerPub(db.Model):
         if beer_pub.overlaps_with_any(start_date, end_date):
             return None
         db.session.add(beer_pub)
-        db.session.commit()
         return beer_pub
     
     @classmethod

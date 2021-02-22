@@ -21,7 +21,6 @@ class BeerPubProduct(db.Model):
     
     def delete(self):
         db.session.delete(self)
-        db.session.commit()
 
     @classmethod
     def get_all(cls, beer_pub):
@@ -35,7 +34,6 @@ class BeerPubProduct(db.Model):
     def create(cls, beer_pub, product, price):
         beerPubProduct = BeerPubProduct(beer_pub_id=beer_pub.id, product_id=product.id, price=price)
         db.session.add(beerPubProduct)
-        db.session.commit()
         return beerPubProduct
     
     @classmethod

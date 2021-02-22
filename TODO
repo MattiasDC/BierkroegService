@@ -7,7 +7,7 @@ Push button bij toog -> er staan minstens 3 bestellingen klaar
 indien op -> rood, niet uit lijst halen (verwarring)
 
 
-transactions (overlapping bp, duplicate names products, duplicate names users, adding products to beer pub)
+transactions (overlapping bp, adding products to beer pub)
 data-url
 pagination
-naming variables with _
+relationships modelling with SQLAlchemy

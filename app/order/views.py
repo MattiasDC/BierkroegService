@@ -56,6 +56,7 @@ def new_order(user, paidAtOrder):
     amounts = request.form.getlist('amounts[]')
     remarks = request.form['remarks']
     Order.create(beerPub, user, list(map(Product.get, products)), amounts, table, paidAtOrder, remarks)
+    db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
 @order_blueprint.route('/newwaiterorder', methods=['POST'])
@@ -77,4 +78,5 @@ def deleteOrder():
     order = Order.get(request.form['id'])
     if order is not None:
         order.delete()
+        db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)

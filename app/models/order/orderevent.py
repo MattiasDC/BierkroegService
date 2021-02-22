@@ -22,13 +22,11 @@ class OrderEvent(db.Model):
 
     def delete(self):
         db.session.delete(self)
-        db.session.commit()
 
     @classmethod
     def create(cls, order, event):
         orderEvent = OrderEvent(order_id=order.id, event_id=event.id, timestamp=datetime.now())
         db.session.add(orderEvent)
-        db.session.commit()
         return orderEvent
 
     @classmethod
