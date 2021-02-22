@@ -62,9 +62,8 @@ class BeerPub(db.Model):
         return BeerPub.query.all()
 
     @classmethod
-    def get_from_date(cls, date):
-        return BeerPub.query.filter(BeerPub.start_date <= date,
-                                    date <= BeerPub.end_date).one_or_none()
+    def __get_from_date(cls, date):
+        return list(BeerPub.query.filter(BeerPub.start_date <= date, date <= BeerPub.end_date))
 
     @classmethod
     def get_from_product(cls, product):
@@ -80,4 +79,9 @@ class BeerPub(db.Model):
     
     @classmethod
     def get_active(cls):
-        return cls.get_from_date(date.today()) 
+        beer_pubs = cls.__get_from_date(date.today())
+        if len(beer_pubs) == 0:
+            return None
+        if len(beer_pubs) == 1:
+            return beer_pubs[0]
+        return sorted(beer_pubs, key=lambda bp: (bp.start_date, bp.end_date))[0]
