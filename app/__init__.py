@@ -55,7 +55,7 @@ def create_app():
         from .handlers.errorhandlers import api_error, no_active_beer_pub
 
     # register blueprints
-    from .main.views import main_blueprint
+    from .main.blueprint import main_blueprint
     app.register_blueprint(main_blueprint)
     from .login.views import login_blueprint
     app.register_blueprint(login_blueprint)

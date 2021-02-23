@@ -1,11 +1,7 @@
-from flask import render_template, Blueprint
+from flask import render_template
 from flask_login import login_required, current_user
 from app.models.user.role import Role
-
-main_blueprint = Blueprint('main',
-                            __name__,
-                            template_folder="templates",
-                            static_folder="static")
+from ..blueprint import main_blueprint
 
 @main_blueprint.route('/', methods=['GET'])
 @login_required
