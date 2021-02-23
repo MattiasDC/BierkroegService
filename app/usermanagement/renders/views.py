@@ -1,20 +1,12 @@
 from flask import render_template, Blueprint, abort, request, current_app as app, jsonify
 from flask_login import login_required
-from app.login.utils import admin_required
+from app.common.loginutils import admin_required
 from app.models.user.user import User
 from app.models.user.role import Role
 import http
 from distutils.util import strtobool
 from app import db
-
-usermanagement_blueprint = Blueprint('usermanagement', __name__,
-                                       url_prefix='/usermanagement',
-                                       template_folder="templates",
-                                       static_folder="static")
-
-@usermanagement_blueprint.errorhandler(400)
-def api_error(e):
-    return jsonify(error=str(e)), 400
+from ..blueprint import usermanagement_blueprint
 
 @usermanagement_blueprint.route('/', methods=['GET'])
 @login_required

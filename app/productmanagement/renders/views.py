@@ -1,16 +1,12 @@
 from flask import render_template, Blueprint, request, jsonify, abort
 from flask_login import login_required
-from app.login.utils import admin_required
+from app.common.loginutils import admin_required
 from app import db
 import http
 from app.models.product.product import Product
 from app.models.beer_pub import BeerPub
 import jsonpickle
-
-productmanagement_blueprint = Blueprint('productmanagement', __name__,
-                                        url_prefix='/productmanagement',
-                                        template_folder="templates",
-                                        static_folder="static")
+from ..blueprint import productmanagement_blueprint
 
 @productmanagement_blueprint.route('/', methods=['GET'])
 @login_required

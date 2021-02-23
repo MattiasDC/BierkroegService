@@ -1,15 +1,10 @@
-from flask import render_template, Blueprint, request, redirect, url_for, flash, session, current_app as app
+from flask import render_template, request, redirect, url_for, flash, session, current_app as app
 from flask_login import login_required, login_user, logout_user, current_user
 from urllib.parse import urlparse
-from .flaskuser import FlaskUser
+from ..flaskuser import FlaskUser
 from app.models.user.user import User
 from .forms import LoginForm
-
-login_blueprint = Blueprint('login',
-                            __name__,
-                            url_prefix='/login',
-                            template_folder="templates",
-                            static_folder="static")
+from ..blueprint import login_blueprint
 
 @login_blueprint.route('/', methods=['GET', 'POST'])
 def login():

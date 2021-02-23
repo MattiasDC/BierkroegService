@@ -1,18 +1,13 @@
 from flask import render_template, Blueprint, request, jsonify, abort
 from flask_login import login_required
 import http
-from app.login.utils import admin_required
-from app import db
+from app.common.loginutils import admin_required
 from app.models.beer_pub import BeerPub
 from app.models.product.product import Product
 import jsonpickle
 from utils.date_utils import to_date
 from app import db
-
-pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
-                                    url_prefix='/pubmanagement',
-                                    template_folder="templates",
-                                    static_folder="static")
+from ..blueprint import pubmanagement_blueprint
 
 @pubmanagement_blueprint.route('/', methods=['GET'])
 @login_required

@@ -1,19 +1,15 @@
 from flask import render_template, Blueprint, request, abort, current_app as app
 from flask_login import login_required, current_user
 from app.common.get_active_beer_pub import get_active_beer_pub
-from app.login.utils import roles_required
+from app.common.loginutils import roles_required
 from app.models.user.role import Role
 from app.models.beer_pub import BeerPub
 from app.models.order.order import Order
 from app.models.product.product import Product
+from ..blueprint import order_blueprint
 import http
 from datetime import date
 from app import db
-
-order_blueprint = Blueprint('order', __name__,
-                             url_prefix='/order',
-                             template_folder="templates",
-                             static_folder="static")
 
 @order_blueprint.route('/waiter', methods=['GET'])
 @login_required

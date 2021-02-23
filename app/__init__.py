@@ -57,15 +57,15 @@ def create_app():
     # register blueprints
     from .main.blueprint import main_blueprint
     app.register_blueprint(main_blueprint)
-    from .login.views import login_blueprint
+    from .login.blueprint import login_blueprint
     app.register_blueprint(login_blueprint)
-    from .pubmanagement.views import pubmanagement_blueprint
+    from .pubmanagement.blueprint import pubmanagement_blueprint
     app.register_blueprint(pubmanagement_blueprint)
-    from .productmanagement.views import productmanagement_blueprint
+    from .productmanagement.blueprint import productmanagement_blueprint
     app.register_blueprint(productmanagement_blueprint)
-    from .order.views import order_blueprint
+    from .order.blueprint import order_blueprint
     app.register_blueprint(order_blueprint)
-    from .usermanagement.views import usermanagement_blueprint
+    from .usermanagement.blueprint import usermanagement_blueprint
     app.register_blueprint(usermanagement_blueprint)
 
 
