@@ -59,6 +59,10 @@ class User(db.Model):
         db.session.delete(self)
 
     @classmethod
+    def exist(cls, username):
+        return User.query.filter_by(username=username).one_or_none() is not None
+
+    @classmethod
     def get(cls, id):
         return User.query.filter_by(id=id).one_or_none()
 

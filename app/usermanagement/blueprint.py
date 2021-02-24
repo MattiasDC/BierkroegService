@@ -6,3 +6,4 @@ usermanagement_blueprint = Blueprint('usermanagement', __name__,
                                        static_folder='renders/static')
 
 from .renders import views
+from . import apiviews

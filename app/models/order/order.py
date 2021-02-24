@@ -21,8 +21,8 @@ class Order(db.Model):
     paid_at_order = db.Column(db.Boolean, nullable=False)
     table = db.Column(db.String, nullable=False)
     remarks = db.Column(db.String)
-    order_events = relationship("OrderEvent")
-    order_products = relationship("OrderProduct")
+    order_events = relationship("OrderEvent", cascade="all, delete-orphan")
+    order_products = relationship("OrderProduct", cascade="all, delete-orphan")
 
     def __eq__(self, other):
         """Overrides the default implementation"""
@@ -63,17 +63,7 @@ class Order(db.Model):
         OrderEvent.create(self, event)
     
     def delete(self):
-        self.__delete_events()
-        self.__delete_products()
         db.session.delete(self)
-    
-    def __delete_events(self):
-        for event in OrderEvent.get(self):
-            event.delete()
-    
-    def __delete_products(self):
-        for order_product in OrderProduct.get_all(self):
-            order_product.delete()
 
     def __add_order_products(self, products, amounts):
         assert(len(products) == len(amounts))

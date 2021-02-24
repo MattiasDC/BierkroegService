@@ -6,3 +6,4 @@ order_blueprint = Blueprint('order', __name__,
                              static_folder='renders/static')
 
 from .renders import views
+from . import apiviews

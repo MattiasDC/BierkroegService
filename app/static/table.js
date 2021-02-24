@@ -17,7 +17,7 @@ function loadTable(rowColumns, deleteFunction, validationFunction, createFunctio
         $("table tbody tr").eq(index + 1).find(".add, .edit").toggle()
         if (afterAdd)
             afterAdd()
-        $("table tbody tr").eq(index + 1).children().first('td').children().first().focus()
+        $("table tbody tr").eq(index + 1).children('td').eq(1).children().first().focus()
     })
 
     function handleAdd() {

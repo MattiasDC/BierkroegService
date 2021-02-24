@@ -6,3 +6,4 @@ productmanagement_blueprint = Blueprint('productmanagement', __name__,
                                         static_folder='renders/static')
 
 from .renders import views
+from . import apiviews

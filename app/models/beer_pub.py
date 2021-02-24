@@ -14,7 +14,7 @@ class BeerPub(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
     orders = relationship("Order")
-    beer_pub_products = relationship("BeerPubProduct")
+    beer_pub_products = relationship("BeerPubProduct", cascade="all, delete-orphan")
 
     def __eq__(self, other):
         """Overrides the default implementation"""

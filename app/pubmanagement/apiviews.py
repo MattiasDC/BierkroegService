@@ -48,6 +48,9 @@ def edit_beer_pub():
         abort(400, "Start date cannot be before end date!")
 
     beer_pub = BeerPub.get(request.form['id'])
+    if beer_pub is None:
+        abort(400, "An invalid beer pub was given!")
+        
     if len(beer_pub.orders) > 0:
         abort(400, "A beer pub with orders cannot have it's date changed!")
 
