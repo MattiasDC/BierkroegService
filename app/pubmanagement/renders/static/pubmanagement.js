@@ -40,11 +40,18 @@ $(document).ready(function(){
     }
 
     function deleteBeerPub(row, deletedCallback) {
-        $("#confirmDeletion").modal("show")
-        $("#confirmDeleteButton").off("click").click(function () {
+        if (getIdFromRow(row) == -1)
+        { // We don't want a confirmation box when the beer pub does not exist yet
             deletedCallback($.post($("#delete-beer-pub-url").data('url'), { 'id' : getIdFromRow(row) }))
-            $("#confirmDeletion").modal("hide")
-        })
+        }
+        else
+        {
+            $("#confirmDeletion").modal("show")
+                $("#confirmDeleteButton").off("click").click(function () {
+                    deletedCallback($.post($("#delete-beer-pub-url").data('url'), { 'id' : getIdFromRow(row) }))
+                    $("#confirmDeletion").modal("hide")
+            })
+        }
     }
 
     function onEdit(row) {

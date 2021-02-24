@@ -73,7 +73,7 @@ class BeerPub(db.Model):
 
     @classmethod
     def get_from_product(cls, product):
-        return list(map(lambda bpp: get(bpp.beer_pub_id), BeerPubProduct.query.filter_by(product_id=product.id)))
+        return list(map(lambda bpp: cls.get(bpp.beer_pub_id), BeerPubProduct.query.filter_by(product_id=product.id)))
     
     @classmethod
     def create(cls, start_date, end_date):
