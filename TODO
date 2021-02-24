@@ -7,5 +7,7 @@ Push button bij toog -> er staan minstens 3 bestellingen klaar
 indien op -> rood, niet uit lijst halen (verwarring)
 
 
+beer pub delete it not yet created, without popup
+remove edit/delete if not possible (api query)
 data-url
 pagination

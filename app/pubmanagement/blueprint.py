@@ -6,3 +6,4 @@ pubmanagement_blueprint = Blueprint('pubmanagement', __name__,
                                     static_folder='renders/static')
 
 from .renders import views
+from . import apiviews

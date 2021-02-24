@@ -29,6 +29,9 @@ class BeerPub(db.Model):
         today = date.today()
         return self.start_date < today and today < self.end_date
 
+    def has_product(self, product):
+        return __get_beer_pub_product(product) is not None
+        
     def add_product(self, product, price):
         BeerPubProduct.create(self, product, price)
 
@@ -47,7 +50,7 @@ class BeerPub(db.Model):
     def change_price(self, product, price):
         self.__get_beer_pub_product(product).price = price
 
-    def overlaps_with_any(self, start_date, end_date):
+    def overlaps_with_any(self):
         return any(map(lambda bp: overlaps(self.start_date, self.end_date, bp.start_date, bp.end_date) and\
             bp != self, BeerPub.query.all()))
     
@@ -75,7 +78,7 @@ class BeerPub(db.Model):
     @classmethod
     def create(cls, start_date, end_date):
         beer_pub = BeerPub(start_date=start_date, end_date=end_date)
-        if beer_pub.overlaps_with_any(start_date, end_date):
+        if beer_pub.overlaps_with_any():
             return None
         db.session.add(beer_pub)
         return beer_pub

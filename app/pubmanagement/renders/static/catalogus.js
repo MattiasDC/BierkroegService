@@ -6,13 +6,13 @@ $(document).ready(function(){
       var productId = row.find("td:first").text()
       var isEdit = row.data('isEdit')
       if (!isEdit) {
-        return $.post($("#create-beerPubProduct-url").data('url'),
+        return $.post($("#create-beer-pub-product-url").data('url'),
           { 'price' : price, 'beerPubId' : beerPubId, 'productId' : productId },
           function() { row.data("exists", 'true') })  
       }
       else {
         row.data("isEdit", false)
-        return $.post($("#edit-beerPubProduct-url").data('url'),
+        return $.post($("#edit-beer-pub-product-url").data('url'),
           { 'beerPubId' : beerPubId, 'productId' : productId, 'price' : price })   
       }
     }
@@ -23,7 +23,7 @@ $(document).ready(function(){
 
     function deleteBeerPubProduct(row, deletedCallback) {
       var beerPubId = $("#beerPub-id").data('id')
-      deletedCallback($.post($("#delete-beerPubProduct-url").data('url'),
+      deletedCallback($.post($("#delete-beer-pub-product-url").data('url'),
                       { 'productId' : row.find("td:first").text(),
                         'beerPubId' : beerPubId }))
     }
