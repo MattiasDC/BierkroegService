@@ -63,11 +63,6 @@
         <input class="form-control" id="productListInput" type="text" placeholder="Zoek product..">
         <br>            
         <ul class="list-group" id="productList">
-            {% for product in beer_pub.get_products() %}
-                <li class="list-group-item" data-product="{{ product.name }}" data-id={{ product.id }} data-price={{ beer_pub.get_price(product) }}>
-                {{ product.name }} <span style="color:#808080">(€{{beer_pub.get_price(product)}})</span>
-                </li>
-            {% endfor %}
         </ul>
     </div>
 </div>
@@ -76,12 +71,19 @@
 {% include "alertmodal.html" %}
 
 
-{% if waiter %}
-<meta id="create-order-url" data-url="{{ url_for('.new_waiter_order') }}">
-{% endif %}
-{% if cash_desk %}
-<meta id="create-order-url" data-url="{{ url_for('.new_cash_desk_order') }}">
-{% endif %}
+{% block metas %}
+    {% if waiter %}
+    <meta id="create-order-url" data-url="{{ url_for('.new_waiter_order') }}">
+    {% endif %}
+    {% if cash_desk %}
+    <meta id="create-order-url" data-url="{{ url_for('.new_cash_desk_order') }}">
+    {% endif %}
+
+    <meta id="active-beer-pub-url" data-url="{{ url_for('pubmanagement.active_beer_pub') }}">
+    <meta id="products-url" data-url="{{ url_for('pubmanagement.products', beer_pub_id=-1) }}">
+    <meta id="products-url-placeholder" data-placeholder="-1">
+{% endblock %}
+
 
 {% endblock %}
 

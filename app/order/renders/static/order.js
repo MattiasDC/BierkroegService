@@ -31,6 +31,14 @@ function deleteRowFromOrder(id) {
   $('#order').bootstrapTable('remove', { field: 'id', values: [id] })
 };
 
+function addProductToDropdownList(productInfo) {
+  var productItem = "<li class=\"list-group-item\"\
+    data-product=\"" + productInfo["name"] + "\" data-id=" + productInfo["id"] + "data-price=" + productInfo["price"] + ">\
+    " + productInfo["name"] + " <span style=\"color:#808080\">(€" + productInfo["price"] + ")</span>\
+    </li>"
+    $("#productList").append(productItem)
+}
+
 function amountButtonFormatter(value, row, index) {
     return [
       '<a class="decrement" href="javascript:void(0)" title="Decrement">',
@@ -180,4 +188,15 @@ $(document).ready(function(){
   })
 
   redirectEnter($("#tableInput"), $("#confirmOrderButton"))
+
+  $.getJSON($("#active-beer-pub-url").data('url'), function (id) {
+    var placeHolder = $("#products-url-placeholder").data('placeholder')
+    var link = $("#products-url").data('url')
+    link = link.replace(placeHolder, id['id'])
+    $.getJSON(link, function (products) {
+      var i;
+      for (i = 0; i < products["products"].length; i++)
+        addProductToDropdownList(products["products"][i])
+    })
+  })
 });

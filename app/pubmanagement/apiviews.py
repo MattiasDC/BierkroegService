@@ -1,13 +1,23 @@
 from flask import Blueprint, request, jsonify, abort
 from flask_login import login_required
 import http
-from app.common.loginutils import admin_required
+from app.common.loginutils import admin_required, any_role_required
 from app.models.beer_pub import BeerPub
 from app.models.product.product import Product
+from app.models.user.role import Role
 import jsonpickle
 from utils.date_utils import to_date
 from app import db
 from .blueprint import pubmanagement_blueprint
+
+@pubmanagement_blueprint.route('/activebeerpub', methods=['GET'])
+@login_required
+@any_role_required(Role.get_waiter_id(), Role.get_cash_desk_id())
+def active_beer_pub():
+    beer_pub = BeerPub.get_active()
+    if beer_pub is None:
+        return jsonify()
+    return jsonify(id=beer_pub.id)
 
 @pubmanagement_blueprint.route('/createbeerpub', methods=['POST'])
 @login_required
@@ -98,10 +108,22 @@ def edit_product():
         db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
 
-@pubmanagement_blueprint.route('/possibleproducts/<beer_pub_id>', methods=['GET'])
+@pubmanagement_blueprint.route('/products/<beer_pub_id>', methods=['GET'])
+@login_required
+@any_role_required(Role.get_waiter_id(), Role.get_cash_desk_id())
+def products(beer_pub_id):
+    beer_pub = BeerPub.get(beer_pub_id)
+    return jsonify(products=list(map(lambda p :
+        {
+        "id" : p.id,
+        "name" : p.name,
+        "price" : beer_pub.get_price(p)
+        }, beer_pub.get_products())))
+
+@pubmanagement_blueprint.route('/possiblenewproducts/<beer_pub_id>', methods=['GET'])
 @login_required
 @admin_required
-def possible_products(beer_pub_id):
+def possible_new_products(beer_pub_id):
     beer_pub = BeerPub.get(beer_pub_id)
     possible_products = Product.get_all()
     if beer_pub is not None:

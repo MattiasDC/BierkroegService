@@ -19,7 +19,21 @@ def roles_required(*role_names):
         def decorated_view(*args, **kwargs):
             if not user.is_authenticated:
                 return app.login_manager.unauthorized()
-            elif not user.user.has_roles(map(Role.get, role_names)) and not user.is_admin():
+            elif not user.user.has_roles(list(map(Role.get, role_names))) and not user.is_admin():
+                return app.login_manager.unauthorized()
+            return func(*args, **kwargs)
+
+        return decorated_view
+        
+    return wrapper
+
+def any_role_required(*role_names):
+    def wrapper(func):
+        @wraps(func)    # Tells debuggers that is is a function wrapper
+        def decorated_view(*args, **kwargs):
+            if not user.is_authenticated:
+                return app.login_manager.unauthorized()
+            elif not user.user.any_role(list(map(Role.get, role_names))) and not user.is_admin():
                 return app.login_manager.unauthorized()
             return func(*args, **kwargs)
 

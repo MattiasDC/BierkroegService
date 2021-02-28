@@ -46,8 +46,13 @@ class User(db.Model):
     def get_roles(self):
         return list(map(lambda ur: Role.get(ur.role_id), self.user_roles))
 
+    # Returns whether this user has all given roles
     def has_roles(self, roles):
         return len(set(roles) - set(self.get_roles())) == 0
+
+    # Returns whether this user has any of the given roles
+    def any_role(self, roles):
+        return len(set(roles) - set(self.get_roles())) < len(roles)
 
     def can_change_name(self, name):
         users_with_name = User.query.filter_by(username=name).count()
