@@ -1,5 +1,5 @@
 from flask import Blueprint, abort, request, current_app as app, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.common.loginutils import admin_required
 from app.models.user.user import User
 from app.models.user.role import Role
@@ -7,6 +7,7 @@ import http
 from distutils.util import strtobool
 from app import db
 from .blueprint import usermanagement_blueprint
+import jsonpickle
 
 @usermanagement_blueprint.route('/create', methods=['POST'])
 @login_required
@@ -47,3 +48,24 @@ def set_role():
         user.remove_role(role)
     db.session.commit()
     return ("", http.HTTPStatus.NO_CONTENT)
+
+@usermanagement_blueprint.route('/getroles', methods=['GET'])
+@login_required
+def roles():
+    user = current_user.user
+    return jsonify(roles=list(map(lambda role: role.id, user.get_roles())))
+
+@usermanagement_blueprint.route('/waiterroleid', methods=['GET'])
+@login_required
+def waiter_role_id():
+    return jsonify(id=Role.get_waiter_id())
+
+@usermanagement_blueprint.route('/cashdeskroleid', methods=['GET'])
+@login_required
+def cash_desk_role_id():
+    return jsonify(id=Role.get_cash_desk_id())
+
+@usermanagement_blueprint.route('/adminroleid', methods=['GET'])
+@login_required
+def admin_role_id():
+    return jsonify(id=Role.get_admin_id())

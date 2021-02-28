@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import automap_base
@@ -54,9 +54,13 @@ def create_app():
 
         from .handlers.errorhandlers import api_error, no_active_beer_pub
 
+        @app.route('/')
+        def home():
+            return redirect(url_for("home.home"), code=302)
+
     # register blueprints
-    from .main.blueprint import main_blueprint
-    app.register_blueprint(main_blueprint)
+    from .home.blueprint import home_blueprint
+    app.register_blueprint(home_blueprint)
     from .login.blueprint import login_blueprint
     app.register_blueprint(login_blueprint)
     from .pubmanagement.blueprint import pubmanagement_blueprint

@@ -52,4 +52,4 @@ def edit():
 @login_required
 @admin_required
 def products():
-    return jsonify(jsonpickle.encode(Product.get_all(), unpicklable=True))
+    return jsonify(jsonpickle.encode(Product.get_all(), unpicklable=False))

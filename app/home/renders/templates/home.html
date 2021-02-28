@@ -1,0 +1,32 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div class="starter-template">
+    <h1>Bierkroeg Service</h1>
+    <hr><br>
+    <ul class="pager">
+    </ul>
+</div>
+
+{% endblock %}
+
+{% block metas %}
+<meta id="roles-url" data-url="{{ url_for('usermanagement.roles') }}">
+<meta id="waiter-role-url" data-url="{{ url_for('usermanagement.waiter_role_id') }}">
+<meta id="cash-desk-role-url" data-url="{{ url_for('usermanagement.cash_desk_role_id') }}">
+<meta id="admin-role-url" data-url="{{ url_for('usermanagement.admin_role_id') }}">
+
+<meta id="waiter-url" data-url="{{ url_for('order.waiter') }}">
+<meta id="cash-desk-url" data-url="{{ url_for('order.cash_desk_order') }}">
+<meta id="order-history-url" data-url="{{ url_for('order.order_history') }}">
+<meta id="pubmanagement-url" data-url="{{ url_for('pubmanagement.home') }}">
+<meta id="productmanagement-url" data-url="{{ url_for('productmanagement.home') }}">
+<meta id="usermanagement-url" data-url="{{ url_for('usermanagement.home') }}">
+{% endblock %}
+
+{% block js %}
+<script src="{{url_for('.static', filename='home.js')}}"></script>
+{% endblock %}
+
+{% include "_footer.html" %}

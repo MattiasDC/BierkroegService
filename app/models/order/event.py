@@ -19,7 +19,7 @@ class Event(db.Model):
 
 
     def __lt__(self, other):
-        return get_event_logical_ordering(self) < get_event_logical_ordering(other)
+        return get_logical_ordering(self) < get_logical_ordering(other)
 
     def translate(self):
         if self.id == Event.get_ordered_id():
@@ -59,7 +59,7 @@ class Event(db.Model):
         return cls.get(cls.get_delivered_id())
     
     @classmethod
-    def get_event_logical_ordering(cls, event):
+    def get_logical_ordering(cls, event):
         if event == cls.get_ordered():
             return 0
         elif event == cls.get_glasses_ready():

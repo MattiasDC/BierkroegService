@@ -29,7 +29,7 @@ def get_ordered_time_formatted(datetime):
     return datetime.isoformat(' ', 'minutes')
 
 def get_sorted_orders(orders):
-    return sorted(orders, key=lambda order: (get_event_logical_ordering(order.get_last_event()), -get_ordered_time_formatted(order.get_ordered_time()).timestamp()))
+    return sorted(orders, key=lambda order: (order.get_last_event(), -order.get_ordered_time().timestamp()))
 
 @order_blueprint.route('/orderhistory', methods=['GET'])
 @login_required
@@ -39,4 +39,5 @@ def order_history():
         title="Bestellingen",
         columns=["", "Id", "Persoon", "Bedrag", "Status", "Besteld", "Opmerkingen", "Acties"],
         beer_pub=get_active_beer_pub(),
+        get_sorted_orders=get_sorted_orders,
         get_ordered_time_formatted=get_ordered_time_formatted)
